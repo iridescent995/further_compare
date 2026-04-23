@@ -1,0 +1,368 @@
+body {
+  background: linear-gradient(123deg, #f7f9fd 0%, #f2f3fa 100%);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #232946;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Full width for main app container */
+.file-diff-enterprise {
+  width: 100vw;
+  max-width: 100vw;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure no double scroll caused by body/html */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+h1 {
+  text-align: center;
+  font-weight: 800;
+  font-family: 'Segoe UI', 'Avenir Next', 'Roboto Slab', Arial, sans-serif;
+  letter-spacing: 0.7px;
+  font-size: 1.34rem;
+  text-shadow: 0 1px 2px #ebebfa;
+  color: #242a3a;
+  margin-bottom: 20px;
+  margin-top: 12px;
+}
+
+.diff-inputs {
+  flex: 1 1 0;
+  display: flex;
+  gap: 28px; /* horizontal margin between editors */
+  margin: 0;
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+/* overall vertical spacing for premium experience */
+.file-diff-enterprise {
+  padding-top: 18px;
+  padding-bottom: 10px;
+}
+
+.input-section.fullsize {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+.input-stack {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.edit-menu-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 2px 7px 2px 7px;
+  min-height: 36px;
+  border-bottom: 1px solid #ecedf1;
+  background: linear-gradient(90deg, #f9fafb 0%, #ebeef2 100%);
+  position: relative;
+  border-radius: 7px 7px 0 0;
+  box-shadow: 0 1px 4px 0 rgba(64,68,90,0.06);
+}
+
+.edit-menu-bar .btn, .edit-menu-bar input[type="file"] {
+  font-size: 0.82rem;
+  padding: 3.4px 11px 3.4px 11px;
+  border-radius: 999px;
+}
+
+.menu-filename {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: .80em;
+  opacity: .71;
+  margin-left: 6px;
+  margin-right: 4px;
+  font-style: italic;
+  color: #555774;
+  letter-spacing: .01em;
+}
+
+.menu-bar-group {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.copy-icon-btn {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.09em;
+  background: #e4f1e6;
+  border: none;
+  box-shadow: 0 1.5px 4px 0 rgba(67,98,53,0.03);
+  transition: background .16s, color .13s, box-shadow .13s;
+  color: #19a832;
+  cursor: pointer;
+  margin-left: 3px;
+  margin-right: 1px;
+  outline: none;
+}
+.copy-icon-btn:hover, .copy-icon-btn:focus {
+  background: #c5ecd4;
+  color: #195c39;
+  box-shadow: 0 2px 8px 0 rgba(41,98,53,0.07);
+}
+
+.diff-edit[data-placeholder]:empty:before, .diff-edit[data-placeholder]:not(:focus):empty:before {
+  content: attr(data-placeholder);
+  color: #b7bacd;
+  opacity: 0.9;
+  font-size: 1em;
+  font-style: italic;
+  pointer-events: none;
+  font-family: inherit;
+  position: absolute;
+  left: 12px;
+  top: 6px;
+  min-height: 1.2em;
+}
+
+.diff-edit {
+  flex: 1 1 0;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  resize: none;
+  background: #fafbff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 0;
+  padding: 18px 0 0 0;
+  font-family: 'Fira Mono', 'Menlo', 'Monaco', monospace;
+  font-size: 0.83rem;
+  color: #222;
+  outline: none;
+  overflow: auto;
+  transition: border-color 0.2s;
+  white-space: pre-wrap;
+  word-break: break-word;
+  position: relative;      /* Enable placeholder stacking */
+  display: block;
+  min-height: 2.3em;
+}
+
+.diff-edit > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 7px; /* vertical margin between diff lines */
+  min-height: 1.4em;
+  position: relative;
+}
+
+.line-margin {
+  display: flex;
+  align-items: center;
+  min-width: 36px;
+  margin-right: 4px;
+}
+
+.line-copy-btn {
+  display: inline-block;
+  margin: 0 5px 0 1px;
+  background: #fda4af;
+  color: #b91c1c;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.90em;
+  padding: 2px 7px 2px 7px;
+  cursor: pointer;
+  vertical-align: middle;
+  transition: background 0.13s;
+}
+.line-copy-btn:hover, .line-copy-btn:focus {
+  background: #fecaca;
+  color: #c2410c;
+}
+
+.line-num {
+  min-width: 24px;
+  color: #bbb;
+  text-align: right;
+  font-size: 0.80em;
+  user-select: none;
+  letter-spacing: 0.02em;
+  font-family: 'Menlo','Fira Mono',monospace;
+  opacity: .87;
+  line-height: 100%;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
+.diff-edit:focus {
+  border-color: #3056d3;
+}
+
+label {
+  margin: 0 0 4px 0;
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: #232946;
+  padding-left: 6px;
+  letter-spacing: .01em;
+}
+
+.diff-edit:focus {
+  border-color: #3056d3;
+}
+
+input[type="file"] {
+  margin-top: 4px;
+  max-width: 100%;
+}
+
+button {
+  appearance: none;
+  border: none;
+  outline: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  background: #3056d3;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 16px auto 0 auto;
+  display: block;
+  cursor: pointer;
+  box-shadow: 0 1px 3px 0 rgba(30, 44, 129, 0.04);
+  transition: background 0.18s;
+}
+
+button:hover, .copy-btn:focus {
+  background: #2241a9;
+}
+
+#resultArea {
+  margin-top: 32px;
+  display: none; /* Shown after compare */
+}
+
+.diff-outputs {
+  display: flex;
+  gap: 24px;
+  margin-top: 8px;
+  justify-content: center;
+}
+
+.diff {
+  flex: 1 1 0;
+  border: 1.5px solid #e1e7ef;
+  background: #f7f9fb;
+  border-radius: 8px;
+  padding: 18px 12px 12px 12px;
+  box-shadow: 0 2px 6px 0 rgba(30,44,129,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.diff h3 {
+  margin: 0 0 6px 0;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.copy-btn {
+  align-self: flex-end;
+  margin-bottom: 8px;
+  background: #10b981;
+  color: #fff;
+  padding: 6px 13px;
+  font-size: 0.94rem;
+  border-radius: 6px;
+  transition: background 0.16s;
+}
+
+.copy-btn:hover, .copy-btn:focus {
+  background: #059669;
+}
+
+pre {
+  margin: 0;
+  padding: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'Fira Mono', 'Menlo', 'Monaco', monospace;
+  font-size: 1rem;
+}
+
+.diff-ins {
+  background: #d2fbe8;
+}
+
+.diff-del {
+  background: #ffe3e3;
+}
+
+.diff-eql {
+  color: #9093a6;
+}
+
+@media (max-width: 800px) {
+  .container {
+    width: 100vw !important;
+    height: 100vh !important;
+    padding: 0 !important;
+  }
+  .diff-inputs {
+    flex-direction: column;
+    gap: 0;
+    height: 100%;
+  }
+  .input-section.fullsize {
+    min-height: 0;
+    height: 50%;
+  }
+}

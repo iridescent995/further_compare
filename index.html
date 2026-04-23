@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Further Compare | File & Text Diff</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Bootstrap CSS for professional styling -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* For file input in menu bar */
+    .menu-file-input {
+      display: inline-block;
+      width: auto;
+      margin-right: 4px;
+    }
+    .edit-menu-bar {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 6px 9px 7px 9px;
+      border-bottom: 1px solid #e2e8f0;
+      background: #f5f6fa;
+      position: relative;
+    }
+    .edit-menu-bar .btn, .edit-menu-bar input[type="file"] {
+      font-size: .96rem;
+    }
+    .menu-filename {
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: .91em;
+      opacity: .76;
+      margin-left: 4px;
+      margin-right: 4px;
+    }
+    .menu-bar-group {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+    }
+    .copy-icon-btn {
+      width: 1.95em;
+      height: 1.95em;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      border-radius: 50%;
+      font-size: 1.18em;
+      background: #edf7ed;
+      border: none;
+      transition: background .18s;
+      color: #16a34a;
+      cursor: pointer;
+    }
+    .copy-icon-btn:hover, .copy-icon-btn:focus {
+      background: #bbf7d0;
+      color: #166534;
+    }
+    .diff-edit[data-placeholder]:empty:before {
+      content: attr(data-placeholder);
+      color: #b7bacd;
+      opacity: 0.9;
+      font-size: 1em;
+      font-style: italic;
+      pointer-events: none;
+      font-family: inherit;
+      position: absolute;
+    }
+    .input-stack {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <!-- Professional top bar/menu -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Further Compare</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link active" href="#">Compare</a></li>
+          <li class="nav-item"><a class="nav-link" href="privacy-policy.html">Privacy Policy</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="file-diff-enterprise">
+    <h1>Further Compare | File & Text Diff</h1>
+    <div style="display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
+      <label style="cursor:pointer;font-weight:500;font-size:1.06rem;">
+        <input type="checkbox" id="ignoreMinor" style="margin-right:6px;vertical-align:-1px;">
+        Ignore minor (whitespace/tab) changes
+      </label>
+    </div>
+    <div class="diff-inputs">
+      <!-- Source Version (left) -->
+      <div class="input-section fullsize">
+        <div class="edit-menu-bar" id="menuBarA">
+          <span class="menu-bar-group">
+            <input type="file" id="fileA" accept=".txt,.md,.json,.js,.css,.html" class="menu-file-input form-control form-control-sm" />
+            <span class="menu-filename" id="fileAName"></span>
+          </span>
+          <button id="clearA" class="btn btn-outline-danger btn-sm" title="Clear Source">Clear</button>
+          <button class="copy-btn copy-icon-btn" data-side="b" id="copyFromB" title="Copy all lines from Target"><span aria-label="Copy from Target" style="font-size:1.3em;">&#8592;</span></button>
+        </div>
+        <div class="input-stack">
+          <div id="inputA" class="diff-edit" contenteditable="true" spellcheck="false" aria-label="Source Version" data-placeholder="Source Version"></div>
+        </div>
+      </div>
+      <!-- Target Version (right) -->
+      <div class="input-section fullsize">
+        <div class="edit-menu-bar" id="menuBarB">
+          <span class="menu-bar-group">
+            <input type="file" id="fileB" accept=".txt,.md,.json,.js,.css,.html" class="menu-file-input form-control form-control-sm" />
+            <span class="menu-filename" id="fileBName"></span>
+          </span>
+          <button id="clearB" class="btn btn-outline-danger btn-sm" title="Clear Target">Clear</button>
+          <button class="copy-btn copy-icon-btn" data-side="a" id="copyFromA" title="Copy all lines from Source"><span aria-label="Copy from Source" style="font-size:1.3em;">&#8594;</span></button>
+        </div>
+        <div class="input-stack">
+          <div id="inputB" class="diff-edit" contenteditable="true" spellcheck="false" aria-label="Target Version" data-placeholder="Target Version"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap JS for responsive nav (optional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+
+  <!-- Professional Footer -->
+  <footer class="bg-light text-center text-muted py-1" style="border-top:1px solid #e2e8f0;">
+    <div class="">
+      <small>&copy; 2026 Further Compare &middot; All Rights Reserved &middot; <a href="privacy-policy.html">Privacy Policy</a></small>
+    </div>
+  </footer>
+</body>
+</html>
