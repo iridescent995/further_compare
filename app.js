@@ -226,28 +226,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // On input, update source then render diff
   function handleInputSourceA() {
-    const safeText = inputA.innerText.replace(/\r/g, '');
-    inputA.innerHTML = '';
-    // Insert text nodes line-by-line for clean editing
-    safeText.split('\n').forEach((line, i, arr) => {
-      inputA.appendChild(document.createTextNode(line));
-      if (i < arr.length - 1) inputA.appendChild(document.createElement('br'));
-    });
-    sourceA = safeText;
+    sourceA = getText(inputA);
     renderDiff();
   }
   function handleInputSourceB() {
-    const safeText = inputB.innerText.replace(/\r/g, '');
-    inputB.innerHTML = '';
-    safeText.split('\n').forEach((line, i, arr) => {
-      inputB.appendChild(document.createTextNode(line));
-      if (i < arr.length - 1) inputB.appendChild(document.createElement('br'));
-    });
-    sourceB = safeText;
+    sourceB = getText(inputB);
     renderDiff();
   }
 
-  // Listen to editor events
   inputA.addEventListener('input', handleInputSourceA);
   inputB.addEventListener('input', handleInputSourceB);
   inputA.addEventListener('paste', handleInputSourceA);
