@@ -71,15 +71,22 @@
         Ignore minor (whitespace/tab) changes
       </label>
     </div>
-    <div class="diff-inputs">
-      <!-- Source Version (left) -->
-      <div class="input-section fullsize">
+    <div class="diff-body-row" style="display:flex;align-items:stretch;width:100%;">
+      <div class="diff-inputs" style="flex:1 1 0;display:flex;">
+        <!-- Source Version (left) -->
+        <div class="input-section fullsize">
         <div class="edit-menu-bar" id="menuBarA">
           <span class="menu-bar-group">
-            <input type="file" id="fileA" accept=".txt,.md,.json,.js,.css,.html" class="menu-file-input form-control form-control-sm" />
+            <input type="file" id="fileA" accept=".txt,.md,.json,.js,.css,.html,.java,.prop,.properties,.sql,.xml,.py,.sh,.ts,.yaml,.yml,*" class="menu-file-input form-control form-control-sm" />
             <span class="menu-filename" id="fileAName"></span>
           </span>
           <button id="clearA" class="btn btn-outline-danger btn-sm" title="Clear Source">Clear</button>
+          <button id="copyFileA" class="btn btn-outline-primary btn-sm" title="Copy entire Source text">
+            <span aria-label="Copy full Source" style="font-size:1.1em;">📄</span>
+          </button>
+          <button id="downloadFileA" class="btn btn-outline-secondary btn-sm" title="Download Source as file" style="margin-left:3px;">
+            <span aria-label="Download full Source" style="font-size:1.12em;">💾</span>
+          </button>
           <button class="copy-btn copy-icon-btn" data-side="b" id="copyFromB" title="Copy all lines from Target"><span aria-label="Copy from Target" style="font-size:1.3em;">&#8592;</span></button>
         </div>
         <div class="input-stack">
@@ -90,15 +97,25 @@
       <div class="input-section fullsize">
         <div class="edit-menu-bar" id="menuBarB">
           <span class="menu-bar-group">
-            <input type="file" id="fileB" accept=".txt,.md,.json,.js,.css,.html" class="menu-file-input form-control form-control-sm" />
+            <input type="file" id="fileB" accept=".txt,.md,.json,.js,.css,.html,.java,.prop,.properties,.sql,.xml,.py,.sh,.ts,.yaml,.yml,*" class="menu-file-input form-control form-control-sm" />
             <span class="menu-filename" id="fileBName"></span>
           </span>
           <button id="clearB" class="btn btn-outline-danger btn-sm" title="Clear Target">Clear</button>
+          <button id="copyFileB" class="btn btn-outline-primary btn-sm" title="Copy entire Target text">
+            <span aria-label="Copy full Target" style="font-size:1.1em;">📄</span>
+          </button>
+          <button id="downloadFileB" class="btn btn-outline-secondary btn-sm" title="Download Target as file" style="margin-left:3px;">
+            <span aria-label="Download full Target" style="font-size:1.12em;">💾</span>
+          </button>
           <button class="copy-btn copy-icon-btn" data-side="a" id="copyFromA" title="Copy all lines from Source"><span aria-label="Copy from Source" style="font-size:1.3em;">&#8594;</span></button>
         </div>
         <div class="input-stack">
           <div id="inputB" class="diff-edit" contenteditable="true" spellcheck="false" aria-label="Target Version" data-placeholder="Target Version"></div>
         </div>
+      </div>
+      <!-- Preview gutter -->
+      <div id="diffPreview" class="diff-preview" aria-label="Difference Preview" style="width:24px;min-width:24px;max-width:24px;border-left:1.5px solid #e0e6f3;margin-left:6px;display:flex;align-items:center;">
+        <!-- generated preview will go here -->
       </div>
     </div>
   </div>

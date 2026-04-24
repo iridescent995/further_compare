@@ -221,7 +221,53 @@ document.addEventListener("DOMContentLoaded", function () {
       setHTMLkeepCaret(inputB, diffB);
     }
     attachLineCopyHandlers();
+    renderDiffPreview();
     console.log('[RENDER] renderDiff finished');
+  }
+
+  // Render a minimap/preview of differences in the right gutter
+  function renderDiffPreview() {
+    const diffPreview = document.getElementById('diffPreview');
+    if (!diffPreview) return;
+    diffPreview.innerHTML = '';
+    let cleanA = trimLinesAndSpaces(sourceA);
+    let cleanB = trimLinesAndSpaces(sourceB);
+    const aLines = cleanA ? cleanA.split('\n') : [];
+    const bLines = cleanB ? cleanB.split('\n') : [];
+    const maxLen = Math.max(aLines.length, bLines.length, 1);
+    // Use diffLines logic to determine which lines differ
+    const diffs = [];
+    let i = 0, j = 0;
+    while (i < aLines.length || j < bLines.length) {
+      if (i < aLines.length && j < bLines.length && aLines[i] === bLines[j]) {
+        diffs.push('eql');
+        i++; j++;
+      } else if (i < aLines.length && (!bLines.includes(aLines[i]) || j >= bLines.length)) {
+        diffs.push('del');
+        i++;
+      } else if (j < bLines.length && (!aLines.includes(bLines[j]) || i >= aLines.length)) {
+        diffs.push('ins');
+        j++;
+      } else {
+        diffs.push('chg');
+        i++; j++;
+      }
+    }
+    // Draw preview blocks (1px height per line if > 40 lines, else 4px/line)
+    const pxPerLine = Math.max(2, Math.floor(120 / maxLen));
+    diffs.forEach((type, idx) => {
+      const span = document.createElement('span');
+      span.style.display = 'block';
+      span.style.width = '100%';
+      span.style.height = pxPerLine + 'px';
+      if (type === 'del' || type === 'ins' || type === 'chg') {
+        span.style.background = 'linear-gradient(90deg, #fda4af 40%, #fecaca 100%)';
+      } else {
+        span.style.background = 'rgba(220,230,255,0.13)';
+      }
+      span.title = `Line ${idx+1}: ${type === 'eql' ? 'Unchanged' : 'Diff'}`;
+      diffPreview.appendChild(span);
+    });
   }
 
   // On input, update source then render diff
@@ -392,4 +438,62 @@ document.addEventListener("DOMContentLoaded", function () {
   inputA.innerHTML = "";
   inputB.innerHTML = "";
   renderDiff();
+
+  // Copy full file to clipboard handlers
+  function setupCopyFileButton(btnId, getTextFn) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.addEventListener('click', async function() {
+      const text = getTextFn();
+      // Use native Clipboard API
+      let ok = false;
+      try {
+        await navigator.clipboard.writeText(text);
+        ok = true;
+      } catch (err) {
+        // Fallback for older browsers
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          ok = true;
+        } catch (e) {}
+        document.body.removeChild(ta);
+      }
+      // Visual feedback
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<span style="color:#088a3b;font-weight:600;">✔️ Copied</span>';
+      setTimeout(() => { btn.innerHTML = orig; }, 1100);
+    });
+  }
+  setupCopyFileButton('copyFileA', () => sourceA);
+  setupCopyFileButton('copyFileB', () => sourceB);
+
+  // Download (save to file) logic for both editors
+  function setupDownloadFileButton(btnId, getTextFn, filenameFn) {
+    const btn = document.getElementById(btnId);
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+      const text = getTextFn();
+      const filename = filenameFn();
+      const blob = new Blob([text], {type: "text/plain"});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+      }, 90);
+      // Feedback
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<span style="color:#1e449e;font-weight:600;">✔️ Saved</span>';
+      setTimeout(() => { btn.innerHTML = orig; }, 1100);
+    });
+  }
+  setupDownloadFileButton('downloadFileA', () => sourceA, () => fileA.files[0]?.name || 'source.txt');
+  setupDownloadFileButton('downloadFileB', () => sourceB, () => fileB.files[0]?.name || 'target.txt');
 });

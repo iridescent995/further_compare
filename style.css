@@ -27,6 +27,7 @@ body {
   margin: 0;
   box-sizing: border-box;
   min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -52,16 +53,31 @@ h1 {
   margin-top: 12px;
 }
 
+.diff-body-row {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  height: 100%;
+  min-height: 0;
+  flex: 1 1 0;
+}
 .diff-inputs {
   flex: 1 1 0;
   display: flex;
-  gap: 28px; /* horizontal margin between editors */
+  gap: 28px;
   margin: 0;
   height: 100%;
   min-height: 0;
   max-height: none;
   justify-content: stretch;
   align-items: stretch;
+}
+.diff-preview, #diffPreview {
+  height: 100%;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 /* overall vertical spacing for premium experience */
@@ -78,6 +94,28 @@ h1 {
   min-width: 0;
   min-height: 0;
   height: 100%;
+  max-height: 100%;
+  align-items: stretch;
+  justify-content: stretch;
+}
+.input-stack {
+  position: relative;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  padding: 10px;
+  align-items: stretch;
+  justify-content: stretch;
+}
+.diff-edit {
+  height: 100%;
+  min-height: 0 !important;
+  max-height: 100%;
+  flex: 1 1 0;
+  /* ... rest unchanged (see original file above for additional rules) */
 }
 
 .input-stack {
@@ -87,6 +125,7 @@ h1 {
   flex-direction: column;
   height: 100%;
   min-height: 0;
+  padding: 10px;
 }
 
 .edit-menu-bar {
@@ -180,6 +219,7 @@ h1 {
   border: 1.5px solid #d1d5db;
   border-radius: 0;
   padding: 18px 0 0 0;
+  padding-right: 32px; /* right gutter / margin */
   font-family: 'Fira Mono', 'Menlo', 'Monaco', monospace;
   font-size: 0.83rem;
   color: #222;
@@ -188,9 +228,43 @@ h1 {
   transition: border-color 0.2s;
   white-space: pre-wrap;
   word-break: break-word;
-  position: relative;      /* Enable placeholder stacking */
+  position: relative;
   display: block;
   min-height: 2.3em;
+  /* Enhance scrollbar appearance for premium feel */
+  scrollbar-color: #bcd4f6 #eff6fb;
+  scrollbar-width: thin;
+}
+/* Chrome, Safari, Edge */
+.diff-edit::-webkit-scrollbar {
+  width: 10px;
+  background: #f3f6fb;
+  border-radius: 9px;
+}
+.diff-edit::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #cadfff 0%, #a1dae2 100%);
+  border-radius: 9px;
+  border: 2px solid #f3f6fb; /* adds white gap for subtle highlight */
+  min-height: 32px;
+  box-shadow: 0 2px 6px rgba(125,165,239,0.07);
+  opacity: 0.6;
+}
+.diff-edit::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #53d1bc 0%, #6e9cfb 100%);
+  opacity: 1;
+}
+.diff-edit::-webkit-scrollbar-corner {
+  background: #f3f6fb;
+}
+.diff-edit::after {
+  content: "";
+  position: absolute;
+  top: 0; right: 16px; bottom: 0;
+  width: 1.5px;
+  background: linear-gradient(to bottom, #c7d2fe 0%, #dbeafe 100%);
+  opacity: 0.32;
+  pointer-events: none;
+  z-index: 6;
 }
 
 .diff-edit > div {
