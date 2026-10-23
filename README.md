@@ -12,7 +12,7 @@ Desktop ZIP packages are distributed through [GitHub Releases](https://github.co
 | macOS Intel (x64) | `Further-Compare-mac-x64.zip` |
 | Windows (x64) | `Further-Compare-windows-x64.zip` |
 
-Release assets include `SHA256SUMS.txt` for verifying the downloads. ZIPs stay outside Git history because they exceed GitHub's 100 MiB file limit. Maintainers publish the prepared files from the local `release/` folder as assets on a GitHub Release matching the app version.
+The `release/` folder contains the desktop ZIPs tracked with Git LFS and `SHA256SUMS.txt` for verifying the downloads. Install [Git LFS](https://git-lfs.com/) before cloning, or run `git lfs pull` in an existing clone to download the ZIP contents. From `release/`, run `shasum -a 256 -c SHA256SUMS.txt` to verify them. Maintainers can also publish these files as assets on a GitHub Release matching the app version.
 
 ## Run
 

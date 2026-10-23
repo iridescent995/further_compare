@@ -1,6 +1,8 @@
 node_modules/
 dist/
-release/
+release/*
+!release/*.zip
+!release/SHA256SUMS.txt
 public/downloads/*.zip
 playwright-report/
 test-results/
