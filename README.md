@@ -2,6 +2,18 @@
 
 A private text, folder, binary, table, image, WAV/AIFF/FLAC/MP3 audio, archive, and exported registry-file comparison product with a static website and Electron desktop app. No accounts, backend, telemetry, CDN dependencies, or file uploads to a server.
 
+## Desktop downloads
+
+Desktop ZIP packages are distributed through [GitHub Releases](https://github.com/iridescent995/further_compare/releases):
+
+| Platform | ZIP package |
+| --- | --- |
+| macOS Apple Silicon (arm64) | `Further-Compare-mac-arm64.zip` |
+| macOS Intel (x64) | `Further-Compare-mac-x64.zip` |
+| Windows (x64) | `Further-Compare-windows-x64.zip` |
+
+Release assets include `SHA256SUMS.txt` for verifying the downloads. ZIPs stay outside Git history because they exceed GitHub's 100 MiB file limit. Maintainers publish the prepared files from the local `release/` folder as assets on a GitHub Release matching the app version.
+
 ## Run
 
 Requires Node.js 24 and npm. The test suite also uses Python 3 to generate independent TAR fixtures.
