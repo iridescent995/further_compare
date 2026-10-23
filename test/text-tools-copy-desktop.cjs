@@ -1,0 +1,23 @@
+'use strict';
+const {_electron:electron,expect}=require('@playwright/test'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),os=require('node:os'),path=require('node:path');
+(async()=>{const root=await fs.mkdtemp(path.join(os.tmpdir(),'fc-tools-copy-'));let app;try{
+ const env={...process.env,FC_USER_DATA_DIR:root};delete env.ELECTRON_RUN_AS_NODE;app=await electron.launch({...(process.env.FC_TEST_EXECUTABLE?{executablePath:process.env.FC_TEST_EXECUTABLE,args:[]}:{args:[process.cwd()]}),env});const page=await app.firstWindow();page.setDefaultTimeout(15000);await page.setViewportSize({width:1400,height:850});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.locator('#welcome [data-command="new:text-compare"]').click();
+ const a=page.locator('#textA'),b=page.locator('#textB'),gutter=side=>page.locator('#text'+side.toUpperCase()).locator('..').locator('.live-text-gutter'),line=(side,n)=>gutter(side).locator('.live-text-number[data-line="'+n+'"]'),modifier=process.platform==='darwin'?'Meta':'Control';
+ async function menu(id){await app.evaluate(({Menu,BrowserWindow},id)=>{const w=BrowserWindow.getAllWindows()[0];w.show();w.focus();const item=Menu.getApplicationMenu().getMenuItemById(id);if(!item)throw Error('Missing native menu command '+id);item.click(item,w);},id);}
+ async function fill(left,right,count=1){await a.fill(left);await b.fill(right);await expect(page.locator('#changeCount')).toHaveText(String(count));if(count)await expect(gutter('a').locator('.live-text-copy').first()).toBeVisible();}
+ async function undo(left,right){await menu('edit:undo');await expect(a).toHaveValue(left);await expect(b).toHaveValue(right);await expect(page.locator('#redoMerge')).toBeEnabled();}
+ const left='header\nA1\nA2\nA3\ntail',right='header\nB1\nB2\nB3\ntail';
+ await fill(left,right);await b.evaluate(e=>e.setSelectionRange(0,0));await a.focus();await a.evaluate(e=>e.setSelectionRange(7,7));await menu('text:copy-lines');await expect(b).toHaveValue('header\nA1\nB2\nB3\ntail');await undo(left,right);await menu('edit:redo');await expect(b).toHaveValue('header\nA1\nB2\nB3\ntail');await undo(left,right);
+ // Gutter selections must override textarea caret fallback, including disjoint lines.
+ await fill(left,right);await b.focus();await b.evaluate(e=>e.setSelectionRange(0,0));await line('a',2).click({modifiers:[modifier]});await line('a',4).click({modifiers:[modifier]});await expect(line('a',2)).toHaveAttribute('aria-pressed','true');await expect(line('a',4)).toHaveAttribute('aria-pressed','true');await menu('text:copy-lines');await expect(b).toHaveValue('header\nA1\nB2\nA3\ntail');await undo(left,right);
+ // The same route works right-to-left and leaves unrelated destination caret text intact.
+ await fill(left,right);await a.evaluate(e=>e.setSelectionRange(0,0));await b.focus();await line('b',3).click();await menu('text:copy-lines');await expect(a).toHaveValue('header\nA1\nB2\nA3\ntail');await undo(left,right);
+ // A physical selection ending at the next line's start excludes that next line.
+ await fill(left,right);await b.evaluate(e=>e.setSelectionRange(0,0));await a.focus();await a.evaluate(e=>e.setSelectionRange(7,10));await menu('text:copy-lines');await expect(b).toHaveValue('header\nA1\nB2\nB3\ntail');await undo(left,right);
+ // More-dialog entry uses the identical selection and one undoable edit.
+ await fill(left,right);await a.focus();await line('a',2).click();await page.getByRole('button',{name:'More',exact:true}).click();await page.getByRole('button',{name:'Copy lines',exact:true}).click();await expect(b).toHaveValue('header\nA1\nB2\nB3\ntail');await undo(left,right);
+ // Equal selected rows and an entirely equal comparison are no-ops, with no history entry.
+ await fill(left,right);await a.focus();await line('a',1).click();const redoBefore=await page.locator('#redoMerge').isEnabled();await menu('text:copy-lines');await expect(a).toHaveValue(left);await expect(b).toHaveValue(right);assert.equal(await page.locator('#redoMerge').isEnabled(),redoBefore);
+ await fill('same\ntext','same\ntext',0);await a.focus();await a.evaluate(e=>e.setSelectionRange(0,0));await menu('text:copy-lines');await expect(a).toHaveValue('same\ntext');await expect(b).toHaveValue('same\ntext');assert.deepEqual(errors,[]);
+ console.log('Native Copy Selected Lines Across passed: actual menu callback, aligned caret fallback, Cmd/Ctrl disjoint gutters, reverse direction, selection boundary, More dialog, Undo/Redo, equal-row and no-difference no-ops.');
+ }finally{if(app){await app.evaluate(({app})=>app.exit(0)).catch(()=>{});await app.close().catch(()=>{});}await fs.rm(root,{recursive:true,force:true});}})().catch(e=>{console.error(e);process.exitCode=1;});

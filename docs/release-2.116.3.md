@@ -1,0 +1,7 @@
+# Release 2.116.3 — Consistent folder child rules
+
+Opening a text comparison from a Content-mode folder now disables ignore-case and ignore-whitespace options for that child. Previously, permissive saved Text Compare defaults could make a folder row marked Different open as No differences. The fix applies to double-click, explicit Open as text and selected-pair comparisons. Standalone text sessions retain their saved defaults. Normalized folder modes continue to set their own case, horizontal-whitespace and minor-difference options; metadata-only modes retain text defaults because they do not define text content rules.
+
+Source verification covers all three Content child routes, all four normalized modes, unchanged saved defaults, standalone text defaults, child edits/parent restoration, case-rule reports and encoding propagation. The prior case-report regression was updated to inspect the report's current pathA/pathB schema. The general text-rule workflow passed but its Electron teardown stalled; its owned Electron process was terminated before proceeding. Case, encoding, child-rules and the new regression completed successfully.
+
+Both Apple Silicon and Intel Mac packages pass the complete saved-default regression. All three ZIPs pass integrity checks, packaged versions/renderer assets match, download sizes/SHA-256 and browser Windows ZIP download pass, and shipped sources pass the branding check. Windows runtime and full-product scope remain open.

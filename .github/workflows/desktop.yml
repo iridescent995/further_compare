@@ -1,0 +1,283 @@
+name: Desktop builds
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  desktop:
+    name: ${{ matrix.platform }} ${{ matrix.arch }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            platform: mac
+            arch: arm64
+          - runner: macos-15-intel
+            platform: mac
+            arch: x64
+          - runner: windows-2022
+            platform: win
+            arch: x64
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Verify local open failure preserves dirty sessions
+        run: node test/local-open-atomicity-desktop.cjs
+      - name: Verify desktop UI and real filesystem operations
+        run: node test/desktop.cjs
+      - name: Verify three-way folder review and stale-input handling
+        run: npm run test:folder-threeway
+      - name: Verify binary, table, image and three-way workflows
+        run: node test/advanced-desktop.cjs
+      - name: Verify text tools, folder filters and snapshots
+        run: node test/productivity-desktop.cjs
+      - name: Verify three-way merge encoding and source preservation
+        run: node test/merge-encoding-desktop.cjs
+      - name: Verify workbook-preserving result export
+        run: node test/workbook-preserve-desktop.cjs
+      - name: Verify native workbook opening and result export
+        run: node test/workbook-desktop.cjs
+      - name: Verify WAV comparison and session persistence
+        run: node test/media-desktop.cjs
+      - name: Verify cancellable folder expansion
+        run: node test/folder-expand-desktop.cjs
+      - name: Verify editing history and inline differences
+        run: node test/text-history-desktop.cjs
+      - name: Verify native appearance preferences and folder counts
+        run: node test/display-desktop.cjs
+      - name: Verify tab navigation during folder refresh
+        run: npm run test:tab-navigation
+      - name: Verify folder layouts, sorting and parent navigation
+        run: node test/folder-view-desktop.cjs
+      - name: Verify folder root navigation and path history
+        run: node test/folder-navigation-desktop.cjs
+      - name: Verify recursive file listing and cancellation
+        run: node test/folder-recursive-desktop.cjs
+      - name: Verify folder comparison methods and timestamp tolerance
+        run: node test/folder-rules-desktop.cjs
+      - name: Verify folder reports, statistics and safe exports
+        run: node test/folder-report-desktop.cjs && node test/folder-selected-report-desktop.cjs && node test/folder-file-report-desktop.cjs
+      - name: Verify batch plan review and execution
+        run: npm run test:batch-desktop
+      - name: Verify lazy comparison scheduling during tree changes
+        run: npm run test:folder-compare-queue
+      - name: Verify queued folder Open requests
+        run: npm run test:folder-open-queue
+      - name: Verify selected folder node comparison
+        run: npm run test:folder-node && npm run test:folder-comparison-metadata
+      - name: Verify mixed selection refresh and single-folder chains
+        run: node test/folder-selected-refresh-desktop.cjs && node test/folder-chain-desktop.cjs
+      - name: Verify folder column widths and reset menus
+        run: npm run test:folder-columns-desktop
+      - name: Verify keyboard access to both folder panes
+        run: npm run test:folder-pane-focus && npm run test:folder-both-selection
+      - name: Verify matching-file selection and comparison rules
+        run: npm run test:folder-matching-selection
+      - name: Verify archive browsing and comparison
+        run: node test/archive-desktop.cjs && node test/archive-save-desktop.cjs && node test/archive-extract-desktop.cjs
+      - name: Verify TAR.GZ against ZIP and saved archive sessions
+        env:
+          FC_ARCHIVE_TAR: '1'
+        run: node test/archive-desktop.cjs
+      - name: Verify registry file comparison and export
+        run: node test/registry-desktop.cjs
+      - name: Verify advanced side swapping
+        run: node test/advanced-swap-desktop.cjs
+      - name: Verify explicit clipboard comparisons
+        run: node test/clipboard-desktop.cjs
+      - name: Verify directory renaming and tree navigation
+        run: node test/folder-rename-desktop.cjs
+      - name: Verify text encodings, BOMs and line endings
+        run: node test/text-encoding-desktop.cjs
+      - name: Verify manual text alignment and persistence
+        run: node test/text-alignment-desktop.cjs
+      - name: Verify file manager launch routing
+        run: node test/shell-desktop.cjs && node test/shell-folder-desktop.cjs && node test/shell-selected-desktop.cjs
+      - name: Verify folder selection and context focus
+        run: node test/folder-selection-desktop.cjs && node test/folder-drop-desktop.cjs && node test/text-drop-desktop.cjs
+      - name: Verify AIFF comparison and playback
+        run: npm run test:aiff
+      - name: Verify parent folder difference colors
+        run: npm run test:folder-parent-status
+      - name: Verify pattern search and replacement
+        run: node test/regex-search-desktop.cjs
+      - name: Verify folder filename navigation
+        run: npm run test:folder-typeahead
+      - name: Verify folder page navigation and range selection
+        run: npm run test:folder-page-navigation
+      - name: Verify folder filter session persistence
+        run: npm run test:folder-filter-session && npm run test:folder-exclude-selected && npm run test:folder-exclude-types && npm run test:folder-ignored && npm run test:folder-one-sided-filter && npm run test:folder-display-filters && npm run test:folder-suppress-filters && npm run test:filename-search
+      - name: Verify folder commands during pending operations
+        run: node test/folder-context-busy-desktop.cjs
+      - name: Verify live folder color updates
+        run: node test/folder-live-colors-desktop.cjs
+      - name: Verify native Windows folder timestamps
+        if: matrix.platform == 'win'
+        run: node --test test/windows-folder-timestamps.cjs
+      - name: Verify selected-entry modified times
+        run: node test/folder-timestamps-desktop.cjs
+      - name: Verify workbook formatting comparison
+        run: node test/workbook-formatting-desktop.cjs
+      - name: Verify workbook layout comparison
+        run: node test/workbook-layout-desktop.cjs
+      - name: Verify workbook formula comparison
+        run: node test/workbook-formulas-desktop.cjs
+      - name: Verify case-insensitive folder comparison
+        run: node test/folder-case-rules-desktop.cjs
+      - name: Verify unified editable comparison and wrap
+        env:
+          FC_LIVE_DESKTOP: '1'
+        run: node test/live-text-browser.cjs
+      - name: Verify case-insensitive text comparison
+        run: node test/text-case-desktop.cjs
+      - name: Verify text comment profiles
+        run: node test/text-profile-desktop.cjs
+      - name: Verify automatic filename profiles
+        run: node test/text-auto-profile-desktop.cjs
+      - name: Custom filename mapping workflows
+        run: node test/text-profile-mappings-desktop.cjs
+      - name: Verify configurable text grammar
+        run: node test/text-grammar-desktop.cjs
+      - name: Verify file type editor profiles
+        run: node test/editor-profiles-desktop.cjs
+      - name: Verify external editor for advanced inputs
+        run: node test/advanced-external-editor-desktop.cjs
+      - name: Verify folder moves and rollback workflow
+        run: node test/folder-move-desktop.cjs
+      - name: Verify binary range editing
+        run: node test/binary-range-desktop.cjs
+      - name: Verify binary difference copying
+        run: node test/binary-copy-desktop.cjs
+      - name: Verify binary insertion alignment
+        run: node test/binary-alignment-desktop.cjs
+      - name: Verify aligned folder native bridge
+        run: npm run test:folder-tree
+      - name: Verify folder difference navigation
+        run: npm run test:folder-differences
+      - name: Verify child comparison rules and queued parent return
+        run: npm run test:folder-child-rules
+      - name: Verify independently selected folder pairs
+        run: node test/folder-pair-desktop.cjs
+      - name: Verify folder text normalization rules
+        run: node test/folder-text-rules-desktop.cjs
+      - name: Verify grouped folder context menus
+        run: node test/folder-context-menu-desktop.cjs && node test/folder-direction-context-desktop.cjs && node test/folder-side-context-desktop.cjs
+      - name: Verify folder selection properties
+        run: node test/folder-properties-desktop.cjs
+      - name: Verify explicit folder comparison types
+        run: node test/folder-open-as-desktop.cjs
+      - name: Verify copy to chosen folder
+        run: node test/copy-destination-desktop.cjs
+      - name: Verify external editor workflow
+        run: node test/external-editor-desktop.cjs
+      - name: Package portable app
+        run: npx electron-builder --${{ matrix.platform }} zip --${{ matrix.arch }} --publish never
+      - name: Upload portable app
+        uses: actions/upload-artifact@v4
+        with:
+          name: Further-Compare-${{ matrix.platform }}-${{ matrix.arch }}
+          path: release/*.zip
+          if-no-files-found: error
+      - name: Upload failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-diagnostics-${{ matrix.platform }}-${{ matrix.arch }}
+          path: test-results/desktop-*
+          if-no-files-found: ignore
+
+  # Keep recent data-safety regressions independent of the broad UI job above,
+  # so an unrelated slow suite cannot prevent the release-critical checks.
+  safety:
+    name: Safety / ${{ matrix.platform }} ${{ matrix.arch }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            platform: mac
+            arch: arm64
+          - runner: macos-15-intel
+            platform: mac
+            arch: x64
+          - runner: windows-2022
+            platform: win
+            arch: x64
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: mkdir -p test-results/safety
+      - name: Verify menu mappings and line-copy engine
+        timeout-minutes: 5
+        run: node --test test/keyboard-menu.test.cjs test/keyboard-shortcuts.test.cjs test/text-line-copy.test.cjs 2>&1 | tee test-results/safety/menu-and-engine.log
+      - name: Verify recovery durability and remote mutation outcomes
+        timeout-minutes: 5
+        run: node --test test/recovery-directory-sync.test.cjs test/provider-transfer-backup.test.cjs test/sftp-file-delete-integration.test.cjs test/sftp-file-rename-integration.test.cjs 2>&1 | tee test-results/safety/recovery-durability.log
+      - name: Verify selected-line arrows and Undo focus routing
+        timeout-minutes: 5
+        run: node test/text-line-copy-desktop.cjs 2>&1 | tee test-results/safety/text-lines.log
+      - name: Verify shortcut import and native menu routing
+        timeout-minutes: 5
+        # This tests menu dispatch and persistence; it does not claim OS-level
+        # physical keyboard coverage, which requires an interactive desktop.
+        run: node test/settings-shortcuts-transfer-desktop.cjs 2>&1 | tee test-results/safety/shortcut-transfer.log
+      - name: Verify SFTP deletion recovery, cancellation and stale saves
+        timeout-minutes: 8
+        run: node test/sftp-delete-desktop.cjs 2>&1 | tee test-results/safety/sftp-delete.log
+      - name: Verify SFTP deletion review and uncertain outcomes
+        timeout-minutes: 5
+        run: node test/sftp-delete-ui-desktop.cjs 2>&1 | tee test-results/safety/sftp-delete-ui.log
+      - name: Verify SFTP rename read-drain and recovery UI
+        timeout-minutes: 5
+        run: node test/sftp-rename-ui-desktop.cjs 2>&1 | tee test-results/safety/sftp-rename-ui.log
+      - name: Package app for safety checks
+        timeout-minutes: 10
+        run: npx electron-builder --${{ matrix.platform }} --${{ matrix.arch }} --dir --publish never
+      - name: Select packaged executable
+        run: node test/ci-packaged-path.cjs >> "$GITHUB_ENV"
+      - name: Verify packaged selected-line copy and Undo
+        timeout-minutes: 5
+        run: node test/text-line-copy-desktop.cjs 2>&1 | tee test-results/safety/packaged-text-lines.log
+      - name: Verify packaged SFTP deletion safety
+        timeout-minutes: 8
+        run: node test/sftp-delete-desktop.cjs 2>&1 | tee test-results/safety/packaged-sftp-delete.log
+      - name: Upload safety diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: safety-diagnostics-${{ matrix.platform }}-${{ matrix.arch }}
+          path: test-results/safety/
+          if-no-files-found: ignore

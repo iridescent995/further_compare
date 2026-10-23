@@ -1,0 +1,9 @@
+# Further Compare 2.43.0
+
+XLSX **Compare layout** now includes worksheet view settings: frozen/split/frozenSplit panes, horizontal and vertical splits, the pane's top-left cell, gridline visibility, right-to-left direction, zoom and normal/page-layout/page-break view mode. Differences appear alongside existing merged ranges and row/column layout in the paginated panel. This remains an independent opt-in alongside values, formulas and cell formatting.
+
+Views are matched by workbook view ID. Default settings compare equally whether explicit or omitted; repeated IDs use the last definition. Split positions use twentieths of a point, while frozen splits represent row/column counts. These semantics follow Microsoft's [SheetView](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.sheetview?view=openxml-3.0.1) and [Pane](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.spreadsheet.pane?view=openxml-3.0.1) documentation.
+
+Import validates bounded view lists, pane state, split positions, cell references, flags and zoom. Selection cursors and active panes are not compared. Exports remain values-only; additional sheet/page/print properties, themes and conditional formatting remain separate outstanding work.
+
+All 431 unit tests passed. Browser integration passed frozen/split panes, multiple and repeated view IDs, view mode, fractional split positions, malformed-pane rejection, sheet changes, keyed rows, tabs, pagination and values-only exports. Native layout integration passed session save/reopen, swap and unchanged original files. Light and dark screenshots were inspected. Both packaged Mac architectures passed the workbook-layout suite. All three archives passed ZIP integrity and version/source checks. Download links, sizes, SHA-256 and an actual Windows ZIP browser download passed. Windows runtime verification remains pending.

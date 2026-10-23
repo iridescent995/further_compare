@@ -1,0 +1,14 @@
+{
+  "baseline.ods": "0bb2e09c4519352362db1ec32d860013af8d7339281a642d79af813cee40ce08",
+  "changed.ods": "c916ef87c9a7be4c505c6499a7c38354ce9255123adab89831d6a96eebcb15d2",
+  "baseline.xls": "bdd14e57c86d5a00a0a3d57bdd4f168825930fa8f0dc64c942fc64628f49d41c",
+  "changed.xls": "a50f1296ff3d42a1b33cf735b44fcc964724aa4a46dd3e5397e74ecefd4d61b7",
+  "libreoffice-readback.txt": "41ebd07a1f4d91287041c4d7006696a54fe6754fdb07b46c94cae7a60399f1ef",
+  "independent-readback.json": "c1f8f536c5bafb6702b5612fae2170a1f73fff38819c62b6cc4ba9069ed55f5b",
+  "../../xlsb-fixtures/pandas-test1.xlsb": "ab0c0a28a93a9174a4052446f61c21a626f7411f269e72af1d258569f8b533c2",
+  "../../xlsb-formula-fixtures/issues.xlsb": "06c648de5529e022ef399a2b6ebc227040e9fdf71a0780e19e614f556bdb53d7",
+  "../../xlsb-formula-fixtures/issue_182.xlsb": "c34351496e7e2874504e272a696f3919da54c33939e78cafc877f1976a25a562",
+  "derived-formatting.xlsb": "dfd66302e684304b6f23b37ab08321fc33ccf2b6e3a68b8b7cbd97ee9fd4dbb9",
+  "derived-libreoffice-readback.txt": "04c14aa256753f1a3c2f38b0981884cfbc12012443c89fa2717b7109e294aea5",
+  "derived-readback.json": "9559c6058756e5149b46eb4541b89a64121bd91f6c9074c0a45258d821bb9042"
+}

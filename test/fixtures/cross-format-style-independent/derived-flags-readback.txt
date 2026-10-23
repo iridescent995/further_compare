@@ -1,0 +1,31 @@
+POLICY named NEVER_EXECUTE / NO_UPDATE; separate close and reopen
+FILE	derived-cell-flags-false.xlsx
+SHEET	0	Sheet1
+CELL	0	0	123.25	Arial	11.0	100.0	2109504	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	1		Arial	10.0	100.0	-1	16768426	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	0	123.25	Arial	10.0	100.0	-1	13434862	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	123.25	Arial	10.0	100.0	-1	-1	2245802:26:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	2	false	0	true:false:false:false	General
+CELL	4	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	0.00
+CELL	6	0		Arial	10.0	150.0	-1	11184895	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Arial	10.0	100.0	-1	1122867	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+FILE	fc-cross-style-flags-roundtrip.xlsx
+SHEET	0	Sheet1
+CELL	0	0	123.25	Arial	11.0	100.0	2109504	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	1		Arial	10.0	100.0	-1	16768426	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	0	123.25	Arial	10.0	100.0	-1	13434862	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	123.25	Arial	10.0	100.0	-1	-1	2245802:26:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	2	false	0	true:false:false:false	General
+CELL	4	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	0.00
+CELL	6	0		Arial	10.0	150.0	-1	11184895	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Arial	10.0	100.0	-1	1122867	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General

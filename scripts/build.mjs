@@ -1,0 +1,16 @@
+import {build} from 'esbuild';
+import {mkdir, cp, copyFile, rm} from 'node:fs/promises';
+await rm('dist', {recursive:true, force:true});
+await mkdir('dist', {recursive:true});
+for (const name of ['index.html','compare.html','style.css','privacy-policy.html','about.html']) await copyFile(name, `dist/${name}`);
+await cp('public', 'dist', {recursive:true});
+await build({entryPoints:['src/doc-text-browser-worker.js','src/workbook-review-worker.js','src/legacy-workbook-browser-worker.js','src/archive-aes-worker.js','src/app.js','src/worker.js','src/merge-worker.js','src/text-patch-worker.js','src/text-patch-apply-worker.js','src/search-worker.js','src/filename-search-worker.js','src/file-content-report-worker.js'], outdir:'dist', bundle:true, format:'iife', minify:true, sourcemap:true, target:'es2022'});
+await mkdir('dist/pdf',{recursive:true});
+for(const name of ['pdf.mjs','pdf.worker.mjs'])await copyFile('node_modules/pdfjs-dist/build/'+name,'dist/pdf/'+name);
+for(const name of ['cmaps','standard_fonts'])await cp('node_modules/pdfjs-dist/'+name,'dist/pdf/'+name,{recursive:true});
+await copyFile('node_modules/pdfjs-dist/LICENSE','dist/pdf/LICENSE');
+await copyFile('desktop/pdf-text-entry.html','dist/pdf/entry.html');
+await build({entryPoints:['src/pdf-text-service-entry.js'],outfile:'dist/pdf/entry.js',bundle:true,format:'esm',minify:true,sourcemap:true,target:'es2022'});
+await mkdir('dist/licenses/jsdoc',{recursive:true});
+for(const name of ['LICENSE','README.md'])await copyFile('vendor/jsdoc/'+name,'dist/licenses/jsdoc/'+name);
+console.log('Website and desktop UI built in dist/');

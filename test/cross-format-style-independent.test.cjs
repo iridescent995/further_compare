@@ -1,0 +1,49 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const root=path.join(__dirname,'fixtures/cross-format-style-independent'),oracle=require('./fixtures/cross-format-style-independent/independent-readback.json');
+const at=(rows,r,c)=>rows.find(x=>Number(x.row)===r&&Number(x.column)===c);
+test('independent paired office artifacts retain pinned bytes and explicit upstream lineage',()=>{
+ for(const [name,hash]of Object.entries(require('./fixtures/cross-format-style-independent/sha256.json')))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex'),hash,name);
+ for(const name of ['baseline.xls','changed.xls'])assert.deepEqual(fs.readFileSync(path.join(root,name)),fs.readFileSync(path.join(__dirname,'fixtures/legacy-base-style-independent',name)));
+});
+test('independent reopened samples establish equivalence controls without assuming all conversion semantics',()=>{
+ assert.deepEqual(oracle['baseline.xlsx'],oracle['derived-cell-flags-false.xlsx']);assert.deepEqual(oracle['baseline.xls'],oracle['baseline-from-xls.xlsx']);assert.deepEqual(oracle['baseline.xls'],oracle['baseline.xlsx']);assert.deepEqual(oracle['pandas-test1.xlsb'],oracle['pandas-from-xlsb.xlsx']);
+ assert.notDeepEqual(oracle['baseline.ods'],oracle['baseline.xlsx'],'source conversion really changes properties');assert.equal(at(oracle['baseline.ods'].Sheet1,0,0).fontName,'Liberation Sans');assert.equal(at(oracle['baseline.xlsx'].Sheet1,0,0).fontName,'Arial');
+});
+test('independent XLSX style-only pair separates changed properties and explicit blank override',()=>{
+ const a=oracle['baseline.xlsx'].Sheet1,b=oracle['changed.xlsx'].Sheet1;assert.deepEqual(a.map(x=>[x.row,x.column,x.value]),b.map(x=>[x.row,x.column,x.value]));
+ for(const [row,key]of [[0,'fontSize'],[1,'backgroundColor'],[2,'bottomBorder'],[3,'horizontalAlignment'],[4,'protection'],[5,'numberFormat'],[6,'backgroundColor']])assert.notEqual(at(a,row,0)[key],at(b,row,0)[key]);
+ assert.notEqual(at(a,0,1).backgroundColor,at(b,0,1).backgroundColor);assert.notEqual(at(a,9,0).backgroundColor,at(b,9,0).backgroundColor);assert.deepEqual(at(a,9,1),at(b,9,1));
+});
+
+const argb=value=>'FF'+Number(value).toString(16).padStart(6,'0').toUpperCase();
+function effective(meta,row,column){return meta.cells.find(c=>c.row===row&&c.column===column)||meta.rowStyles.find(r=>r.row===row)||meta.columnStyles.find(c=>column>=c.firstColumn&&column<=c.lastColumn)||meta.defaultStyle;}
+function compareStyle(entry,actual,label,{xls=false}={}){const style=entry.style;assert(!entry.unavailableGroups?.font,label+' font available');assert.equal(style.font.name,actual.fontName,label+' font');assert.equal(style.font.size,Number(actual.fontSize),label+' font size');assert.equal(style.font.bold===true,Number(actual.fontWeight)>=150,label+' font weight');if(Number(actual.fontColor)>=0&&style.font.color?.argb)assert.equal(style.font.color.argb,argb(actual.fontColor),label+' font RGB');assert.equal(style.fill.pattern,Number(actual.backgroundColor)<0?'none':'solid',label+' fill');if(Number(actual.backgroundColor)>=0)assert.equal(style.fill.fgColor.argb,argb(actual.backgroundColor),label+' background RGB');const [borderColor,width]=actual.bottomBorder.split(':').map(Number);assert.equal(!!style.border.bottom,width>0,label+' bottom border presence');if(width>0){assert(['thin','medium'].includes(style.border.bottom.style));if(style.border.bottom.color?.argb)assert.equal(style.border.bottom.color.argb,argb(borderColor),label+' border RGB');}assert.equal(style.alignment.horizontal||'general',({'0':'general','1':'left','2':'center','3':'right'})[actual.horizontalAlignment],label+' alignment');assert.equal(style.alignment.wrapText===true,actual.wrap==='true',label+' wrapping');assert.equal(style.alignment.textRotation||0,((Number(actual.rotation)/100+180)%360)-180,label+' rotation');const [locked,hidden]=actual.protection.split(':');assert.equal(style.protection.locked!==false,locked==='true',label+' locked');assert.equal(style.protection.hidden===true,hidden==='true',label+' hidden');if(xls)assert.equal(style.numFmt.replace(/^\[\$-409\]/,''),actual.numberFormat,label+' number format');else if(['General','0'].includes(actual.numberFormat))assert.equal(style.numFmt,actual.numberFormat,label+' number format');}
+
+
+for(const name of ['baseline.xlsx','changed.xlsx','baseline-from-xls.xlsx','pandas-from-xlsb.xlsx','derived-cell-flags-false.xlsx'])test('XLSX source census matches independent office readback: '+name,async()=>{
+ const {readXlsxBaseFormatting}=require('../src/xlsx-base-formatting.cjs'),{DOMParser}=require('@xmldom/xmldom');const bytes=fs.readFileSync(path.join(root,name)),copy=Buffer.from(bytes),result=await readXlsxBaseFormatting(bytes,{DOMParser});
+ for(const sheet of result.sheets){const meta=sheet.formatting;assert.equal(meta.available,true,sheet.name+' census');for(const cell of oracle[name][sheet.name])compareStyle(effective(meta,Number(cell.row),Number(cell.column)),cell,name+' '+sheet.name+' '+cell.row+','+cell.column,{xls:!name.startsWith('pandas')});}
+ assert.deepEqual(bytes,copy);
+});
+test('mixed XLS/XLSX comparison distinguishes qualified changes without asserting automatic-color or grid-domain equality',async()=>{
+ const {DOMParser}=require('@xmldom/xmldom'),{preflightXls}=require('../src/xls-preflight.cjs'),{readXlsxBaseFormatting}=require('../src/xlsx-base-formatting.cjs'),{compareSemanticFormatting}=require('../src/workbook-semantic-formatting.cjs');
+ const a=preflightXls(fs.readFileSync(path.join(root,'baseline.xls'))).sheets[0].formatting;
+ const b=(await readXlsxBaseFormatting(fs.readFileSync(path.join(root,'baseline.xlsx')),{DOMParser})).sheets[0].formatting,c=(await readXlsxBaseFormatting(fs.readFileSync(path.join(root,'changed.xlsx')),{DOMParser})).sheets[0].formatting;
+ const same=compareSemanticFormatting(a,b,{formatA:'xls',formatB:'xlsx'});assert.deepEqual(same.differences,[]);assert.equal(same.equal,false);assert.equal(same.available,false);assert.match(same.reason,/automatic|system/i);assert.equal(same.domain.restricted,true);assert(same.beyondDomain.some(x=>x.groups.includes('Fill')),'larger row/column default domains are not silently truncated');
+ const changed=compareSemanticFormatting(a,c,{formatA:'xls',formatB:'xlsx'});for(const [row,group]of [[0,'Font'],[1,'Fill'],[2,'Border'],[3,'Alignment'],[4,'Protection'],[5,'Number format'],[6,'Fill']])assert(changed.differences.some(d=>d.firstRow<=row&&d.lastRow>=row&&d.firstColumn===0&&d.groups.includes(group)),group+' detected at authored cell');assert(!changed.differences.some(d=>d.firstRow<=9&&d.lastRow>=9&&d.firstColumn<=1&&d.lastColumn>=1),'explicit B10 blank overrides changed defaults');
+});
+test('labelled conflicting duplicate XF child derivative cannot claim complete metadata',async()=>{
+ const Zip=require('jszip'),{DOMParser}=require('@xmldom/xmldom'),{readXlsxBaseFormatting}=require('../src/xlsx-base-formatting.cjs');const z=await Zip.loadAsync(fs.readFileSync(path.join(root,'baseline.xlsx')));const xml=await z.file('xl/styles.xml').async('string'),at=xml.indexOf('<cellXfs');assert(at>0);z.file('xl/styles.xml',xml.slice(0,at)+xml.slice(at).replace(/(<alignment[^>]*\/>)/,'$1<alignment horizontal="right"/>'));const result=await readXlsxBaseFormatting(await z.generateAsync({type:'uint8array'}),{DOMParser});assert.equal(result.sheets[0].formatting.available,false);assert(result.sheets[0].formatting.cells.some(c=>c.unavailableGroups.alignment));
+});
+test('labelled missing-theme derivative cannot turn genuine theme colors into known defaults',async()=>{
+ const Zip=require('jszip'),{DOMParser}=require('@xmldom/xmldom'),{readXlsxBaseFormatting}=require('../src/xlsx-base-formatting.cjs'),{compareSemanticFormatting}=require('../src/workbook-semantic-formatting.cjs');const z=await Zip.loadAsync(fs.readFileSync(path.join(root,'pandas-from-xlsb.xlsx')));assert(z.file('xl/theme/theme1.xml'));z.remove('xl/theme/theme1.xml');const r=await readXlsxBaseFormatting(await z.generateAsync({type:'uint8array'}),{DOMParser});assert(r.sheets.some(s=>!s.formatting.available));for(const s of r.sheets){const result=compareSemanticFormatting(s.formatting,s.formatting,{formatA:'xlsx',formatB:'xlsx'});assert.equal(result.equal,false);assert.equal(result.available,false);}
+});
+test('labelled disabled Normal-style groups cannot masquerade as qualified inherited defaults',async()=>{
+ // MS-OI29500 2.1.721: cellStyleXfs apply flags default true; explicit false
+ // means the parent group is not applied. No rendered fallback is inferred.
+ const Zip=require('jszip'),{DOMParser,XMLSerializer}=require('@xmldom/xmldom'),{readXlsxBaseFormatting}=require('../src/xlsx-base-formatting.cjs');
+ for(const [group,flag]of Object.entries({font:'applyFont',fill:'applyFill',border:'applyBorder',alignment:'applyAlignment',protection:'applyProtection',numFmt:'applyNumberFormat'})){
+  const z=await Zip.loadAsync(fs.readFileSync(path.join(root,'baseline.xlsx'))),doc=new DOMParser().parseFromString(await z.file('xl/styles.xml').async('string'),'application/xml'),ns=doc.documentElement.namespaceURI,normal=Array.from(doc.getElementsByTagNameNS(ns,'cellStyle')).find(n=>n.getAttribute('builtinId')==='0'),parents=doc.getElementsByTagNameNS(ns,'cellStyleXfs')[0],xf=Array.from(parents.childNodes).filter(n=>n.nodeType===1)[Number(normal.getAttribute('xfId'))];xf.setAttribute(flag,'false');z.file('xl/styles.xml',new XMLSerializer().serializeToString(doc));const result=await readXlsxBaseFormatting(await z.generateAsync({type:'uint8array'}),{DOMParser});assert(result.sheets[0].formatting.defaultStyle.unavailableGroups[group],group+' disabled parent must be unavailable');assert.equal(result.sheets[0].formatting.available,false);
+ }
+});

@@ -1,0 +1,69 @@
+{
+  "role": "/StructTreeRoot",
+  "attributes": "",
+  "children": [
+    {
+      "role": "/Document",
+      "attributes": "",
+      "children": [
+        {
+          "role": "/Table",
+          "attributes": "{'/O': '/Layout', '/Placement': '/Block', '/Width': 9.638, '/Height': 0.552, '/BBox': [56.7, 757.589, 538.6, 785.189]}",
+          "children": [
+            {
+              "role": "/TR",
+              "attributes": "{'/O': '/Layout', '/Placement': '/Block'}",
+              "children": [
+                {
+                  "role": "/TD",
+                  "attributes": "[{'/O': '/Layout', '/Placement': '/Inline', '/Width': 9.638, '/Height': 0.276}, {'/O': '/Table', '/ColSpan': 2}]",
+                  "children": [
+                    {
+                      "role": "/Standard",
+                      "attributes": "{'/O': '/Layout', '/Placement': '/Block'}",
+                      "children": [
+                        0
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "/TR",
+              "attributes": "{'/O': '/Layout', '/Placement': '/Block'}",
+              "children": [
+                {
+                  "role": "/TD",
+                  "attributes": "{'/O': '/Layout', '/Placement': '/Inline', '/Width': 4.818, '/Height': 0.276}",
+                  "children": [
+                    {
+                      "role": "/Standard",
+                      "attributes": "{'/O': '/Layout', '/Placement': '/Block'}",
+                      "children": [
+                        1
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "/TD",
+                  "attributes": "{'/O': '/Layout', '/Placement': '/Inline', '/Width': 4.82, '/Height': 0.276}",
+                  "children": [
+                    {
+                      "role": "/Standard",
+                      "attributes": "{'/O': '/Layout', '/Placement': '/Block'}",
+                      "children": [
+                        2
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

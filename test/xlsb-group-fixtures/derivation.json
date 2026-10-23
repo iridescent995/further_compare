@@ -1,0 +1,373 @@
+{
+  "originalHash": "490f0430a6bd44bdf697c7a41a898bce632ce2b775797c3b8c1517764c0900b3",
+  "derivedHash": "c835bebc8c1f6188ca63bc6ba4e60737941a8aa66790cf824ddad7e6b5e44169",
+  "formatNormalization": {
+    "from": 43,
+    "to": 164,
+    "formatRecords": 1,
+    "xfReferences": 1,
+    "codeUnchanged": true
+  },
+  "removedRecordIds": [
+    49
+  ],
+  "removedParts": [
+    "xl/metadata.bin",
+    "xl/worksheets/binaryIndex1.bin"
+  ],
+  "preservedFormulaAndGroupRecords": 11,
+  "preservedFormulaAndGroupHash": "87a788fd6a325e4d929246765eb9d2485712d6ad372c2da3437b4e9873cdbed7",
+  "admission": "accepted",
+  "groups": [
+    {
+      "kind": "shared",
+      "anchor": {
+        "row": 2,
+        "column": 2
+      },
+      "range": {
+        "firstRow": 2,
+        "lastRow": 9,
+        "firstColumn": 2,
+        "lastColumn": 2
+      },
+      "tokens": [
+        76,
+        0,
+        0,
+        0,
+        0,
+        255,
+        255
+      ],
+      "extra": []
+    },
+    {
+      "kind": "array",
+      "anchor": {
+        "row": 8,
+        "column": 2
+      },
+      "range": {
+        "firstRow": 8,
+        "lastRow": 8,
+        "firstColumn": 2,
+        "lastColumn": 2
+      },
+      "tokens": [
+        35,
+        2,
+        0,
+        0,
+        0,
+        66,
+        1,
+        255,
+        0
+      ],
+      "extra": []
+    }
+  ],
+  "formulas": [
+    {
+      "row": 1,
+      "column": 2,
+      "cacheType": "boolean",
+      "flags": 0,
+      "tokens": [
+        68,
+        1,
+        0,
+        0,
+        0,
+        1,
+        192
+      ],
+      "extra": []
+    },
+    {
+      "row": 2,
+      "column": 2,
+      "cacheType": "boolean",
+      "flags": 0,
+      "tokens": [
+        1,
+        2,
+        0,
+        0,
+        0
+      ],
+      "extra": [
+        2,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 3,
+      "column": 2,
+      "cacheType": "number",
+      "flags": 0,
+      "tokens": [
+        1,
+        2,
+        0,
+        0,
+        0
+      ],
+      "extra": [
+        2,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 4,
+      "column": 2,
+      "cacheType": "number",
+      "flags": 0,
+      "tokens": [
+        1,
+        2,
+        0,
+        0,
+        0
+      ],
+      "extra": [
+        2,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 5,
+      "column": 2,
+      "cacheType": "string",
+      "flags": 0,
+      "tokens": [
+        1,
+        2,
+        0,
+        0,
+        0
+      ],
+      "extra": [
+        2,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 6,
+      "column": 2,
+      "cacheType": "error",
+      "flags": 0,
+      "tokens": [
+        30,
+        1,
+        0,
+        30,
+        0,
+        0,
+        6
+      ],
+      "extra": []
+    },
+    {
+      "row": 7,
+      "column": 2,
+      "cacheType": "error",
+      "flags": 0,
+      "tokens": [
+        90,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        192
+      ],
+      "extra": []
+    },
+    {
+      "row": 8,
+      "column": 2,
+      "cacheType": "error",
+      "flags": 2,
+      "tokens": [
+        1,
+        8,
+        0,
+        0,
+        0
+      ],
+      "extra": [
+        2,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 9,
+      "column": 2,
+      "cacheType": "error",
+      "flags": 0,
+      "tokens": [
+        65,
+        10,
+        0
+      ],
+      "extra": []
+    }
+  ],
+  "projection": [
+    {
+      "formulaRows": [
+        [
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "B2"
+        ],
+        [
+          null,
+          null,
+          "B3"
+        ],
+        [
+          null,
+          null,
+          "B4"
+        ],
+        [
+          null,
+          null,
+          "B5"
+        ],
+        [
+          null,
+          null,
+          "B6"
+        ],
+        [
+          null,
+          null,
+          "(1/0)"
+        ],
+        [
+          null,
+          null,
+          "[formula expression unavailable]"
+        ],
+        [
+          null,
+          null,
+          "[formula expression unavailable]"
+        ],
+        [
+          null,
+          null,
+          "NA()"
+        ]
+      ],
+      "coverage": {
+        "supported": 7,
+        "total": 9,
+        "reasons": [
+          "Unresolved supporting workbook or sheet reference.",
+          "Unsupported defined name scope or macro/builtin flags."
+        ]
+      },
+      "formulaStatusRows": [
+        [
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          {
+            "available": true,
+            "reason": null
+          }
+        ],
+        [
+          null,
+          null,
+          {
+            "available": true,
+            "reason": null
+          }
+        ],
+        [
+          null,
+          null,
+          {
+            "available": true,
+            "reason": null
+          }
+        ],
+        [
+          null,
+          null,
+          {
+            "available": true,
+            "reason": null
+          }
+        ],
+        [
+          null,
+          null,
+          {
+            "available": true,
+            "reason": null
+          }
+        ],
+        [
+          null,
+          null,
+          {
+            "available": true,
+            "reason": null
+          }
+        ],
+        [
+          null,
+          null,
+          {
+            "available": false,
+            "reason": "Unresolved supporting workbook or sheet reference."
+          }
+        ],
+        [
+          null,
+          null,
+          {
+            "available": false,
+            "reason": "Unsupported defined name scope or macro/builtin flags."
+          }
+        ],
+        [
+          null,
+          null,
+          {
+            "available": true,
+            "reason": null
+          }
+        ]
+      ]
+    }
+  ]
+}

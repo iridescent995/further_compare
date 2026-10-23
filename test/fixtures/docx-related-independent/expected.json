@@ -1,0 +1,14 @@
+{
+  "main": "Body alpha middle omega.\n\nBody second section.\nBody final.\n",
+  "headers": [
+    "Header Café original",
+    "Second header shared meaning"
+  ],
+  "footers": [
+    "Footer Ω original",
+    "Second footer"
+  ],
+  "footnote": "Footnote 中 original",
+  "endnote": "Endnote original",
+  "sections": 2
+}

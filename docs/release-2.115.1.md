@@ -1,0 +1,7 @@
+# Release 2.115.1 — stay near removed folder entries
+
+When a focused file disappears during a folder refresh, keyboard focus moves to the next surviving entry in the previous visible order, or the preceding entry if no successor survives. It no longer jumps to the first row. Missing-side placeholders are skipped, other selected files remain selected, and the replacement is not automatically selected. If no entries remain, focus returns to the pane. Refresh does not steal focus from controls or dialogs.
+
+Rebuilt rows also receive an explicit tabindex=-1 when outside the pane’s single Tab stop. Reading the DOM tabIndex property alone treated an absent attribute as equivalent, which made those rows impossible to focus programmatically. Selection updates still write only changed attributes.
+
+The regression reproduces the old first-row jump in the shipped Mac package and passes against fixed source with actual disk deletions, both panes, middle/last removal, multi-selection, missing sides, keyboard continuation, controls, a modal and an empty pane. Existing selection and page-navigation regressions pass. The 3,004-row scale test retains two single-click attribute changes. Both Mac packages pass the new regression; Intel required a longer initial scan expectation before its behavioral checks. All three ZIPs, packaged renderer/version identity, download sizes/SHA-256 and Windows browser download pass. Windows runtime remains pending.

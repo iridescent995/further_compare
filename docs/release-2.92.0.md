@@ -1,0 +1,11 @@
+# Release 2.92.0 — three-way folder reports
+
+Three-way folder reviews can now export HTML, CSV, text and JSON. Open Report from the review toolbar, right-click Comparison report, Shift+F10, or the existing Export Report entry.
+
+Each report captures the complete current analysis, including collapsed, filtered and paginated entries. It preserves paths, per-side kinds and sizes, classifications, reasons, blocked descendants, selected conflict choices and skipped-entry counts. Reports label reviewed resolutions, unapplied output previews and historical completed operations separately. Exporting does not rescan folders or modify compared files; external changes require a fresh analysis. The dialog previews the first 100 entries and exports all analyzed entries and any full reviewed resolution/output plan.
+
+The portable model strips runtime tokens and file authority, validates bounded input and escapes HTML and spreadsheet-sensitive CSV cells. It requires explicit skipped counts to avoid claiming complete coverage when entries were omitted.
+
+Source validation: 65 three-way unit tests passed, including 8 report tests covering full scope, incomplete coverage, bounded snapshots, sanitization, deletion choices and entries beyond UI pagination. The report runtime test passed frozen snapshots, all formats, mouse/keyboard context, application export, focus restoration and real preview/applied summaries without input changes. The existing full three-way review/apply/recovery workflow also passed. Independent review found no actionable issues.
+
+Both final Mac packages passed the report workflow, including real output preview/application summaries. The Apple Silicon report dialog was visually inspected. Intel screenshot capture timed out while waiting for a hidden window to stabilize; the functional rerun with optional image capture disabled passed. Screenshot capture is now opt-in through FC_REPORT_SCREENSHOT=1. All three package versions and changed assets match source, ZIP integrity passed, and download links, sizes, SHA-256 and Windows ZIP browser download passed. No reference branding was found in shipped source. Windows runtime and broader product parity remain incomplete.

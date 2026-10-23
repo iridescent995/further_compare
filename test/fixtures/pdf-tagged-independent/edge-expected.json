@@ -1,0 +1,35 @@
+{
+  "emptyCells": [
+    [
+      "",
+      "Right only"
+    ],
+    [
+      "Left only",
+      ""
+    ],
+    [
+      "",
+      ""
+    ]
+  ],
+  "spanningRows": [
+    [
+      "Spanning heading"
+    ],
+    [
+      "Left",
+      "Right"
+    ]
+  ],
+  "nestedText": [
+    "Outer left",
+    "Inner left",
+    "Inner right",
+    "Outer tail"
+  ],
+  "inlineParagraphs": [
+    "Prefix bold Café suffix Ω.",
+    "Line one\nline two."
+  ]
+}

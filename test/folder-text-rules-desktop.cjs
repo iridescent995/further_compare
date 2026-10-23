@@ -1,0 +1,48 @@
+'use strict';
+const {selectFolderOption,clickFolderOption}=require('./folder-options-helper.cjs');
+const {clickFolderAction}=require('./folder-context-helper.cjs');
+const {_electron:electron,expect}=require('@playwright/test');
+const fs=require('node:fs/promises'),os=require('node:os'),path=require('node:path'),assert=require('node:assert/strict');
+(async()=>{
+ const temp=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'fc-folder-text-rules-')));let app,page;
+ try{
+  const left=path.join(temp,'left'),right=path.join(temp,'right');
+  for(const root of [left,right]){
+   await fs.mkdir(path.join(root,'nested','unopened'),{recursive:true});
+   const a=root===left;
+   for(const [name,data] of Object.entries({'spaces.txt':a?'hello world\r\nvalue\t= 1\r\n':'helloworld\nvalue=1\n','changed.txt':a?'a = 1\n':'a=2\n','binary.bin':Buffer.from(a?[0,32,65]:[0,65]),'identical.txt':'identical\n','blank.txt':a?'a\n\nb\n':'a\nb\n','newline.txt':a?'a\n':'a','utf16.txt':a?Buffer.concat([Buffer.from([255,254]),Buffer.from('a b\r\n','utf16le')]):'ab\n','nested/spaces.txt':a?'x y\r':'xy\n','nested/unopened/deep.txt':a?'one two':'onetwo'}))await fs.writeFile(path.join(root,name),data);
+  }
+  const utf32le=Buffer.from([255,254,0,0,97,0,0,0,32,0,0,0,98,0,0,0,13,0,0,0,10,0,0,0]),utf32be=Buffer.from([0,0,254,255,0,0,0,97,0,0,0,32,0,0,0,98,0,0,0,13,0,0,0,10]);
+  for(const [name,bytes]of [['utf32le.txt',utf32le],['utf32be.txt',utf32be]]){await fs.writeFile(path.join(left,name),bytes);await fs.writeFile(path.join(right,name),'ab\n');}
+  const env={...process.env,FC_USER_DATA_DIR:path.join(temp,'profile')};delete env.ELECTRON_RUN_AS_NODE;delete env.FC_SMOKE;
+  app=await electron.launch({...(process.env.FC_TEST_EXECUTABLE?{executablePath:process.env.FC_TEST_EXECUTABLE,args:[]}:{args:[path.resolve(__dirname,'..')]}),env});page=await app.firstWindow();page.setDefaultTimeout(15000);
+  const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await app.evaluate(({dialog},roots)=>{globalThis.textRuleChoices=[...roots];dialog.showOpenDialog=async()=>({canceled:false,filePaths:[globalThis.textRuleChoices.shift()]});dialog.showMessageBox=async()=>({response:1});},[left,right]);
+  const ready=()=>expect(page.locator('body')).toHaveAttribute('aria-busy','false');
+  const row=name=>page.locator('#folderRowsA .folder-entry[data-path="'+name+'"]');
+  const status=(name,value)=>expect(row(name)).toHaveClass(new RegExp('\\b'+value+'\\b'));
+  const mode=page.locator('#folderCompareMode');
+  const command=async action=>{await ready();await app.evaluate(({BrowserWindow},action)=>BrowserWindow.getAllWindows()[0].webContents.send('menu-action',action),action);};
+  await ready();await page.locator('#welcome [data-command="new:folder-compare"]').click();await ready();await page.locator('#sessionName').fill('Whitespace rules');await page.locator('#openA').click();await ready();await page.locator('#openB').click();await ready();
+  await expect(mode).toHaveValue('content');await expect(page.locator('.text-normalized-legend')).toBeHidden();await status('spaces.txt','changed');await expect(row('nested/spaces.txt')).toHaveCount(0);
+  await selectFolderOption(page,'folderCompareMode','text-whitespace');await expect(page.locator('.folder-legend .equal')).toHaveText('Byte match');await expect(page.locator('.folder-legend .equal')).toBeVisible();await expect(page.locator('.text-normalized-legend')).toHaveText('Text match');await expect(page.locator('.text-normalized-legend')).toBeVisible();await status('spaces.txt','equal');await expect(row('spaces.txt')).toHaveClass(/text-normalized-match/);await expect(row('spaces.txt')).toHaveAttribute('data-comparison','text-normalized');await expect(row('spaces.txt')).toHaveAttribute('title',/spaces\/tabs.*does not mean identical bytes/i);
+  await status('utf16.txt','equal');for(const name of ['utf32le.txt','utf32be.txt']){await status(name,'equal');await expect(row(name)).toHaveAttribute('data-comparison','text-normalized');}await status('changed.txt','changed');await status('binary.bin','changed');await status('blank.txt','changed');await status('newline.txt','changed');await expect(row('identical.txt')).toHaveAttribute('data-comparison','content');await expect(row('binary.bin')).toHaveAttribute('data-comparison','content');
+  await expect(row('nested/spaces.txt')).toHaveCount(0);await row('nested').locator('.tree-toggle').click();await status('nested/spaces.txt','equal');await expect(row('nested/unopened/deep.txt')).toHaveCount(0);
+  await ready();await row('spaces.txt').click({button:'right'});await clickFolderAction(page,'Show text matches');await status('spaces.txt','equal');await expect(row('changed.txt')).toHaveCount(0);
+  await row('spaces.txt').click({button:'right'});await clickFolderAction(page,'Show all');await status('changed.txt','changed');
+  // A report distinguishes normalized matches from exact bytes and does not claim unopened descendants.
+  await page.evaluate(()=>{window.__textReports=[];const blobs=new Map(),create=URL.createObjectURL.bind(URL);URL.createObjectURL=blob=>{const url=create(blob);blobs.set(url,blob);return url;};const click=HTMLAnchorElement.prototype.click;HTMLAnchorElement.prototype.click=function(){if(this.download&&blobs.has(this.href)){window.__textReports.push(blobs.get(this.href).text());return;}return click.call(this);};});
+  await clickFolderOption(page,'folderReport');await expect(page.locator('#folderReportDialog')).toBeVisible();await page.locator('#folderReportScope').selectOption('loaded');await page.locator('#folderReportFormat').selectOption('json');await page.locator('#folderReportExport').click();
+  const report=JSON.parse(await page.evaluate(()=>window.__textReports[0]));assert.equal(report.rules.mode,'text-whitespace');assert.equal(report.statistics.normalizedTextMatches,5);assert.equal(report.statistics.contentMatches,1);assert.ok(!report.entries.some(entry=>[entry.pathA,entry.pathB].includes('nested/unopened/deep.txt')));assert.equal(report.entries.find(entry=>entry.pathA==='binary.bin').comparison,'content');for(const name of ['utf32le.txt','utf32be.txt'])assert.equal(report.entries.find(entry=>entry.pathA===name&&entry.pathB===name).comparison,'text-normalized');await page.locator('#folderReportClose').click();
+  const sessionFile=path.join(temp,'text-rules.fcompare');await app.evaluate(({dialog},file)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:file});},sessionFile);await command('save-session');await expect(page.locator('#dirtyIndicator')).toBeHidden();assert.equal(JSON.parse(await fs.readFile(sessionFile,'utf8')).options.folderRules.mode,'text-whitespace');
+  await command('folder:rules-content');await expect(mode).toHaveValue('content');await status('spaces.txt','changed');
+  await ready();await row('spaces.txt').click({button:'right'});await clickFolderAction(page,'Compare text ignoring whitespace');await expect(mode).toHaveValue('text-whitespace');await status('spaces.txt','equal');
+  await command('folder:rules-content');await status('spaces.txt','changed');await ready();await app.evaluate(({Menu})=>{const find=menu=>{for(const item of menu.items){if(item.label==='Text — Ignore Whitespace')return item;if(item.submenu){const found=find(item.submenu);if(found)return found;}}};const item=find(Menu.getApplicationMenu());if(!item)throw Error('Missing text whitespace native menu');item.click();});await expect(mode).toHaveValue('text-whitespace');await status('spaces.txt','equal');
+  await app.evaluate((_,file)=>globalThis.textRuleChoices.push(file),sessionFile);await command('open-session');await expect(page.getByRole('tab',{name:/Whitespace rules/})).toHaveCount(2);await expect(mode).toHaveValue('text-whitespace');await status('spaces.txt','equal');await ready();
+  // Ignoring whitespace is a display comparison rule, never a reason to suppress an explicit byte copy.
+  await row('spaces.txt').click({button:'right'});await clickFolderAction(page,'Copy to right');await expect(page.locator('#planDialog')).toBeVisible();await expect(page.locator('#planOperations')).toContainText('copy  spaces.txt');await page.locator('#applyPlan').click();await expect(page.locator('#planDialog')).toBeHidden();await ready();assert.deepEqual(await fs.readFile(path.join(left,'spaces.txt')),await fs.readFile(path.join(right,'spaces.txt')));await expect(row('spaces.txt')).toHaveAttribute('data-comparison','content');await expect(row('spaces.txt')).not.toHaveClass(/text-normalized-match/);
+  for(const encoding of ['utf32le','utf32be']){await row(encoding+'.txt').dblclick();await expect(page.locator('#sessionKind')).toHaveText('Text Compare');await expect(page.locator('#encodingA')).toHaveValue(encoding);await expect(page.locator('#encodingB')).toHaveValue('utf8');await expect(page.locator('#textA')).toHaveValue('a b\n');await expect(page.locator('#ignoreWhitespace')).toBeChecked();await page.locator('#backToFolder').click();await expect(mode).toHaveValue('text-whitespace');await status(encoding+'.txt','equal');}
+  await page.screenshot({path:path.join(os.tmpdir(),'further-folder-text-rules.png')});assert.deepEqual(errors,[]);
+  console.log('Folder text rules passed: exact default, normalized styling, UTF-16/32 and child opening, binary fallback, meaningful line breaks, lazy children, filters, report provenance, context/native commands, saved mode and exact copy.');
+ }finally{if(page&&!page.isClosed())await page.evaluate(()=>window.__fcAllowClose=true).catch(()=>{});if(app){await app.evaluate(({app})=>app.exit(0)).catch(()=>{});await app.close().catch(()=>{});}await fs.rm(temp,{recursive:true,force:true});}
+})().catch(error=>{console.error(error);process.exitCode=1;});

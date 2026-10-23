@@ -1,0 +1,8 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict');
+const {validateSession}=require('../desktop/sessions.cjs');
+const {captureSessionDefaults,validateDefaultProfile}=require('../desktop/session-defaults.cjs');
+const mappings=[{pattern:'*.generated.java',profile:'plain'},{pattern:'*.ddl',profile:'sql'}];
+const session=()=>({version:1,type:'text-compare',name:'Mappings',text:{a:'-- original',b:'code'},files:{a:{name:'a.ddl',path:''},b:{name:'b.ddl',path:''}},folders:{a:null,b:null},options:{ignoreWhitespace:false,filter:'all',direction:'a-to-b',textProfile:'plain',textProfileMappings:structuredClone(mappings)}});
+test('dormant mappings survive session/default capture as isolated ordered values',()=>{const original=session(),saved=validateSession(original);assert.deepEqual(saved.options.textProfileMappings,mappings);const defaults=captureSessionDefaults(saved);assert.deepEqual(validateDefaultProfile(defaults).options.textProfileMappings,mappings);original.options.textProfileMappings[0].pattern='*';assert.deepEqual(saved.options.textProfileMappings,mappings);saved.options.textProfileMappings.reverse();assert.deepEqual(defaults.options.textProfileMappings,mappings);assert.deepEqual(saved.text,original.text);});
+test('sessions and defaults reject malformed filename mappings',()=>{for(const value of [null,{},[{pattern:'../*.sql',profile:'sql'}],[{pattern:'*',profile:'auto'}]]){const original=session();original.options.textProfileMappings=value;assert.throws(()=>validateSession(original));assert.throws(()=>validateDefaultProfile({type:'text-compare',options:{textProfileMappings:value}}));}});

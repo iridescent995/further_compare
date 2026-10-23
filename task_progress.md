@@ -1,8 +1,0 @@
-- [ ] Analyze requirements
-- [ ] Set up project directory and files
-- [ ] Implement main UI (2 text areas or file inputs, diff output, copy controls)
-- [ ] Implement text/file diff logic
-- [ ] Add feature: copy difference from one side to another
-- [ ] Add professional styling (CSS)
-- [ ] Test full workflow and UX
-- [ ] Verify requirements and polish

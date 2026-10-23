@@ -1,0 +1,5 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict');
+const {validateDocumentProjection,PDF_EXCLUSIONS,PDF_PAGE_ROWS_EXCLUSIONS}=require('../src/document-projection.cjs');
+const original={kind:'pdf',version:1,engine:'pdfjs',engineVersion:'6.2.108',scope:'page-text',pages:2,emptyPages:1,exclusions:[...PDF_EXCLUSIONS]};
+test('document policy retains exact v1 projection and page-row policy has strict versioned provenance',()=>{assert.deepEqual(validateDocumentProjection(original),original);const geometric={...original,version:2,order:'page-rows',orderVersion:1,exclusions:[...PDF_PAGE_ROWS_EXCLUSIONS]};assert.deepEqual(validateDocumentProjection(geometric),geometric);for(const bad of [{...original,order:'document'},{...original,version:2},{...geometric,order:'document'},{...geometric,orderVersion:2},{...geometric,exclusions:PDF_EXCLUSIONS},{...geometric,extra:1},{...geometric,version:3},{...geometric,emptyPages:2}])assert.throws(()=>validateDocumentProjection(bad),/metadata/);});

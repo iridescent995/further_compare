@@ -1,0 +1,9 @@
+{
+  "baseline-from-xls.xlsx": "6bcd5c8449a4dc676d16866c7bc04cfbede5835cb80cb284a3f6372f8411e01f",
+  "baseline.xls": "bdd14e57c86d5a00a0a3d57bdd4f168825930fa8f0dc64c942fc64628f49d41c",
+  "baseline.xlsx": "4fd7e331884434bed5d8be285f52c7d7b033e8330d8858ac1bbb40bc9e842d00",
+  "changed.xls": "a50f1296ff3d42a1b33cf735b44fcc964724aa4a46dd3e5397e74ecefd4d61b7",
+  "changed.xlsx": "2e11c450d69fbadeae1769177a6d58f0b12810093bf8bce062563a66cbfad3ba",
+  "derived-cell-flags-false.xlsx": "065c4f1abf9547eb3603dfc1a3a64d6c9c18be720730848287e663a53457288d",
+  "pandas-from-xlsb.xlsx": "093f2d6e62fb95b5cdd10dc4f83b00c0420252b2aea4e205d0a2d6b2a82f8a5f"
+}

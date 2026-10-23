@@ -1,0 +1,130 @@
+{
+  "role": "/StructTreeRoot",
+  "children": [
+    {
+      "role": "/Document",
+      "children": [
+        {
+          "role": "/H1",
+          "children": [
+            0
+          ]
+        },
+        {
+          "role": "/Table",
+          "children": [
+            {
+              "role": "/TR",
+              "children": [
+                {
+                  "role": "/TH",
+                  "children": [
+                    {
+                      "role": "/Standard",
+                      "children": [
+                        1
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "/TH",
+                  "children": [
+                    {
+                      "role": "/Standard",
+                      "children": [
+                        2
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "/TR",
+              "children": [
+                {
+                  "role": "/TD",
+                  "children": [
+                    {
+                      "role": "/Standard",
+                      "children": [
+                        3
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "role": "/TD",
+                  "children": [
+                    {
+                      "role": "/Standard",
+                      "children": [
+                        4
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "/L",
+          "children": [
+            {
+              "role": "/LI",
+              "children": [
+                {
+                  "role": "/Lbl",
+                  "children": [
+                    5
+                  ]
+                },
+                {
+                  "role": "/LBody",
+                  "children": [
+                    {
+                      "role": "/Standard",
+                      "children": [
+                        6
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "/LI",
+              "children": [
+                {
+                  "role": "/Lbl",
+                  "children": [
+                    7
+                  ]
+                },
+                {
+                  "role": "/LBody",
+                  "children": [
+                    {
+                      "role": "/Standard",
+                      "children": [
+                        8
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "role": "/Standard",
+          "children": [
+            9
+          ]
+        }
+      ]
+    }
+  ]
+}

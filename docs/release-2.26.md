@@ -1,0 +1,11 @@
+# Further Compare 2.26.0
+
+Move selected files and folders left to right, right to left, or to a folder chosen in the native picker. Commands are available in the context menu and native Actions menu. The preview identifies both roots and every affected entry; execution requires confirmation. Moving to another folder preserves root-relative paths and leaves the current comparison roots unchanged.
+
+The complete selected subtree is included, including empty folders and names normally hidden by comparison filters. Existing destination folders merge while unrelated entries remain. Symbolic links, special files, overlapping roots, type conflicts and ambiguous names are rejected. Preview snapshots are checked again before execution.
+
+Source files and overwritten destination files are backed up and verified before mutation. All destination files are installed and verified before source removal. On failure, rollback restores originals where safe; externally changed files are retained and reported for manual recovery. Backups contain source/ and destination/ trees and a manifest recording the transaction status. They remain until manually removed. Crash recovery is manual; this is not an atomic filesystem transaction. Mode and access/modified times are preserved where supported, not ACLs, ownership or extended attributes. Cross-volume moves use copying but have not yet been verified across physical volumes.
+
+Both appearance modes now use a richer palette across toolbar groups, session cards, tabs and pane headers. Light combines peach, rose, mint, lavender and gold; dark uses plum surfaces with coral, mint, pink and gold accents. Difference colors retain their existing meanings.
+
+Validation: all 205 unit tests passed, including injected rollback failures and preservation of external changes. Folder Move and appearance workflows passed in both final Mac packages. Browser appearance and grouped context-menu checks passed, and light/dark screenshots were inspected. Packaged versions and changed application files match the source/build on all three targets. All three ZIP archives passed integrity checks; website download links, sizes and SHA-256 checksums passed verification. Windows runtime verification remains pending on a Windows host.

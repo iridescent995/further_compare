@@ -1,0 +1,398 @@
+{
+  "baseline.doc": {
+    "body": "Body Café Ω 中 😀 alpha1 middlei omega.\nBody second section.\nBody final.\tTabbed\nLine break.\nCell A1 Café\nCell B1 Ω\nCell A2 中\n\nFixed field: 05/04/24.\nTextbox anchor  after.",
+    "footnotes": [
+      {
+        "ordinal": 1,
+        "text": "\tFootnote 中 original"
+      }
+    ],
+    "endnotes": [
+      {
+        "ordinal": 1,
+        "text": "\tEndnote original"
+      }
+    ],
+    "pages": [
+      {
+        "name": "Standard",
+        "inUse": true,
+        "HeaderText": "Header Café original",
+        "FooterText": "Footer Ω original"
+      },
+      {
+        "name": "Convert 1",
+        "inUse": true,
+        "HeaderText": "Second header shared meaning",
+        "FooterText": "Second footer"
+      }
+    ],
+    "paragraphStyles": [
+      [
+        "InheritedStart",
+        "Standard"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ]
+    ],
+    "cells": [
+      {
+        "table": "Table1",
+        "address": "A1",
+        "text": "Cell A1 Café"
+      },
+      {
+        "table": "Table1",
+        "address": "B1",
+        "text": "Cell B1 Ω"
+      },
+      {
+        "table": "Table1",
+        "address": "A2",
+        "text": "Cell A2 中"
+      },
+      {
+        "table": "Table1",
+        "address": "B2",
+        "text": ""
+      }
+    ],
+    "textboxes": [
+      {
+        "name": "Frame2",
+        "text": "Header textbox 中 original"
+      },
+      {
+        "name": "Frame1",
+        "text": "Textbox Ω original"
+      }
+    ],
+    "fields": [
+      {
+        "description": "Date (fixed)",
+        "result": "05/04/24"
+      },
+      {
+        "description": "Note",
+        "result": ""
+      }
+    ],
+    "annotations": [
+      {
+        "author": "Fixture Author",
+        "text": "Annotation Ω original"
+      }
+    ]
+  },
+  "related-changed.doc": {
+    "body": "Body Café Ω 中 😀 alpha1 middlei omega.\nBody second section.\nBody final.\tTabbed\nLine break.\nCell A1 Café\nCell B1 Ω\nCell A2 中\n\nFixed field: 05/04/24.\nTextbox anchor  after.",
+    "footnotes": [
+      {
+        "ordinal": 1,
+        "text": "\tFootnote 中 changed"
+      }
+    ],
+    "endnotes": [
+      {
+        "ordinal": 1,
+        "text": "\tEndnote changed"
+      }
+    ],
+    "pages": [
+      {
+        "name": "Standard",
+        "inUse": true,
+        "HeaderText": "Header Café changed",
+        "FooterText": "Footer Ω changed"
+      },
+      {
+        "name": "Convert 1",
+        "inUse": true,
+        "HeaderText": "Second header shared meaning",
+        "FooterText": "Second footer"
+      }
+    ],
+    "paragraphStyles": [
+      [
+        "InheritedStart",
+        "Standard"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ]
+    ],
+    "cells": [
+      {
+        "table": "Table1",
+        "address": "A1",
+        "text": "Cell A1 Café"
+      },
+      {
+        "table": "Table1",
+        "address": "B1",
+        "text": "Cell B1 Ω"
+      },
+      {
+        "table": "Table1",
+        "address": "A2",
+        "text": "Cell A2 中"
+      },
+      {
+        "table": "Table1",
+        "address": "B2",
+        "text": ""
+      }
+    ],
+    "textboxes": [
+      {
+        "name": "Frame2",
+        "text": "Header textbox 中 changed"
+      },
+      {
+        "name": "Frame1",
+        "text": "Textbox Ω changed"
+      }
+    ],
+    "fields": [
+      {
+        "description": "Date (fixed)",
+        "result": "05/04/24"
+      },
+      {
+        "description": "Note",
+        "result": ""
+      }
+    ],
+    "annotations": [
+      {
+        "author": "Fixture Author",
+        "text": "Annotation Ω changed"
+      }
+    ]
+  },
+  "body-changed.doc": {
+    "body": "Body Café Ω 中 😀 revised alpha1 middlei omega.\nBody second section.\nBody final.\tTabbed\nLine break.\nCell A1 Café\nCell B1 Ω\nCell A2 中\n\nFixed field: 05/04/24.\nTextbox anchor  after.",
+    "footnotes": [
+      {
+        "ordinal": 1,
+        "text": "\tFootnote 中 original"
+      }
+    ],
+    "endnotes": [
+      {
+        "ordinal": 1,
+        "text": "\tEndnote original"
+      }
+    ],
+    "pages": [
+      {
+        "name": "Standard",
+        "inUse": true,
+        "HeaderText": "Header Café original",
+        "FooterText": "Footer Ω original"
+      },
+      {
+        "name": "Convert 1",
+        "inUse": true,
+        "HeaderText": "Second header shared meaning",
+        "FooterText": "Second footer"
+      }
+    ],
+    "paragraphStyles": [
+      [
+        "InheritedStart",
+        "Standard"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ]
+    ],
+    "cells": [
+      {
+        "table": "Table1",
+        "address": "A1",
+        "text": "Cell A1 Café"
+      },
+      {
+        "table": "Table1",
+        "address": "B1",
+        "text": "Cell B1 Ω"
+      },
+      {
+        "table": "Table1",
+        "address": "A2",
+        "text": "Cell A2 中"
+      },
+      {
+        "table": "Table1",
+        "address": "B2",
+        "text": ""
+      }
+    ],
+    "textboxes": [
+      {
+        "name": "Frame2",
+        "text": "Header textbox 中 original"
+      },
+      {
+        "name": "Frame1",
+        "text": "Textbox Ω original"
+      }
+    ],
+    "fields": [
+      {
+        "description": "Date (fixed)",
+        "result": "05/04/24"
+      },
+      {
+        "description": "Note",
+        "result": ""
+      }
+    ],
+    "annotations": [
+      {
+        "author": "Fixture Author",
+        "text": "Annotation Ω original"
+      }
+    ]
+  },
+  "anchors-moved.doc": {
+    "body": "Body Café Ω 中 😀 alpha middle1i omega.\nBody second section.\nBody final.\tTabbed\nLine break.\nCell A1 Café\nCell B1 Ω\nCell A2 中\n\nFixed field: 05/04/24.\nTextbox anchor  after.",
+    "footnotes": [
+      {
+        "ordinal": 1,
+        "text": "\tFootnote 中 original"
+      }
+    ],
+    "endnotes": [
+      {
+        "ordinal": 1,
+        "text": "\tEndnote original"
+      }
+    ],
+    "pages": [
+      {
+        "name": "Standard",
+        "inUse": true,
+        "HeaderText": "Header Café original",
+        "FooterText": "Footer Ω original"
+      },
+      {
+        "name": "Convert 1",
+        "inUse": true,
+        "HeaderText": "Second header shared meaning",
+        "FooterText": "Second footer"
+      }
+    ],
+    "paragraphStyles": [
+      [
+        "InheritedStart",
+        "Standard"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ],
+      [
+        "Standard",
+        "Convert 1"
+      ]
+    ],
+    "cells": [
+      {
+        "table": "Table1",
+        "address": "A1",
+        "text": "Cell A1 Café"
+      },
+      {
+        "table": "Table1",
+        "address": "B1",
+        "text": "Cell B1 Ω"
+      },
+      {
+        "table": "Table1",
+        "address": "A2",
+        "text": "Cell A2 中"
+      },
+      {
+        "table": "Table1",
+        "address": "B2",
+        "text": ""
+      }
+    ],
+    "textboxes": [
+      {
+        "name": "Frame2",
+        "text": "Header textbox 中 original"
+      },
+      {
+        "name": "Frame1",
+        "text": "Textbox Ω original"
+      }
+    ],
+    "fields": [
+      {
+        "description": "Date (fixed)",
+        "result": "05/04/24"
+      },
+      {
+        "description": "Note",
+        "result": ""
+      }
+    ],
+    "annotations": [
+      {
+        "author": "Fixture Author",
+        "text": "Annotation Ω original"
+      }
+    ]
+  }
+}

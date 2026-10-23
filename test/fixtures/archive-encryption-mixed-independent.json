@@ -1,0 +1,64 @@
+{
+  "producers": [
+    "Python stdlib fixture writer",
+    "pyzipper 0.3.6"
+  ],
+  "independentDecoder": "pyzipper 0.3.6",
+  "archives": {
+    "mixed-aes-legacy.zip": {
+      "data": "UEsDBBQAAAgAAINiIVnPYiAZBQAAAAUAAAAJAAAAcGxhaW4udHh0cGxhaW5QSwMEFAAJCAgAg2IhWQAAAAAAAAAAAAAAABAAAABmb2xkZXIvZmlyc3QudHh0qUb/lt0F246NZUgwPqVYPinBKR6ON/aygdrlKGUMUny4L2jDpZ11/079wa4hOihQSwcIJBYj+i8AAAAjAAAAUEsDBBQAAQgAAINiIVmSJxnDMAAAACQAAAARAAAAZm9sZGVyL3NlY29uZC50eHRU7xasGbWDkRxzhxKTKY7UNKvEtWRLZpBOtGsqR3VGqcjZ/qnc86q5cOVcMey33pZQSwMEFAABCAgAg2IhWRonJ4szAAAAJAAAABUAAABVbmljb2RlL86pLeaWh+S7ti50eHSpRv+W3QXbjo1lSNk7CfHlFG2dmakSbR3k0Ed+Lmm8JhSNWHLjpdmbOkmsLt1zfrbNWhFQSwMEFAABAGMAyqtWXQAAAABHAAAAmAgAAAgACwB0ZXh0LnR4dAGZBwACAEFFAwgAzMtauOEhLYT11hGAH5MABik7Ivs0WiQDYc35mGFdDCqax1mtlOHOlv1H6SO0h+1LwHRGVpHntFzn4Pzhsw8OSyjBSxPBDKNQSwECFAAUAAAIAACDYiFZz2IgGQUAAAAFAAAACQAAAAAAAAAAAAAAAAAAAAAAcGxhaW4udHh0UEsBAhQAFAAJCAgAg2IhWSQWI/ovAAAAIwAAABAAAAAAAAAAAAAAAAAALAAAAGZvbGRlci9maXJzdC50eHRQSwECFAAUAAEIAACDYiFZkicZwzAAAAAkAAAAEQAAAAAAAAAAAAAAAACZAAAAZm9sZGVyL3NlY29uZC50eHRQSwECFAAUAAEICACDYiFZGicnizMAAAAkAAAAFQAAAAAAAAAAAAAAAAD4AAAAVW5pY29kZS/OqS3mlofku7YudHh0UEsBAhQDFAABAGMAyqtWXQAAAABHAAAAmAgAAAgACwAAAAAAAAAAAIABXgEAAHRleHQudHh0AZkHAAIAQUUDCABQSwUGAAAAAAUABQA4AQAA1gEAAAAA",
+      "sha256": "db793dbc848b2dd81e2a0ea6c7e2bd9f62186ee6f67d4b33853c75f2279d0fb9",
+      "entries": [
+        {
+          "name": "plain.txt",
+          "password": null,
+          "content": "cGxhaW4=",
+          "contentSha256": "a116c9ed46d6207734a43317d30fd88f52ac8634c37d904bbf4e41d865f90475",
+          "method": 0,
+          "descriptor": false,
+          "encryptionType": null
+        },
+        {
+          "name": "folder/first.txt",
+          "password": "fixture public Ω password",
+          "content": "Zmlyc3QgaW5kZXBlbmRlbnRseSBwYXNzd29yZGVkIGZpbGU=",
+          "contentSha256": "2dbe37aef78d767dad7f177e17c1b374fea2d39423291a34599a7e7ce54187a5",
+          "method": 8,
+          "descriptor": true,
+          "wrongHeaderPassword": "wrong-header-candidate-331",
+          "encryptionType": "zipcrypto"
+        },
+        {
+          "name": "folder/second.txt",
+          "password": "second password",
+          "content": "c2Vjb25kIGluZGVwZW5kZW50bHkgcGFzc3dvcmRlZCBmaWxl",
+          "contentSha256": "4899013b83489d0624665dc81e31a6205c12280c9a4b43f7d0d78546130fadf1",
+          "method": 0,
+          "descriptor": false,
+          "wrongHeaderPassword": "wrong-header-candidate-191",
+          "encryptionType": "zipcrypto"
+        },
+        {
+          "name": "Unicode/Ω-文件.txt",
+          "password": "fixture public Ω password",
+          "content": "VW5pY29kZSBmaWxlbmFtZSBhbmQgdGV4dCDOqSDmlofku7YK",
+          "contentSha256": "c47cd4e62060c1b18eb094d7d731774b8a1f1a74fe59d2811e23fa727500f55d",
+          "method": 8,
+          "descriptor": false,
+          "wrongHeaderPassword": "wrong-header-candidate-331",
+          "encryptionType": "zipcrypto"
+        },
+        {
+          "name": "text.txt",
+          "password": "test Ω password",
+          "content": "QXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0CkF1dGhlbnRpY2F0ZWQgzqkgdGV4dApBdXRoZW50aWNhdGVkIM6pIHRleHQKQXV0aGVudGljYXRlZCDOqSB0ZXh0Cg==",
+          "contentSha256": "dded845d88f8e63187749540f89b8132ec96f92509544da17dd4aadb46e643a0",
+          "method": 8,
+          "descriptor": false,
+          "encryptionType": "aes"
+        }
+      ],
+      "producer": "Ciphertext-preserving concatenation of independent fixtures"
+    }
+  }
+}

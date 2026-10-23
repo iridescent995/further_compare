@@ -1,0 +1,155 @@
+{
+  "baseline.xls -> baseline-from-xls.xlsx": [],
+  "baseline.xlsx -> derived-cell-flags-false.xlsx": [],
+  "baseline.ods -> baseline.xlsx": [
+    {
+      "sheet": "Sheet1",
+      "row": "0",
+      "column": "0",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "0",
+      "column": "1",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "1",
+      "column": "0",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "2",
+      "column": "0",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ],
+        "bottomBorder": [
+          "2245802:35:0:0",
+          "2245802:26:0:0"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "3",
+      "column": "0",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "4",
+      "column": "0",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "5",
+      "column": "0",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "6",
+      "column": "0",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "7",
+      "column": "0",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "8",
+      "column": "0",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "9",
+      "column": "0",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "9",
+      "column": "1",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    },
+    {
+      "sheet": "Sheet1",
+      "row": "9",
+      "column": "2",
+      "changes": {
+        "fontName": [
+          "Liberation Sans",
+          "Arial"
+        ]
+      }
+    }
+  ],
+  "baseline.xls -> baseline.xlsx": [],
+  "pandas-test1.xlsb -> pandas-from-xlsb.xlsx": []
+}

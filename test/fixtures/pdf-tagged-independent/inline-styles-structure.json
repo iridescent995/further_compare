@@ -1,0 +1,35 @@
+{
+  "role": "/StructTreeRoot",
+  "attributes": "",
+  "children": [
+    {
+      "role": "/Document",
+      "attributes": "",
+      "children": [
+        {
+          "role": "/Standard",
+          "attributes": "{'/O': '/Layout', '/Placement': '/Block'}",
+          "children": [
+            0,
+            {
+              "role": "/Bold",
+              "attributes": "",
+              "children": [
+                1
+              ]
+            },
+            2
+          ]
+        },
+        {
+          "role": "/Standard",
+          "attributes": "{'/O': '/Layout', '/Placement': '/Block'}",
+          "children": [
+            3,
+            4
+          ]
+        }
+      ]
+    }
+  ]
+}

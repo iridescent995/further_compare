@@ -1,0 +1,9 @@
+# Release 2.102.0 — selected file attributes
+
+Folder comparisons now expose Change attributes through native Actions and the right-click Properties submenu. A borderless pastel dialog shows selected paths, current settings, exact proposed changes and a separate native confirmation. Each setting offers Keep, On and Off; only selected entries change, without traversing folder contents.
+
+On macOS/Linux the editor changes owner/group/other read, write and execute bits while preserving special mode bits. On Windows it edits Read-only, Hidden, System and Archive, preserving other flags and timestamps. This is not an ACL or ownership editor.
+
+Native previews bind the selected root, session, tree revision and exact file snapshots. POSIX changes use held descriptors and deepest-first ordering; the Windows helper pins handles. Both paths reject links and stale inputs and attempt guarded rollback after failures. Incomplete restoration is reported explicitly. Action history captures attempted changes and outcomes.
+
+Validation: 849 unit tests passed; one Windows-native fixture test was skipped on macOS. Browser tests cover both platforms’ controls and stale/cancel/error behavior. The source desktop workflow passed context/native access, multi-selection, cancellation, side isolation, nonrecursive folders, stale permissions and history. Menu inventory/keyboard regression passed. Actual light/dark screenshots were inspected and dark control contrast corrected. Both Apple Silicon and Intel Mac package workflows passed. All package versions and changed assets matched source, including the Windows helper at its external resource path. ZIP integrity and download links, sizes, SHA-256 and Windows ZIP browser download passed. No reference branding was found in shipped source. Windows runtime remains unverified.

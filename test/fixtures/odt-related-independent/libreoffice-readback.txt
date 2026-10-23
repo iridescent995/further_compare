@@ -1,0 +1,39 @@
+POLICY NEVER_EXECUTE=0 NO_UPDATE=0
+DOCUMENT	baseline.odt
+BODY	Body alpha1 middlei omega.\nBody second section.\nBody final.
+FOOTNOTE	1	Footnote 中 original
+ENDNOTE	1	Endnote original
+PAGE	First	inUse=true
+HeaderText	Header Café original
+FooterText	Footer Ω original
+PAGE	Second	inUse=true
+HeaderText	Second header shared meaning
+FooterText	Second footer
+PAGE	Unused	inUse=false
+HeaderText	UNUSED HEADER MUST NOT APPEAR
+FooterText	UNUSED FOOTER MUST NOT APPEAR
+PAGE	Endnote	inUse=true
+HeaderText	Any[Type[void], null]
+FooterText	Any[Type[void], null]
+PARAGRAPH	InheritedStart	First
+PARAGRAPH	Standard	Second
+PARAGRAPH	Standard	Second
+DOCUMENT	changed.odt
+BODY	Body alpha1 middlei omega.\nBody second section.\nBody final.
+FOOTNOTE	1	Footnote 中 changed
+ENDNOTE	1	Endnote changed
+PAGE	First	inUse=true
+HeaderText	Header Café changed
+FooterText	Footer Ω changed
+PAGE	Second	inUse=true
+HeaderText	Second header shared meaning
+FooterText	Second footer
+PAGE	Unused	inUse=false
+HeaderText	UNUSED HEADER MUST NOT APPEAR
+FooterText	UNUSED FOOTER MUST NOT APPEAR
+PAGE	Endnote	inUse=true
+HeaderText	Any[Type[void], null]
+FooterText	Any[Type[void], null]
+PARAGRAPH	InheritedStart	First
+PARAGRAPH	Standard	Second
+PARAGRAPH	Standard	Second

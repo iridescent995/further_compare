@@ -1,0 +1,972 @@
+{
+  "baseline.ods": [
+    {
+      "name": "Overview",
+      "ordinal": 0,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": "=SUM(B2:B3)",
+          "type": "f",
+          "cachedValue": 30
+        }
+      }
+    },
+    {
+      "name": "Hidden Δ",
+      "ordinal": 1,
+      "visibility": "hidden",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Secret",
+      "ordinal": 2,
+      "visibility": "hidden",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Empty",
+      "ordinal": 3,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "A2": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B2": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B3": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Café 中",
+      "ordinal": 4,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "Unicode Ω",
+          "type": "s",
+          "cachedValue": "Unicode Ω"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Removed",
+      "ordinal": 5,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    }
+  ],
+  "changed.ods": [
+    {
+      "name": "Added",
+      "ordinal": 0,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Café 中",
+      "ordinal": 1,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "Unicode Ω",
+          "type": "s",
+          "cachedValue": "Unicode Ω"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Overview",
+      "ordinal": 2,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": "=SUM(B2:B3)",
+          "type": "f",
+          "cachedValue": 30
+        }
+      }
+    },
+    {
+      "name": "Secret",
+      "ordinal": 3,
+      "visibility": "hidden",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Hidden Δ",
+      "ordinal": 4,
+      "visibility": "hidden",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 21,
+          "type": "n",
+          "cachedValue": 21
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Empty",
+      "ordinal": 5,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "A2": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B2": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B3": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Renamed",
+      "ordinal": 6,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    }
+  ],
+  "baseline.xls": [
+    {
+      "name": "Overview",
+      "ordinal": 0,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": "=SUM(B2:B3)",
+          "type": "f",
+          "cachedValue": 30
+        }
+      }
+    },
+    {
+      "name": "Hidden Δ",
+      "ordinal": 1,
+      "visibility": "hidden",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Secret",
+      "ordinal": 2,
+      "visibility": "hidden",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Empty",
+      "ordinal": 3,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "A2": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B2": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B3": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Café 中",
+      "ordinal": 4,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "Unicode Ω",
+          "type": "s",
+          "cachedValue": "Unicode Ω"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Removed",
+      "ordinal": 5,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    }
+  ],
+  "changed.xls": [
+    {
+      "name": "Added",
+      "ordinal": 0,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Café 中",
+      "ordinal": 1,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "Unicode Ω",
+          "type": "s",
+          "cachedValue": "Unicode Ω"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Overview",
+      "ordinal": 2,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": "=SUM(B2:B3)",
+          "type": "f",
+          "cachedValue": 30
+        }
+      }
+    },
+    {
+      "name": "Secret",
+      "ordinal": 3,
+      "visibility": "hidden",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Hidden Δ",
+      "ordinal": 4,
+      "visibility": "hidden",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 21,
+          "type": "n",
+          "cachedValue": 21
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Empty",
+      "ordinal": 5,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "A2": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B2": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B3": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Renamed",
+      "ordinal": 6,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "cachedValue": "Key"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "cachedValue": "one"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "cachedValue": 10
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "cachedValue": 20
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    }
+  ],
+  "pandas-test1.xlsb": [
+    {
+      "name": "Sheet1",
+      "ordinal": 0,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "A2": {
+          "value": "2000-01-03 00:00:00",
+          "type": "d",
+          "cachedValue": "2000-01-03 00:00:00"
+        },
+        "B2": {
+          "value": 0.980268513777,
+          "type": "n",
+          "cachedValue": 0.980268513777
+        },
+        "B3": {
+          "value": 1.04791624281,
+          "type": "n",
+          "cachedValue": 1.04791624281
+        },
+        "B4": {
+          "value": 0.498580885705,
+          "type": "n",
+          "cachedValue": 0.498580885705
+        }
+      }
+    },
+    {
+      "name": "Sheet2",
+      "ordinal": 1,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "A2": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B2": {
+          "value": "col",
+          "type": "s",
+          "cachedValue": "col"
+        },
+        "B3": {
+          "value": 0.980268513777,
+          "type": "n",
+          "cachedValue": 0.980268513777
+        },
+        "B4": {
+          "value": 1.04791624281,
+          "type": "n",
+          "cachedValue": 1.04791624281
+        }
+      }
+    },
+    {
+      "name": "Sheet3",
+      "ordinal": 2,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": "A",
+          "type": "s",
+          "cachedValue": "A"
+        },
+        "A2": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B2": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B3": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    },
+    {
+      "name": "Sheet4",
+      "ordinal": 3,
+      "visibility": "visible",
+      "representativeCells": {
+        "A1": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        },
+        "A2": {
+          "value": "i1",
+          "type": "s",
+          "cachedValue": "i1"
+        },
+        "B2": {
+          "value": "a",
+          "type": "s",
+          "cachedValue": "a"
+        },
+        "B3": {
+          "value": "b",
+          "type": "s",
+          "cachedValue": "b"
+        },
+        "B4": {
+          "value": null,
+          "type": "n",
+          "cachedValue": null
+        }
+      }
+    }
+  ]
+}

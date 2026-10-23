@@ -1,0 +1,447 @@
+{
+  "baseline.xlsx": [
+    {
+      "name": "Overview",
+      "ordinal": 0,
+      "visibility": "visible",
+      "cells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B1": {
+          "value": "Value",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "numberFormat": "General"
+        },
+        "A3": {
+          "value": "two",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "numberFormat": "General"
+        },
+        "B4": {
+          "value": "=SUM(B2:B3)",
+          "type": "f",
+          "numberFormat": "General"
+        }
+      }
+    },
+    {
+      "name": "Hidden Δ",
+      "ordinal": 1,
+      "visibility": "hidden",
+      "cells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B1": {
+          "value": "Value",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "numberFormat": "General"
+        },
+        "A3": {
+          "value": "two",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "numberFormat": "General"
+        }
+      }
+    },
+    {
+      "name": "Secret",
+      "ordinal": 2,
+      "visibility": "veryHidden",
+      "cells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B1": {
+          "value": "Value",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "numberFormat": "General"
+        },
+        "A3": {
+          "value": "two",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "numberFormat": "General"
+        }
+      }
+    },
+    {
+      "name": "Empty",
+      "ordinal": 3,
+      "visibility": "visible",
+      "cells": {
+        "C5": {
+          "value": null,
+          "type": "n",
+          "numberFormat": "General"
+        }
+      }
+    },
+    {
+      "name": "Café 中",
+      "ordinal": 4,
+      "visibility": "visible",
+      "cells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B1": {
+          "value": "Value",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "A2": {
+          "value": "Unicode Ω",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "numberFormat": "0.00"
+        },
+        "A3": {
+          "value": "two",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "numberFormat": "General"
+        }
+      }
+    },
+    {
+      "name": "Removed",
+      "ordinal": 5,
+      "visibility": "visible",
+      "cells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B1": {
+          "value": "Value",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "numberFormat": "General"
+        },
+        "A3": {
+          "value": "two",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "numberFormat": "General"
+        }
+      }
+    }
+  ],
+  "changed.xlsx": [
+    {
+      "name": "Added",
+      "ordinal": 0,
+      "visibility": "visible",
+      "cells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B1": {
+          "value": "Value",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "numberFormat": "General"
+        },
+        "A3": {
+          "value": "two",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "numberFormat": "General"
+        }
+      }
+    },
+    {
+      "name": "Café 中",
+      "ordinal": 1,
+      "visibility": "visible",
+      "cells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B1": {
+          "value": "Value",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "A2": {
+          "value": "Unicode Ω",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "numberFormat": "0.000"
+        },
+        "A3": {
+          "value": "two",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "numberFormat": "General"
+        }
+      }
+    },
+    {
+      "name": "Overview",
+      "ordinal": 2,
+      "visibility": "visible",
+      "cells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B1": {
+          "value": "Value",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "numberFormat": "General"
+        },
+        "A3": {
+          "value": "two",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "numberFormat": "General"
+        },
+        "B4": {
+          "value": "=SUM(B2:B3)",
+          "type": "f",
+          "numberFormat": "General"
+        }
+      }
+    },
+    {
+      "name": "Secret",
+      "ordinal": 3,
+      "visibility": "hidden",
+      "cells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B1": {
+          "value": "Value",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "numberFormat": "General"
+        },
+        "A3": {
+          "value": "two",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "numberFormat": "General"
+        }
+      }
+    },
+    {
+      "name": "Hidden Δ",
+      "ordinal": 4,
+      "visibility": "hidden",
+      "cells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B1": {
+          "value": "Value",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "numberFormat": "General"
+        },
+        "A3": {
+          "value": "two",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B3": {
+          "value": 21,
+          "type": "n",
+          "numberFormat": "General"
+        }
+      }
+    },
+    {
+      "name": "Empty",
+      "ordinal": 5,
+      "visibility": "visible",
+      "cells": {
+        "C5": {
+          "value": null,
+          "type": "n",
+          "numberFormat": "General"
+        }
+      }
+    },
+    {
+      "name": "Renamed",
+      "ordinal": 6,
+      "visibility": "visible",
+      "cells": {
+        "A1": {
+          "value": "Key",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B1": {
+          "value": "Value",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "A2": {
+          "value": "one",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B2": {
+          "value": 10,
+          "type": "n",
+          "numberFormat": "General"
+        },
+        "A3": {
+          "value": "two",
+          "type": "s",
+          "numberFormat": "General"
+        },
+        "B3": {
+          "value": 20,
+          "type": "n",
+          "numberFormat": "General"
+        }
+      }
+    }
+  ]
+}

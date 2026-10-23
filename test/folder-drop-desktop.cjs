@@ -1,0 +1,23 @@
+'use strict';
+const {_electron:electron,expect}=require('@playwright/test');
+const fs=require('node:fs/promises'),os=require('node:os'),path=require('node:path'),assert=require('node:assert/strict');
+(async()=>{const temp=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'fc-folder-drop-')));let app,page;try{
+ const left=path.join(temp,'left'),right=path.join(temp,'right'),replacement=path.join(temp,'replacement');
+ for(const root of [left,right,replacement]){await fs.mkdir(root);await fs.writeFile(path.join(root,'sample.txt'),root===right?'right':'left');}
+ const env={...process.env,FC_USER_DATA_DIR:path.join(temp,'profile')};delete env.ELECTRON_RUN_AS_NODE;
+ app=await electron.launch({...(process.env.FC_TEST_EXECUTABLE?{executablePath:process.env.FC_TEST_EXECUTABLE,args:[]}:{args:[process.cwd()]}),env});page=await app.firstWindow();const errors=[];page.on('pageerror',error=>errors.push(error.message));
+ await page.locator('#welcome [data-command="new:folder-compare"]').click();const ready=()=>expect(page.locator('body')).toHaveAttribute('aria-busy','false');await ready();const tabs=await page.getByRole('tab').count(),cdp=await page.context().newCDPSession(page);
+ const drop=async(selector,files)=>{const box=await page.locator(selector).boundingBox();assert.ok(box);const data={items:[],files,dragOperationsMask:1},position={x:box.x+box.width/2,y:box.y+Math.min(70,box.height/2)};for(const type of ['dragEnter','dragOver'])await cdp.send('Input.dispatchDragEvent',{type,...position,data});await expect(page.locator('.folder-drop-target')).toHaveCount(1);if(files[0]===replacement&&selector==='.folder-pane:first-child')await page.screenshot({path:'/private/tmp/further-folder-drop.png'});await cdp.send('Input.dispatchDragEvent',{type:'drop',...position,data});await expect(page.locator('.folder-drop-target')).toHaveCount(0);};
+ await drop('.folder-pane:first-child',[left]);await expect(page.locator('#pathA')).toHaveValue(left);await ready();
+ await drop('#pathB >> xpath=..',[right]);await expect(page.locator('#pathB')).toHaveValue(right);await ready();await expect(page.locator('#folderRowsA [data-path="sample.txt"]')).toHaveClass(/changed/);assert.equal(await page.getByRole('tab').count(),tabs);
+ await drop('.folder-pane:first-child',[path.join(left,'sample.txt')]);await expect(page.locator('#notice')).toBeVisible();await ready();await expect(page.locator('#pathA')).toHaveValue(left);await expect(page.locator('#pathB')).toHaveValue(right);
+ await drop('.folder-pane:last-child',[left,right]);await expect(page.locator('#notice')).toContainText('Drop one folder');await expect(page.locator('#pathB')).toHaveValue(right);
+ await drop('.folder-pane:first-child',[replacement]);await expect(page.locator('#pathA')).toHaveValue(replacement);await ready();await expect(page.locator('#pathB')).toHaveValue(right);assert.equal(await page.getByRole('tab').count(),tabs);
+ await page.locator('#folderBackA').click();await expect(page.locator('#pathA')).toHaveValue(left);await ready();
+ // A second drop waits for an in-flight navigation rather than racing its root changes.
+ await app.evaluate(({ipcMain})=>{const original=ipcMain._invokeHandlers.get('folders:navigate');ipcMain.removeHandler('folders:navigate');global.dropCalls=[];let first=true;ipcMain.handle('folders:navigate',async(...args)=>{global.dropCalls.push([args[1],args[3]]);if(first){first=false;await new Promise(resolve=>{global.releaseDrop=resolve;});}return original(...args);});});
+ await drop('.folder-pane:first-child',[replacement]);await expect.poll(()=>app.evaluate(()=>typeof global.releaseDrop)).toBe('function');await drop('.folder-pane:last-child',[left]);assert.deepEqual(await app.evaluate(()=>global.dropCalls),[['a',replacement]]);
+ await app.evaluate(()=>global.releaseDrop());await expect(page.locator('#pathA')).toHaveValue(replacement);await expect(page.locator('#pathB')).toHaveValue(left);await ready();assert.deepEqual(await app.evaluate(()=>global.dropCalls),[['a',replacement],['b',left]]);assert.equal(await page.getByRole('tab').count(),tabs);
+ assert.equal(await page.evaluate(()=>window.desktop.droppedFilePath(new File(['test'],'fake'))),'');assert.deepEqual(errors,[]);
+ console.log('Folder drop passed: native directory drops onto pane/path, correct side, inline root replacement, navigation history, invalid file/multiple drop rejection and highlight cleanup.');
+}finally{if(page&&!page.isClosed())await page.evaluate(()=>window.__fcAllowClose=true).catch(()=>{});if(app)await app.close();await fs.rm(temp,{recursive:true,force:true});}})().catch(error=>{console.error(error);process.exitCode=1;});

@@ -1,0 +1,2 @@
+// Generated path is absolute so resource compilation does not depend on cwd.
+101 ICON "@FC_EXPLORER_ICON@"

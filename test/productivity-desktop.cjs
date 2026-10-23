@@ -1,0 +1,53 @@
+'use strict';
+const {_electron:electron,expect}=require('@playwright/test');
+const assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path'),os=require('node:os');
+(async()=>{
+ const temporary=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'fc-productivity-')));
+ const left=path.join(temporary,'left'),right=path.join(temporary,'right'),data=path.join(temporary,'data'),session=path.join(temporary,'tools.fcompare'),snapA=path.join(temporary,'a.fcsnapshot'),snapB=path.join(temporary,'b.fcsnapshot');
+ let app,page;
+ try{
+  await Promise.all([left,right,data].map(p=>fs.mkdir(p)));
+  await Promise.all([fs.writeFile(path.join(left,'changed.txt'),'left'),fs.writeFile(path.join(right,'changed.txt'),'rght'),fs.writeFile(path.join(left,'only.txt'),'only'),fs.writeFile(path.join(left,'skip.log'),'skip'),fs.writeFile(path.join(right,'same.txt'),'same'),fs.writeFile(path.join(left,'same.txt'),'same')]);
+  const env={...process.env,FC_USER_DATA_DIR:data};delete env.ELECTRON_RUN_AS_NODE;delete env.FC_SMOKE;
+  app=await electron.launch({args:[path.resolve(__dirname,'..')],...(process.env.FC_EXECUTABLE?{executablePath:process.env.FC_EXECUTABLE}:{}),env,timeout:30000});
+  page=await app.firstWindow();page.setDefaultTimeout(15000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await app.evaluate(({dialog},c)=>{
+   let nextFolder=0;
+   dialog.showOpenDialog=async(_w,o)=>({canceled:false,filePaths:o.properties.includes('multiSelections')?[c.snapA,c.snapB]:o.properties.includes('openDirectory')?[[c.left,c.right][nextFolder++]]:[c.session]});
+   dialog.showSaveDialog=async(_w,o)=>({canceled:false,filePath:o.title==='Save folder snapshot'?(o.defaultPath.startsWith('left')?c.snapA:c.snapB):c.session});
+   dialog.showMessageBox=async()=>({response:1});
+  },{left,right,session,snapA,snapB});
+  const menu=command=>app.evaluate(({BrowserWindow},command)=>BrowserWindow.getAllWindows()[0].webContents.send('menu-action',command),command);
+  await page.locator('#welcome [data-command="new:text-compare"]').click();
+  await page.locator('#textA').fill('alpha\nbeta alpha\nomega');await page.locator('#textB').fill('alpha\nbeta alpha\nomega');
+  await expect(page.locator('#diffSummary')).toHaveText('Texts are identical');await expect(page.locator('#inputView')).toBeVisible();await menu('text:find');await expect(page.locator('#inputView')).toBeVisible();
+  const tools=page.locator('#textTools, #textToolsMain');await page.locator('#textA').focus();
+  await tools.getByLabel('Find text',{exact:true}).fill('alpha');await tools.getByRole('button',{name:'Next',exact:true}).click();
+  assert.equal(await page.locator('#textA').evaluate(el=>el.value.slice(el.selectionStart,el.selectionEnd)),'alpha');
+  await tools.getByLabel('Replacement text').fill('delta');await tools.getByRole('button',{name:'Replace all',exact:true}).click();
+  await expect(page.locator('#textA')).toHaveValue('delta\nbeta delta\nomega');
+  await tools.getByRole('button',{name:'More',exact:true}).click();await tools.getByLabel('Go to line').fill('3');await tools.getByRole('button',{name:'Go',exact:true}).click();
+  assert.equal(await page.locator('#textA').evaluate(el=>el.selectionStart),17);
+  await tools.getByRole('button',{name:'More',exact:true}).click();await tools.getByRole('button',{name:'Bookmark',exact:true}).click();await tools.getByLabel('Wrap',{exact:true}).check();
+  await menu('save-session');await expect(page.locator('#dirtyIndicator')).toBeHidden();
+  const saved=JSON.parse(await fs.readFile(session,'utf8'));assert.equal(saved.options.textTools.query,'alpha');assert.deepEqual(saved.options.textTools.bookmarks.a,[3]);assert.equal(saved.options.textTools.wrap,true);
+  await page.locator('#newTab').click();await page.locator('#welcome [data-command="new:text-compare"]').click();await menu('open-session');
+  await expect(page.locator('#textA')).toHaveValue('delta\nbeta delta\nomega');
+  await expect(tools.getByLabel('Find text',{exact:true})).toHaveValue('alpha');await expect(tools.getByLabel('Wrap',{exact:true})).toBeChecked();
+  await tools.getByRole('button',{name:'More',exact:true}).click();await tools.getByLabel('Go to line').fill('1');await tools.getByRole('button',{name:'Go',exact:true}).click();await tools.getByRole('button',{name:'More',exact:true}).click();await tools.getByRole('button',{name:'Next mark',exact:true}).click();assert.equal(await page.locator('#textA').evaluate(el=>el.selectionStart),17);
+  await page.screenshot({path:'/private/tmp/further-productivity.png',fullPage:true});
+  await page.locator('#newTab').click();await page.locator('#welcome [data-command="new:folder-compare"]').click();await page.locator('#openA').click();await page.locator('#openB').click();
+  const rows=page.locator('#folderRowsA .folder-entry');await expect(rows).toHaveCount(4);
+  await page.locator('#folderInclude').fill('*.txt');await expect(rows).toHaveCount(3);
+  await page.locator('#folderExclude').fill('same*');await expect(rows).toHaveCount(2);
+  await page.locator('#folderSelectRule').selectOption('left-only');await expect(page.locator('#folderRowsA .folder-entry[aria-selected="true"]')).toHaveCount(1);await expect(page.locator('#folderRowsA .folder-entry[aria-selected="true"]')).toHaveAttribute('data-path','only.txt');
+  await expect(page.locator('#folderRowsA .folder-entry[data-path="changed.txt"]')).toHaveClass(/changed/);
+  await page.locator('#folderSelectRule').selectOption('changed');await expect(page.locator('#folderRowsA .folder-entry[aria-selected="true"]')).toHaveCount(1);await expect(page.locator('#folderRowsA .folder-entry[aria-selected="true"]')).toHaveAttribute('data-path','changed.txt');
+  await page.screenshot({path:'/private/tmp/further-folder-filters.png',fullPage:true});
+  await menu('save-session');await expect(page.locator('#dirtyIndicator')).toBeHidden();const folderSaved=JSON.parse(await fs.readFile(session,'utf8'));assert.equal(folderSaved.options.folderInclude,'*.txt');assert.equal(folderSaved.options.folderExclude,'same*');
+  await menu('snapshot-save-left');await expect.poll(()=>fs.stat(snapA).then(()=>true).catch(()=>false)).toBe(true);await menu('snapshot-save-right');await expect.poll(()=>fs.stat(snapB).then(()=>true).catch(()=>false)).toBe(true);
+  await menu('snapshot-compare');await expect(page.locator('#snapshotDialog')).toBeVisible();await expect(page.locator('#snapshotSummary')).toContainText('Read-only');await expect(page.locator('#snapshotRows tr')).toHaveCount(3);await page.locator('#snapshotDiffOnly').uncheck();await expect(page.locator('#snapshotRows tr')).toHaveCount(4);
+  assert.equal(await fs.readFile(path.join(left,'changed.txt'),'utf8'),'left');assert.equal(await fs.readFile(path.join(right,'changed.txt'),'utf8'),'rght');await page.locator('#snapshotClose').click();
+  await page.screenshot({path:path.join(temporary,'productivity.png'),fullPage:true});assert.deepEqual(errors,[]);console.log('Productivity desktop workflow passed');
+ }finally{if(page)await page.evaluate(()=>window.__fcAllowClose=true).catch(()=>{});if(app)await app.close();await fs.rm(temporary,{recursive:true,force:true});}
+})().catch(error=>{console.error(error);process.exitCode=1;});

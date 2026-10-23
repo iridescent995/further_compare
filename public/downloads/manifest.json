@@ -1,0 +1,17 @@
+{
+  "mac-arm64": {
+    "url": "downloads/Further-Compare-mac-arm64.zip",
+    "size": 137027514,
+    "sha256": "17d0b0032a75be123c73c89a072fe63e6691839bf46d8977c4a00e24de5b807c"
+  },
+  "mac-x64": {
+    "url": "downloads/Further-Compare-mac-x64.zip",
+    "size": 144114195,
+    "sha256": "d99a4ccc844260fda4ae02cf68a96d66d3961ca2e5635f7a14cc871db51d5ff9"
+  },
+  "windows-x64": {
+    "url": "downloads/Further-Compare-windows-x64.zip",
+    "size": 162688884,
+    "sha256": "a4333c478a3e06c93fc02e95dec990560f3b1d43cce886da426ccbbcacf23c86"
+  }
+}

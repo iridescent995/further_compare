@@ -1,0 +1,60 @@
+'use strict';
+const {_electron:electron,expect:baseExpect}=require('@playwright/test'),expect=baseExpect.configure({timeout:15000});
+const fs=require('node:fs/promises'),os=require('node:os'),path=require('node:path'),assert=require('node:assert/strict');
+const {clickFolderAction}=require('./folder-context-helper.cjs');
+(async()=>{
+ const base=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'fc-extension-policy-')));let app,page;
+ try{
+  const roots=['left','right'].map(n=>path.join(base,n)),saved=path.join(base,'extensions.fcompare');
+  for(let side=0;side<2;side++){
+   await fs.mkdir(path.join(roots[side],'Source','closed'),{recursive:true});
+   await fs.mkdir(path.join(roots[side],side?'Dir.new':'Dir.old'));
+   for(const [name,content]of [[side?'configs.md':'configs.txt',side?'right text':'left text'],['Source/'+(side?'child.md':'child.txt'),side?'right child':'left child'],['Source/closed/'+(side?'deep.md':'deep.txt'),side?'right deep':'left deep'],['exact.txt','exact bytes'],[side?'exact.md':'exact.csv',side?'right remaining':'left remaining'],[side?'ambiguous.md':'ambiguous.txt','ambiguous bytes'],...(!side?[['ambiguous.csv','second left']]:[])])await fs.writeFile(path.join(roots[side],name),content);
+  }
+  const env={...process.env,FC_USER_DATA_DIR:path.join(base,'profile')};delete env.ELECTRON_RUN_AS_NODE;delete env.FC_SMOKE;
+  app=await electron.launch({...(process.env.FC_TEST_EXECUTABLE?{executablePath:process.env.FC_TEST_EXECUTABLE,args:[]}:{args:[path.resolve(__dirname,'..')]}),env,timeout:30000});page=await app.firstWindow();page.setDefaultTimeout(15000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.evaluate(()=>Object.defineProperty(document,'hidden',{configurable:true,get:()=>true}));
+  await app.evaluate(({BrowserWindow,dialog,ipcMain},{roots,saved})=>{
+   BrowserWindow.getAllWindows().forEach(w=>{w.webContents.setBackgroundThrottling(false);w.hide();});global.nameFiles=roots;global.nameReads=[];
+   dialog.showOpenDialog=async()=>({canceled:false,filePaths:[global.nameFiles.shift()]});dialog.showSaveDialog=async()=>({canceled:false,filePath:saved});dialog.showMessageBox=async()=>({response:1});
+   const original=ipcMain._invokeHandlers.get('folders:tree-list');ipcMain.removeHandler('folders:tree-list');ipcMain.handle('folders:tree-list',async(...args)=>{if(global.nameGate?.armed){global.nameGate.armed=false;global.nameGate.held=true;await new Promise(resolve=>global.nameGate.release=()=>{global.nameGate.held=false;resolve();});}global.nameReads.push(args[1]);return original(...args);});
+  },{roots:[...roots],saved});
+  const ready=()=>expect(page.locator('body')).toHaveAttribute('aria-busy','false');
+  const row=(side,name)=>page.locator('#folderRows'+side+' .folder-entry').and(page.locator('[data-path='+JSON.stringify(name)+']'));
+  const command=action=>app.evaluate(({BrowserWindow},action)=>BrowserWindow.getAllWindows()[0].webContents.send('menu-action',action),action);
+  const options=page.locator('#folderOptionsDialog'),extensionBox=page.locator('#folderNameIgnoreExtension');
+  const open=async()=>{await command('folder:name-options');await expect(options).toBeVisible();};
+  const close=async()=>{await options.locator('[data-done]').click();await ready();};
+  const paired=async(a,b)=>{await expect(row('A',a)).toHaveCount(1);await expect(row('B',b)).toHaveCount(1);await expect.poll(async()=>await row('A',a).getAttribute('data-id')===await row('B',b).getAttribute('data-id')).toBe(true);};
+  const active=()=>page.locator('#sessionTabs [role="tab"][aria-selected="true"]').evaluate(el=>el.parentElement.dataset.sessionId);
+  await ready();await command('new:folder-compare');await ready();await page.locator('#openA').click();await ready();await page.locator('#openB').click();await ready();
+  await expect(row('A','configs.txt')).toHaveClass(/\bleft\b/);await expect(row('B','configs.md')).toHaveClass(/\bright\b/);
+  await app.evaluate(({Menu,BrowserWindow})=>{const find=menu=>{for(const item of menu.items){if(item.label==='Filename Matching…')return item;if(item.submenu){const match=find(item.submenu);if(match)return match;}}};const item=find(Menu.getApplicationMenu());if(!item)throw Error('Missing filename matching menu');item.click(item,BrowserWindow.getAllWindows()[0],{});});await expect(options).toBeVisible();await expect(extensionBox).not.toBeChecked();await extensionBox.check();await ready();await close();
+  await paired('configs.txt','configs.md');await paired('exact.txt','exact.txt');await paired('exact.csv','exact.md');
+  await expect(row('A','ambiguous.txt')).toHaveClass(/\bleft\b/);await expect(row('A','ambiguous.csv')).toHaveClass(/\bleft\b/);await expect(row('B','ambiguous.md')).toHaveClass(/\bright\b/);
+  await expect(row('A','Dir.old')).toHaveClass(/\bleft\b/);await expect(row('B','Dir.new')).toHaveClass(/\bright\b/);
+  await row('A','configs.txt').click({button:'right'});await clickFolderAction(page,'Filename matching…');await expect(options).toBeVisible();await expect(extensionBox).toBeChecked();await close();await paired('Source','Source');
+  await expect(row('A','configs.txt')).toHaveClass(/\bchanged\b/);await expect(row('A','Source/child.txt')).toHaveCount(0);
+  assert.ok((await app.evaluate(()=>global.nameReads)).every(id=>id==='root'),'Enabling name rules must not recursively list tree nodes');
+  // Copy the unopened directory: operation matching must include unopened descendants.
+  await row('A','Source').click({button:'right'});await clickFolderAction(page,'Copy to right');await expect(page.locator('#planDialog')).toBeVisible();
+  await expect(page.locator('#planOperations')).toContainText('Source/child.md');await expect(page.locator('#planOperations')).toContainText('Source/closed/deep.md');
+  await page.locator('#applyPlan').click();await expect(page.locator('#planDialog')).toBeHidden();await ready();
+  assert.equal(await fs.readFile(path.join(roots[1],'Source/child.md'),'utf8'),'left child');assert.equal(await fs.readFile(path.join(roots[1],'Source/closed/deep.md'),'utf8'),'left deep');
+  assert.deepEqual((await fs.readdir(path.join(roots[1],'Source'))).sort(),['child.md','closed']);
+  await paired('Source','Source');await row('A','Source').locator('.tree-toggle').click();await paired('Source/child.txt','Source/child.md');await expect(row('A','Source/child.txt')).toHaveClass(/\bequal\b/);
+  await expect(row('A','Source/closed/deep.txt')).toHaveCount(0);
+  const sourceId=await row('A','Source').getAttribute('data-id');assert.ok((await app.evaluate(()=>global.nameReads)).every(id=>id==='root'||id===sourceId),'Expansion must only list the opened node');
+  await row('A','Source/closed').locator('.tree-toggle').click();await paired('Source/closed/deep.txt','Source/closed/deep.md');await expect(row('A','Source/closed/deep.txt')).toHaveClass(/\bequal\b/);
+  const tabs=await page.getByRole('tab').count();await row('A','configs.txt').click();await expect(row('A','configs.txt')).toHaveClass(/selected/);assert.equal(await page.getByRole('tab').count(),tabs);
+  await row('B','configs.md').dblclick();await expect(page.locator('#textA')).toHaveValue('left text');await expect(page.locator('#textB')).toHaveValue('right text');await ready();await page.locator('#backToFolder').click();await ready();await paired('configs.txt','configs.md');
+  await row('B','configs.md').click({button:'right'});await clickFolderAction(page,'Copy to left');await expect(page.locator('#planDialog')).toBeVisible();await expect(page.locator('#planOperations')).toContainText('configs.md → configs.txt');await page.locator('#applyPlan').click();await expect(page.locator('#planDialog')).toBeHidden();await ready();assert.equal(await fs.readFile(path.join(roots[0],'configs.txt'),'utf8'),'right text');
+  await page.evaluate(()=>{window.nameDownloads=[];const blobs=new Map(),create=URL.createObjectURL.bind(URL),click=HTMLAnchorElement.prototype.click;URL.createObjectURL=blob=>{const url=create(blob);blobs.set(url,blob);return url;};HTMLAnchorElement.prototype.click=function(){if(this.download&&blobs.has(this.href)){window.nameDownloads.push(blobs.get(this.href).text());return;}return click.call(this);};});await command('folder:report');await expect(page.locator('#folderReportDialog')).toBeVisible();await page.locator('#folderReportFormat').selectOption('json');await page.locator('#folderReportExport').click();const report=JSON.parse(await page.evaluate(()=>window.nameDownloads.at(-1)));assert.deepEqual(report.nameRules,{ignoreExtension:true});await page.locator('#folderReportClose').click();
+  await command('save-session');await expect(page.locator('#dirtyIndicator')).toBeHidden();const data=JSON.parse(await fs.readFile(saved,'utf8'));assert.deepEqual(data.options.folderNameRules,{ignoreExtension:true});assert.deepEqual(data.options.folderAlignment||[],[],'Computed mappings must not become saved manual alignments');
+  const first=await active();await command('new:folder-compare');await expect.poll(active).not.toBe(first);await ready();await open();await expect(extensionBox).not.toBeChecked();await close();
+  await app.evaluate(({},saved)=>global.nameFiles.push(saved),saved);await command('open-session');await ready();await paired('configs.txt','configs.md');await command('swap');await ready();await expect(page.locator('#pathA')).toHaveValue(roots[1]);await paired('configs.md','configs.txt');await open();await expect(extensionBox).toBeChecked();if(process.env.FC_EXTENSION_SCREENSHOT){await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].showInactive());await page.evaluate(()=>delete document.hidden);for(const theme of ['light','dark']){await page.evaluate(theme=>document.body.dataset.theme=theme,theme);await page.screenshot({path:process.env.FC_EXTENSION_SCREENSHOT+'-'+theme+'.png'});}await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].hide());await page.evaluate(()=>Object.defineProperty(document,'hidden',{configurable:true,get:()=>true}));}await extensionBox.uncheck();await ready();await close();await expect(row('A','configs.md')).toHaveClass(/\bleft\b/);await expect(row('B','configs.txt')).toHaveClass(/\bright\b/);
+  await open();await extensionBox.check();await ready();await close();await command('session:defaults');const defaults=page.locator('#sessionDefaultsDialog');await expect(defaults).toBeVisible();await defaults.locator('[data-save]').click();await expect(defaults.locator('[data-result]')).toContainText('Defaults saved');await defaults.locator('[data-close]').click();await command('new:folder-compare');await ready();await open();await expect(extensionBox).toBeChecked();await close();await app.evaluate(({},roots)=>global.nameFiles.push(...roots),roots);await page.locator('#openA').click();await ready();await page.locator('#openB').click();await ready();await paired('configs.txt','configs.md');
+  const backupTexts=[];async function collect(dir){for(const entry of await fs.readdir(dir,{withFileTypes:true})){const name=path.join(dir,entry.name);if(entry.isDirectory())await collect(name);else if(entry.isFile())backupTexts.push(await fs.readFile(name,'utf8'));}}await collect(path.join(base,'profile','backups'));for(const original of ['right child','right deep','left text'])assert.ok(backupTexts.includes(original),'Missing overwritten backup: '+original);
+  assert.deepEqual(errors,[]);console.log('Extension matching passed: exact-first and unambiguous file-only pairing, lazy expansion, unopened descendant copy mappings and backups, selection/open, saved policy/manual separation, reopen/swap/defaults and opt-out.');
+ }finally{if(app)await app.evaluate(()=>global.nameGate?.release?.()).catch(()=>{});if(page&&!page.isClosed())await page.evaluate(()=>window.__fcAllowClose=true).catch(()=>{});if(app){/* All assertions are finished. Test-only teardown bypasses the intentional busy quit guard. */await app.evaluate(({app})=>app.exit(0)).catch(()=>{});await app.close().catch(()=>{});}await fs.rm(base,{recursive:true,force:true});}
+})().catch(e=>{console.error(e);process.exitCode=1;});

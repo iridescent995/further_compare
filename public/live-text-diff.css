@@ -1,0 +1,38 @@
+/* Native editable comparison: background-only, virtualized decorations. */
+.live-text-editor{position:relative;isolation:isolate}
+.editor-card textarea.live-text-area{position:relative;z-index:1;background:transparent!important;padding:8px 10px 8px 52px!important;min-height:0;flex:1}
+.live-text-decoration,.live-text-gutter{position:absolute;overflow:hidden;pointer-events:none}
+.live-text-decoration{z-index:0}.live-text-band{position:absolute;left:0;right:0}
+.live-text-band.changed{background:var(--live-changed,#fff0df)}.live-text-band.removed{background:var(--live-removed,#fce8ed)}.live-text-band.added{background:var(--live-added,#e3f3e8)}.live-text-band.minor{background:var(--live-minor,#eee9fb)}
+.live-text-band.current{box-shadow:inset 3px 0 #a273ad}.live-text-band.deemphasized{opacity:.24}
+.live-text-gutter{z-index:2;width:44px;background:var(--ui-surface,#faf9fc)}
+.live-text-number{position:absolute;left:0;width:44px;padding:0 8px 0 0;border:0;border-radius:0;background:transparent;color:var(--ui-muted,#8c8493);font:10px monospace;text-align:right;cursor:pointer;pointer-events:auto;box-shadow:none}
+.live-text-number.changed,.live-text-number.removed{color:#a24d58}.live-text-number.added{color:#397b51}.live-text-number.minor{color:#7860a1}.live-text-number.current{font-weight:700;background:var(--live-minor,#eee9fb)}.live-text-number.deemphasized{opacity:.4}
+.live-text-measure{position:fixed;left:-100000px;top:0;visibility:hidden;pointer-events:none;padding:0;border:0;box-sizing:content-box;contain:layout style}
+.live-text-measure>div{padding:0;margin:0;border:0;font:inherit;white-space:inherit;overflow-wrap:inherit;word-break:inherit;tab-size:inherit}
+body[data-theme=dark] .live-text-editor{--live-changed:#463c31;--live-removed:#483139;--live-added:#2c4338;--live-minor:#3b344d}
+body[data-theme=dark] .live-text-number.changed,body[data-theme=dark] .live-text-number.removed{color:#efacbb}body[data-theme=dark] .live-text-number.added{color:#a4d8b5}body[data-theme=dark] .live-text-number.minor{color:#c6b4ee}
+
+.live-text-inline{position:absolute;border-radius:2px;background:var(--live-inline,#edbdac);opacity:.65}.live-text-inline.deemphasized{opacity:.18}body[data-theme=dark] .live-text-editor{--live-inline:#95635f}
+
+.live-text-number.alignment-anchor{box-shadow:inset 3px 0 #a273ad}.live-text-number.alignment-picked{background:var(--live-minor,#eee9fb);font-weight:700;text-decoration:underline}
+body.compact-text-mode .editor-card textarea.live-text-area{line-height:1.6}
+
+/* Persistent line controls and compact, borderless section-copy arrows. */
+.editor-card textarea.live-text-area{padding-left:76px!important}
+.live-text-gutter{width:70px}
+.live-text-lines{position:absolute;inset:0;will-change:transform}
+.live-text-number{left:23px;width:47px}
+.live-text-copy{position:absolute;left:2px;width:21px;height:21px;padding:0;border:0!important;box-shadow:none!important;border-radius:5px;background:var(--live-minor,#eee9fb);color:var(--ui-text,#40374b);font:700 15px/21px system-ui;cursor:pointer;pointer-events:auto;transition:none!important;z-index:2}
+.live-text-copy:hover{background:var(--live-added,#e3f3e8)}
+.live-text-copy:focus-visible,.live-text-number:focus-visible{outline:2px solid #9276aa;outline-offset:-2px}
+.live-text-number.line-selected{background:var(--live-minor,#eee9fb);font-weight:700;color:var(--ui-text,#40374b)}
+.live-text-band.line-selected{box-shadow:inset 3px 0 #9276aa;background:var(--live-minor,#eee9fb)}
+
+/* Exact moved-text links occupy their own column, separate from copy actions. */
+.has-moved-text.editor-card textarea.live-text-area{padding-left:100px!important}
+.has-moved-text .live-text-gutter{width:94px}
+.live-text-move{position:absolute;left:71px;width:22px;padding:0;border:0;border-radius:4px;box-shadow:none;background:var(--live-minor,#eee9fb);color:var(--ui-text,#40374b);font:700 14px system-ui;pointer-events:auto;cursor:pointer;z-index:3}
+.live-text-move:hover{background:var(--live-added,#e3f3e8)}
+.live-text-move:focus-visible{outline:2px solid #9276aa;outline-offset:-2px}
+.live-text-band.moved-target{opacity:1;box-shadow:inset 4px 0 #9276aa;background:var(--live-minor,#eee9fb)}

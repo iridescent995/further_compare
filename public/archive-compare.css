@@ -1,0 +1,10 @@
+.archive-compare{padding:14px;min-width:0;overflow:auto}.archive-toolbar{display:flex;gap:7px;flex-wrap:wrap}.archive-status{font-size:12px;padding:10px;background:#edf2ee;border-radius:5px}.archive-table{border:1px solid #d5dcd7;font-size:12px;overflow:auto}.archive-row{display:grid;grid-template-columns:minmax(180px,1fr) 75px 145px minmax(180px,1fr) 75px 145px;min-height:25px;align-items:center;background:#fff;cursor:default}.archive-row:nth-child(odd){background:#f6f8f7}.archive-heading{font-weight:600;padding:6px 8px;background:#e8eeea!important;position:sticky;top:0;z-index:1}.archive-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.archive-size{font-variant-numeric:tabular-nums;text-align:right;padding-right:8px;color:#737b76}.archive-row.changed,.archive-row.conflict{color:#bf452d}.archive-row.left{color:#a04630}.archive-row.right{color:#704ab4}.archive-row.equal{color:#58645b}.archive-row.selected{background:#cbdff0!important}.archive-toggle{border:0;background:none;padding:0;width:17px;color:inherit;font-size:12px;cursor:pointer}.archive-row:focus{outline:2px solid #377563;outline-offset:-2px}
+
+.archive-modified{font-size:11px;color:#737b76;white-space:nowrap;padding-right:8px}
+
+
+
+.archive-modified{min-width:0;overflow:hidden;text-overflow:ellipsis}
+
+/* Keep rows stationary between the first and second click. */
+.archive-selection{flex:0 0 14ch;min-height:24px;white-space:nowrap;font-size:12px}

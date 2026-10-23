@@ -1,0 +1,9 @@
+# Release 2.133.0 — Workbook theme color comparison
+
+XLSX formatting comparison resolves theme references against each workbook’s actual palette. Identical stored indices with different palette colors now show formatting differences in fonts, fills, borders and rich text. Equivalent palette entries and explicit RGB colors normalize equally. Tint remains an explicit HLS parameter; this compares stored formatting rather than rendered pixels, and does not implement theme fonts or conditional formatting.
+
+Theme parts are located through workbook relationships, including relocated parts and encoded spaces. Invalid, external, missing or ambiguous theme data is rejected. Theme XML is capped at 1 MiB within the existing archive expansion limits. Imports validate before replacing the current input, file binding, result or history; session/type imports also await validation, and stale completions are discarded.
+
+The previous packaged Mac build reproduced the missed-color regression. Six new utility tests pass; the full unit suite passes 1,088 tests with one platform-specific skip. Browser and source native tests cover palettes, fonts/fills/borders/rich text/tint, equivalent colors, opt-out, tabs, sessions, swaps, values-only exports and unchanged source bytes. Invalid imports preserve the full previous advanced state, file token and result. Existing native formatting, formula and layout workflows pass. Two existing swap assertions now wait for the swapped contents rather than an unchanged difference count.
+
+Both final Mac packages passed the theme regression and invalid-import retention checks. All three ZIPs passed integrity checks; packaged versions and final renderer assets match source. Download links, sizes, SHA-256 and Windows ZIP browser download passed. Shipped branding checks are clear. Actual Windows runtime and remaining full-product scope remain open.

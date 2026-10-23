@@ -1,0 +1,9 @@
+# Release 2.105.0 — add disk files to archives
+
+Archive Edit and right-click menus now offer Add files to left/right. Choose multiple regular files, review the destination folder inside the archive, inspect additions and overwrites, and apply changes in memory. An empty destination means the archive root; a selected directory supplies the default destination. An unopened side becomes a new archive. Undo and redo include imports; tabs and saved sessions retain the resulting contents.
+
+The native picker reads snapshots without changing source files or granting persistent disk authority. Imports are limited to 5,000 files and 32 MiB of selected content. Review rejects unsafe paths, duplicate/case-conflicting names, file/folder conflicts, and output beyond the existing 32 MiB ZIP limit. Changes to the destination invalidate the review. Canceled or obsolete picker responses do not modify the archive. Save ZIP remains a separate explicit action.
+
+Validation: 877 unit tests passed, with one Windows-native attribute test skipped. Source desktop tests passed binary/empty files, overwrite counts, destination validation, cancellation, new archives, exact exports, undo/redo, tabs/sessions and unchanged input files. Browser tests reject late picker results after reset or session replacement. Light and dark review screenshots were inspected; the destination field was widened for longer paths.
+
+Both Apple Silicon and Intel Mac packages passed the complete import workflow. Existing archive history, save, context-menu and keyboard regressions passed. All three package versions, UI and native bridge files matched the build. ZIP integrity, download links, sizes, SHA-256 and browser download checks passed. Shipped source contained no reference-product branding. Recursive disk-folder imports, contained-file content editing, broader archive formats/metadata, remote providers, Windows runtime validation and remaining full-product scope stay open.

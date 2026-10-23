@@ -1,0 +1,57 @@
+# ODS preserving edits: technical plan
+
+Planning only, inspected on 2026-10-23. No exporter, capability flag, session schema or production route is changed by this document. This is the proposed next spreadsheet milestone, not an implementation or full-product completion claim.
+
+## Current gap and entry points
+
+- `src/ods-input.cjs:readOdsWorkbook` admits bounded ODS packages and returns values, typed cells and formula identities. Its capability object explicitly has `preserveSource:false`. `parseOdfXml` is exported and can supply the same strict namespace/XML admission to a writer. `src/ods-input.js` is its browser-facing wrapper.
+- `src/ods-formula.cjs:describeOdsFormula` deliberately marks repeated formulas unsupported for expression identity. A writer cannot treat these as ordinary duplicated cells.
+- `src/advanced.js:initializeTableResult` binds a template only for XLSX. `preservedWorkbook` checks the original hash, named sheet, shape and edits, then invokes `exportWorkbookCopy`. Reuse the snapshot/request guards and history integration; do not route ODS through the XLSX package engine.
+- `desktop/sessions.cjs:validateAdvanced` requires an XLSX input for `tableTemplate`. `tableCellEdits`, copied styles and structural operations also assume the XLSX template contract. Format-specific state must be explicit and backward compatible.
+- `desktop/window-runtime.cjs:data:save` and `allTableSources` protect original ODS/XLS/XLSB inputs and aliases from values-only exports. A preserving copy must retain these protections rather than bypassing them by dropping `kind:'table-values'`.
+- `src/advanced.js:getArchiveResult` currently limits table-child writeback to CSV/TSV/XLSX. `src/app.js` owns live parent links; `src/archive-compare.js` owns reviewed staging and parent history. ODS requires a preserving result, not a CSV payload renamed `.ods`.
+- `scripts/compare.cjs` exposes table comparison, but its table branch currently decodes delimited text. It has no ODS preserving-edit command. Do not describe browser/native coverage as CLI parity.
+
+## Initial milestone and later feature scope
+
+The initial milestone is **Save ODS workbook copy for literal edits at existing logical coordinates**. Bind to one original sheet and package hash; preserve unchanged package parts, sheet structure, styles, formula expressions and unrelated content. A no-op must return the exact original bytes. Support ordinary text/blank edits and bounded splitting of repeated literal cells/rows. Existing values-only CSV/new-XLSX exports remain available with their existing meaning.
+
+This is not complete ODS editing. Structural row/column insert/delete, moving references, formula authoring/evaluation, copied styles, merged/matrix-region editing, editing repeated formula instances, encryption/signing, and exact original ZIP compression/metadata are separate unfinished capabilities. Explicitly identify them in the UI and capability metadata. Do not label all ODS documents preservable merely because a reader accepted them.
+
+## Engine and package invariants
+
+Proposed engine: `src/ods-preserve.js`, exporting an async function such as `exportOdsCopy(originalBytes, sheetName, changes, options)`. Each change has a bounded one-based row/column and explicit literal text/blank type. Snapshot arguments before awaiting, reject duplicate target coordinates, and return bytes only after validation. No filesystem/network calls belong in this engine.
+
+1. Reuse ODS reader admission: 32 MiB input/output, 4,096 package entries, 16 MiB content XML, 64 sheets, 50,000 rows, 512 columns, 500,000 projected cells, plus existing archive expansion/CRC and XML depth/node limits. Bound added XML nodes/text and aggregate edited coordinates before allocation. Validate every original package entry, not just content.xml.
+2. Require the correct MIME/manifest, unique named target sheet and supported namespaces. Refuse encrypted packages, signatures that an edit would invalidate, protected target sheets/cells, and unqualified extensions affecting edited cells. Preserve inert unrelated parts without executing scripts, links or macros. No-op can retain an otherwise uneditable package only after admission/integrity checks.
+3. Keep `mimetype` first, stored, with the required literal media type and no local extra field. Current `src/archive-edit.cjs:zipRecords` sorts paths alphabetically, so its ordinary writer cannot directly produce conformant ODS. Add a narrowly scoped ODS package writer or a tested explicit ordered-entry mechanism; do not silently change generic archive ordering. Preserve all untouched entry payloads byte-for-byte. State clearly that a changed ZIP container need not retain original compressed bytes, timestamps or comments.
+4. Patch `content.xml` by namespace identity, preserving styles, annotations, shapes, validation references and all unrelated children/attributes. Replace only edited cell value attributes and textual paragraphs; do not turn a leading `=` literal into a formula. Preserve spaces/tabs/line breaks through proper ODF text elements, and reject illegal XML characters/unpaired surrogates. If manifest size metadata must change, update only the matching content entry.
+5. Reparse the finished package with `readOdsWorkbook`, verify every edited logical value, preserved sheet identity/extent, and exact payload hashes of unchanged parts. A failed encode, output cap, reparse or stale request must leave editor state, history and native save authority unchanged.
+
+ODF package constraints are specified in [ODF 1.3 Part 2](https://docs.oasis-open.org/office/OpenDocument/v1.3/os/part2-packages/OpenDocument-v1.3-os-part2-packages.html). Cell, repetition and merge semantics must be qualified against [ODF 1.3 Part 3](https://docs.oasis-open.org/office/OpenDocument/v1.3/os/part3-schema/OpenDocument-v1.3-os-part3-schema.html) and independently produced fixtures before implementation claims.
+
+## Repeats, formulas and covered cells
+
+Build a bounded logical-coordinate index over row groups, row-repeat spans and cell-repeat spans without expanding huge trailing empty runs. Editing one literal instance splits a run into prefix/edited/suffix runs; retain all untouched attributes. Multiple edits in a run must be planned together in sorted coordinate order. Splitting a row duplicates more than cells: rows containing formula cells, named identities, drawings, annotations or other nonduplicable descendants require an explicit safe rule or rejection before mutation. Never expand a repeated million-row blank tail just to locate an existing target.
+
+Reject edits to covered cells, merged anchors and matrix-formula anchors/followers in the initial milestone; preserve those regions untouched elsewhere. Inspect matrix-span attributes explicitly—the current cached-value reader's ordinary merge checks alone are not writer authority. Do not split a repeated row containing a formula until relative references and repeated-formula semantics have independently verified rebasing rules.
+
+Formula expressions elsewhere remain unchanged, but literal edits can invalidate formula caches anywhere in the workbook. This is a required design gate, not a cosmetic warning: qualify a strategy that removes invalid caches while preserving expressions, and show unavailable cached results until an office application recalculates them. Never emit old caches as newly verified values. Prove the produced file opens/recalculates correctly in LibreOffice, including cross-sheet dependencies. If cache invalidation cannot be qualified, do not ship formula-containing editing as supported. No-op export retains original caches and bytes. Full dependency-aware recalculation is outside this milestone.
+
+## State and route integration
+
+Use a format-discriminated template contract, with legacy templates retaining their existing XLSX meaning. Persist only original bytes/hash, target sheet, supported literal edits and normal result data; never serialize parsed XML objects or a capability token. On restore, reconstruct capability from original bytes and revalidate edit coordinates. Original-side swap must update template side consistently. Undo/redo must restore template eligibility and literal changes together; structural actions make the initial ODS preserving path unavailable until undone.
+
+Browser: retain the original uploaded bytes, use the shared engine, and download a separately named `*-copy.ods`. Native: use the same bytes/engine, then the guarded separate-output save path; source and hardlink aliases remain protected across tabs/windows. Extend explicit save-kind validation only if needed, without weakening values-only guards.
+
+Archive: enable only for an existing linked ODS entry whose current original bytes match the bound template. Use existing review/cancel, post-review generation/pending-read checks, stale-parent checks and in-memory parent Undo/Redo. Keep original archives immutable and require explicit parent export. Session restoration never manufactures runtime parent-entry authority. Replacing the full target workbook from the opposite-side template must be explicit in the review, including which workbook supplies other sheets.
+
+CLI/batch: leave existing delimited-table behavior honest. A separate qualified follow-on must first add ODS reading/report capabilities through the shared reader and bounded DOM adapter. A scripted preserving-edit command needs its own validated edit-plan schema, input hash binding, dry-run summary, exclusive output publication and source/alias protections. Reuse the same engine; do not introduce an unreviewed mutation flag to the current comparison CLI. CLI mutation coverage remains unfinished after the interactive milestone.
+
+## Independent fixtures and acceptance
+
+Extend the existing independent `test/ods-produce.cjs` / `test/ods-fixtures` workflow using the available LibreOffice wrapper. Retain the producer version and commands. Build controlled source documents with multiple sheets, named/styles/number formats, Unicode and whitespace, literal `=...` text, dates/currency/booleans, annotations, repeated literals, repeated empty tails, formulas with cross-sheet dependencies, merged covered positions, and matrix formulas. Prefer genuine producer output for supported cases; derive malformed/security/repetition-boundary fixtures separately and label them.
+
+Use Python ZIP/XML inspection for independent entry hashes and first stored MIME validation, then LibreOffice open/save or UNO readback for logical values, types, formula expressions, styles and recalculated dependencies. The app's own reader alone is insufficient evidence. Existing LibreOffice-produced fixtures are not proof of Microsoft Excel-produced ODS interoperability; that remains a distinct qualification gap.
+
+Required tests: exact no-op bytes; one literal edit preserving other package parts; several edits inside repeated runs; unchanged non-target repeat instances; literal/formula distinction; unsupported merged/matrix/repeated-formula edits; malformed manifest/XML/CRC and namespace spoofing; cancellation and edits/replacement during export; byte/node/expansion caps; history/swap/session reconstruction; browser/native direct and folder opening; archive-child review/undo/stale-session authority; separate save rejecting source and hardlink aliases. Run source regressions, both final Mac packages and installed startup/save smoke. Windows runtime remains explicitly deferred; package/static checks do not substitute for it.

@@ -1,0 +1,45 @@
+{
+  "role": "/StructTreeRoot",
+  "children": [
+    {
+      "role": "/Document",
+      "children": [
+        {
+          "role": "/H1",
+          "children": [
+            0
+          ]
+        },
+        {
+          "role": "/Sect",
+          "children": [
+            {
+              "role": "/Standard",
+              "children": [
+                1
+              ]
+            },
+            {
+              "role": "/Standard",
+              "children": [
+                2
+              ]
+            },
+            {
+              "role": "/Standard",
+              "children": [
+                3
+              ]
+            },
+            {
+              "role": "/Standard",
+              "children": [
+                4
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

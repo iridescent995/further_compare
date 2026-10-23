@@ -1,0 +1,13 @@
+{
+  "producer": "openpyxl 3.1.5",
+  "purpose": "Same stored values; different explicit number formats, styled blanks and sheet switching. No SheetJS writer used.",
+  "sha256": {
+    "many.xlsx": "54879641abc4c7cf096d3b1b431727aac55fc3a4a475bd058854807f40015ed6",
+    "baseline.xlsx": "846dd5764ffb25a62a78956072383a66050f68fa91631b07a686d3d44c95b539",
+    "changed.xlsx": "8c15354a34de72e93c2e84d356948f31f6fc5a23f7c80f14a2eae149c1b51cbe",
+    "baseline.xls": "e14324604f2314387cef3ac8a65fc79a842adc2cb2e29827162b9d739925d4b7",
+    "changed.xls": "645a0043c54dc5503d2b561fd5667257784e6d0727be15cc3cfcba17d0dca750"
+  },
+  "xlsProducer": "LibreOfficeDev 26.8.0.0.alpha0 (2c87e51eeaa2b413ff4ae097b2705eea1995d8e5), MS Excel 97 conversion of independent openpyxl XLSX",
+  "xlsCommand": "soffice -env:UserInstallation=file:///private/tmp/fc-numberformats-lo --headless --convert-to 'xls:MS Excel 97' --outdir test/fixtures/workbook-number-formats baseline.xlsx changed.xlsx"
+}

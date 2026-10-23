@@ -1,0 +1,11 @@
+# Release 2.122.0 — Mirror selected folders from any folder session
+
+Folder context menus and the native Actions → Synchronize menu now offer Mirror to Left and Mirror to Right. These commands preview a one-way mirror without changing the current session type or stored direction.
+
+Selected folders include collapsed descendants. The preview lists copies, replacements and destination-only deletions, while preserving unselected siblings and entries excluded by the current file-action filters. Applying still uses the existing native confirmation, backups and stale-preview checks.
+
+The first native regression exposed an empty preview for a collapsed selected directory: the existing mapped planner intentionally operated on exact selected rows. The new commands opt into subtree selection, expanding selected paths in the mapped destination namespace. Existing exact-selection callers retain their behavior.
+
+Six new unit tests cover both directions, filtered destination-only parents, mapped directories and child names, reserved counterparts, disk changes after preview, and exact-selection compatibility. The full unit suite passes 979 tests with one Windows-only skip. Existing grouped context-menu and merge/sync direction regressions pass.
+
+The native source workflow passes both context and actual application-menu callbacks, preview cancellation, native-confirmation cancellation and accepted apply with exact bytes, filtered descendants and untouched sibling/session state. Its first native-menu check caught missing preload dispatch entries, which were added. The light preview screenshot was inspected for readable operation paths, scope, deletion warning and backup note. Both final Mac architectures pass the extended workflow across Folder Compare, Folder Merge and Folder Sync. All three ZIPs pass integrity checks; package versions, changed native modules and renderer assets match source. Download sizes, SHA-256 and Windows browser download pass; shipped branding search is clear. Light and dark previews were inspected: operation lists and actions fit, but the shared dark dialog’s muted description/backup text needs a contrast follow-up. Windows runtime and broader full-product scope remain open.

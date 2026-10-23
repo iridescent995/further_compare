@@ -1,0 +1,15 @@
+# Explorer application lifecycle composition
+
+This source milestone connects reviewed application actions to the existing lifecycle runner and durable recovery journal. It does not enable modern Explorer registration in the installed release. Windows runtime acceptance is deferred; signed SDK-built assets and a production authoritative inspector remain required.
+
+`windows-explorer-lifecycle-service.cjs` accepts private authoritative inspection, guarded execution and journal dependencies. Status and review inspect fresh state. A review retains the exact installation binding and snapshot digest privately, returns a one-use opaque token and a concise step list, and expires after sixty seconds by default. The latest review supersedes earlier reviews. Execution consumes its token before entering the serial queue and checks expiry after queueing. The runner reinspects before mutation, journals each step, validates postconditions and reports partial results without automatic rollback.
+
+The integration facade accepts only exact structured requests: status, review with install/repair/uninstall, and execute with a token. Renderer-provided paths, identities, snapshots or authority flags are rejected. Tokens are bound to the trusted originating webContents identity and revoked when that window is disposed. A changed packaged installation binding invalidates outstanding reviews. Only injected trusted host code can provide an authoritative adapter; the production default remains absent. The exact release configuration schema is unchanged, and a preference, JSON field or IPC request cannot enable mutation authority. Existing read-only evidence is not an authoritative runner snapshot.
+
+The setup UI uses returned capabilities to enable controls. It displays a concrete step review, prevents repeated execution, expires/cancels local reviews and ignores stale responses after closure. Execution is followed by fresh status. Registration postconditions never establish that Explorer has activated its menu. Recovery history is diagnostic and never grants replay authority.
+
+Tests use injected state transitions and real local journal persistence. Browser tests mock native responses to exercise available and unavailable workflows; they do not register Windows packages. Actual Windows SDK, signature, package deployment and menu acceptance remain open. Classic Explorer integration and existing Finder workflows remain available.
+
+## Validation result
+
+The final source build and Electron startup/shutdown smoke passed. The full unit suite passed 2,347 tests with one skip. Mocked Chrome lifecycle UI and existing shell-setup browser regressions passed. A review-discovered window-disposal scope error was fixed and now has full runtime construction/disposal coverage. Deterministic Explorer assets and optional resource staging are documented in the native Explorer README. This composition is packaged in 2.204.0 and installed on the local Mac. Modern Explorer activation remains unavailable and unverified on Windows.

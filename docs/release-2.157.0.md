@@ -1,0 +1,13 @@
+# Release 2.157.0 — Reviewed local and SFTP file copies
+
+Status: archives and downloads verified; packaged Apple Silicon and Intel checks pass.
+
+Selected regular files can now be copied between local and SFTP folders in either direction, or between SFTP folders, through the existing pane arrows, toolbar and right-click menu. The review honors selected-file filters and mapped filenames, distinguishes replacement from creation, and skips identical content. Directories remain disabled pending recursive transfer support.
+
+Transfers stream bounded chunks without the text editor's 10 MB limit. All replacements receive independently verified local recovery copies before the first file is published. Sources, destinations and staged bytes are rechecked. New destinations use no-overwrite publication; SFTP replacement requires its advertised atomic rename extension. Ordinary permissions and modification time are applied where supported; ownership, ACLs and extended metadata are not preserved. SFTP observations cannot eliminate the final external-edit race.
+
+Stop works during preview and execution, including a preview waiting in the native queue. Reviews are tied to their session, roots and tree revision and are consumed once. Partial completion, uncertain publication, verification failure and unattempted files remain visible in the result dialog and history with recovery paths. There is no automatic retry after uncertain publication. Remote text saving also recognizes numeric connection-loss statuses as uncertain outcomes after rename submission.
+
+Source checks cover large binary and empty files, all local/SFTP directions, exact encodings and bytes, stale content despite matching timestamps, new-destination races, backup corruption, cancellation, ownership cleanup and partial batch results. Actual Electron native and UI suites pass, including the queued Stop regression. Light/dark screenshots were inspected and dark unattempted rows pass a 4.5:1 contrast check.
+
+All three ZIP archives pass integrity checks and packaged version/source equality. Download links, sizes, SHA-256 values and the Windows ZIP browser download pass. The shipped branding scan is clear. Apple Silicon and Intel packaged native Copy, actual UI and remote text-save lifecycle suites pass (both final sequences exited 0). Evidence: `/private/tmp/fc-2.157-arm64-final.log` and `/private/tmp/fc-2.157-x64-final.log`. Actual Windows runtime remains unverified. Recovery directory-entry crash durability, recursive copy/move/mirror, remote session restoration and broader full-product parity remain unfinished.

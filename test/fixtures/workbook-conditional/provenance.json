@@ -1,0 +1,15 @@
+{
+  "producer": "openpyxl",
+  "version": "3.1.5",
+  "python": "3.12.14",
+  "generation": "generate.py; baseline/changed producer output; other cases documented XML mutations of baseline",
+  "sha256": {
+    "baseline.xlsx": "d2e410940fb98853956233c3ad79e8c02e0b044ed5b41b3b19f90561a6719d80",
+    "changed.xlsx": "d0ea91270e8a663028469a3b9af62a55a2c4894578f24753f915a2bea73d09d7",
+    "malformed-reference.xlsx": "9517ab73f9b8fe6c421e2329fecc10f9e3743ac5d646942883868191c9dfda71",
+    "paths-prefixes.xlsx": "d43a1fed0e6081f727c86feab6335a1f181e7a60fc547ccb26570c791278f1f7",
+    "renumbered.xlsx": "b22e380c285b58fe3c63b96eb2a172ac07aaff6f9a1250eb1eae388b78ad3da7",
+    "theme-changed.xlsx": "839860de79089b336b5c440344246e1ab988a33a611a69ec3065dd1d64fdcf72",
+    "unsupported.xlsx": "f97f6142d3b377f1f2accca7f9031c261319f2ed115dbf7856402e19e88ab9ea"
+  }
+}

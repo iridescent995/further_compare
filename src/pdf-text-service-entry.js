@@ -1,0 +1,2 @@
+import {extractPdfTextInBrowser} from './pdf-text-browser.js';
+window.pdfExtraction.receive(async ({bytes,order})=>{try{const result=await extractPdfTextInBrowser(bytes,{order,assetRoot:new URL('./',location.href).href});window.pdfExtraction.finish({ok:true,result});}catch(error){window.pdfExtraction.finish({ok:false,code:error?.code,error:String(error?.message||'PDF extraction failed.').slice(0,1024)});}});

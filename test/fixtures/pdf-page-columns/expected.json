@@ -1,0 +1,6 @@
+{
+  "producer": "ReportLab 4.4.9",
+  "columnText": "PAGE HEADING spans the left and right text columns\nLeft introduction\nLeft continuation\nLeft conclusion\nRight introduction\nRight continuation\nRight conclusion\nPAGE FOOTER spans the left and right text columns",
+  "changedText": "PAGE HEADING spans the left and right text columns\nLeft introduction\nLeft continuation\nLeft conclusion\nRight introduction\nRight changed\nRight conclusion\nPAGE FOOTER spans the left and right text columns",
+  "multiBandText": "PAGE HEADING spans the left and right text columns\nLeft introduction\nLeft continuation\nLeft conclusion\nRight introduction\nRight continuation\nRight conclusion\nSECOND BAND spans the left and right text columns\nLower left first\nLower left last\nLower right first\nLower right last\nPAGE FOOTER spans the left and right text columns"
+}

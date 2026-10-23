@@ -1,0 +1,9 @@
+# Release 2.103.0 — archive editing and ZIP export
+
+Archive comparisons now offer compact Edit archive and Save ZIP menus, plus right-click actions. Copy selected files/folders in either direction, delete entries, or rename a subtree after reviewing affected paths and overwrite counts. Apply updates in-memory archive contents; Save ZIP separately chooses an output destination. Edited inputs retain their contents across tabs and saved sessions and discard the original disk authority token.
+
+The writer validates paths, portable/case collisions, entry kinds, data sizes and CRCs before publishing an edited archive. Output uses stored ZIP entries, UTF-8 names and explicit directories, bounded to32MiB and50,000 entries. ZIP timestamps have2-second resolution and1980–2107 range; unsupported dates use1980-01-01. Archive comments, permissions, signatures and original compression are not preserved. TAR/TAR.GZ/JAR inputs export as ZIP.
+
+Validation:861 unit tests passed; one Windows-native attribute test was skipped. Source desktop tests passed copy/delete/rename review and cancellation, multi-selection, exact export bytes, unchanged source archives, removed dirty disk authority, saved-session/tab restoration and modal navigation guards. Browser tests proved pending edits cannot publish after reset and never save automatically. Existing entry-save, extraction and async archive regressions passed. Actual light/dark screenshots were inspected. Both Apple Silicon and Intel Mac packages passed the complete edit/export workflow. All three package versions/assets, ZIP integrity and download links/sizes/SHA-256/browser download passed. No reference branding was found in shipped source. Windows runtime remains unverified.
+
+Remaining scope includes archive content editing/additions, undo/redo, compressed and original-format output, ZIP64/encryption, remote profiles and Windows runtime validation.

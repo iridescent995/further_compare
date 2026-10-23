@@ -1,0 +1,9 @@
+# Further Compare 2.25.0
+
+Edit byte range opens an editor for the right file’s physical offsets. Replace bytes can change a range’s length; Insert bytes allows insertion at any valid offset including the end of an empty file; Delete bytes removes the specified range. Start and exclusive end offsets use hexadecimal. Replacement bytes accept complete hex pairs separated by whitespace. Invalid ranges and malformed data keep the dialog open with a clear error. Cancel leaves data and history unchanged.
+
+Click a right-side byte and Shift-click another to select a contiguous range and prefill the editor. Selection can extend across pages. Selecting a detected difference clears the manual selection so its offsets become the editor’s defaults.
+
+Undo edit and Redo edit now cover byte replacements, detected-difference copies and arbitrary range edits. New edits clear redo; no-op and rejected edits preserve it. The combined history holds up to 100 edits and 32 MB of stored byte data, discarding the farthest entries first. Opening inputs or switching sessions resets history. Output remains limited to 32 MB and changes remain in memory until Save result.
+
+Validation: all 193 unit tests passed, including history limits, inverse operations, no-op behavior and failure atomicity. Native development workflows passed for range selection, replacement, insertion, deletion, empty files, validation, cancellation, mixed undo/redo, saved bytes and source preservation; existing binary copy/alignment workflows also passed. The range workflow also passed in both final Mac packages, including cross-page selection. Light and dark dialog screenshots were inspected. All three packaged UIs match the build and their ZIP archives passed integrity checks. Windows runtime verification remains pending on a Windows host.

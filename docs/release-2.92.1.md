@@ -1,0 +1,9 @@
+# Release 2.92.1 — three-way folder context actions
+
+Three-way folder review now exposes its main workflows through a compact right-click menu: choose base/left/right folders, analyze, review resolution, export report, expand/collapse a folder, select output, preview/apply reviewed output changes and access recovery records. Conflict rows offer Use base, Use left, Use right and Clear choice. Missing-side choices explicitly say delete; blocked descendants do not offer independent conflict choices. Commands reuse existing controls and native confirmations.
+
+Changing a choice invalidates the prior resolution and output plan through the same handler as the dropdown. Menus close on outside pointer interaction, resize, operation start and plan invalidation. Apply/Restore commands capture their plan identity and reject a replaced plan. Right-click selects the target row; keyboard context and focus restoration are supported.
+
+Source runtime checks passed all menu routes, complete report exports, resolution choices, output preview/application and recovery access. A detached stale Apply regression replaces the plan under the same analysis, then verifies the old action cannot show confirmation or write output. Independent review identified the menu lifecycle defect; the fix and its regression were re-reviewed without further findings.
+
+The existing full three-way review/apply/recovery regression passed. Both final Mac packages passed context commands, all three side choices, dismissal, stale Apply rejection, output application and reports. All three package versions and changed assets match source; ZIP integrity, download links, sizes, SHA-256 and Windows ZIP browser download passed. No reference branding was found in shipped source. Full product parity and Windows runtime remain incomplete.

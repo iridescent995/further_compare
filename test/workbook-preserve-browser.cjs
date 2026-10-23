@@ -1,0 +1,17 @@
+'use strict';
+const {chromium,expect}=require('@playwright/test'),{build}=require('esbuild'),assert=require('node:assert/strict');
+const {workbookFixture,assertPreserved}=require('./workbook-preserve-fixture.cjs');
+(async()=>{
+ const original=await workbookFixture(),bundle=await build({entryPoints:['src/advanced.js'],bundle:true,write:false,format:'iife',globalName:'AdvancedHarness',platform:'browser'});
+ const browser=await chromium.launch({channel:'chrome',headless:true});try{
+  const page=await browser.newPage();await page.route('https://workbook.test/**',route=>route.fulfill({contentType:'text/html',body:'<main id="host"></main>'}));await page.goto('https://workbook.test/');await page.addScriptTag({content:bundle.outputFiles[0].text});await page.evaluate(()=>{window.editor=AdvancedHarness.createAdvanced({host:document.querySelector('#host'),notify:message=>window.lastNotice=message});});
+  const state={inputs:{a:{name:'book.xlsx',data:original.toString('base64')},b:null},options:{}};
+  const setup=async()=>{await page.evaluate(s=>editor.setType('table-compare',s),state);await expect(page.getByLabel('Left sheet')).toBeVisible();await page.getByRole('button',{name:'Use left as result',exact:true}).click();await expect(page.getByLabel('Result row 2 column 2',{exact:true})).toHaveValue('original');};
+  await setup();let result=await page.evaluate(()=>editor.getArchiveResult('a'));assert.deepEqual(Buffer.from(result.data,'base64'),original);await page.getByLabel('Result row 2 column 2',{exact:true}).fill('changed');result=await page.evaluate(()=>editor.getArchiveResult('a'));await assertPreserved(original,Buffer.from(result.data,'base64'),'changed');
+  for(const mode of ['reset','result','replacement']){
+   await setup();const error=await page.evaluate(async mode=>{const pending=editor.getArchiveResult('a');if(mode==='reset')editor.reset();else if(mode==='replacement')editor.setType('table-compare',editor.getState());else{const field=document.querySelector('[aria-label="Result row 2 column 2"]');field.value='changed during export';field.dispatchEvent(new Event('input'));}try{await pending;return '';}catch(error){return error.message;}},mode);assert.match(error,/changed|stale/i,mode+' cannot publish stale workbook');
+  }
+  await setup();await page.getByLabel('Result row number',{exact:true}).fill('2');await page.getByRole('button',{name:'Insert row before',exact:true}).click();await expect(page.getByLabel('Result row 3 column 2',{exact:true})).toHaveValue('original');result=await page.evaluate(()=>editor.getArchiveResult('a'));const shifted=new (require('exceljs').Workbook)();await shifted.xlsx.load(Buffer.from(result.data,'base64'));assert.equal(shifted.getWorksheet('Records').getCell('B3').value,'original');assert.equal(shifted.getWorksheet('Records').getCell('B3').font.bold,true);assert.equal(shifted.getWorksheet('Records').getCell('B3').note,'Keep this comment');assert.equal(shifted.getWorksheet('Records').getCell('C4').formula,'B4*2');assert.equal(shifted.getWorksheet('Lookup').getCell('B3').formula,'Records!B4');await page.getByRole('button',{name:'Undo edit',exact:true}).click();result=await page.evaluate(()=>editor.getArchiveResult('a'));assert.deepEqual(Buffer.from(result.data,'base64'),original);
+  console.log('Workbook preservation browser passed: archive result fidelity, stale reset/edit/replacement rejection, structural export fidelity and undo.');
+ }finally{await browser.close();}
+})().catch(error=>{console.error(error);process.exitCode=1;});

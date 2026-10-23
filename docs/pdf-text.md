@@ -1,0 +1,39 @@
+# PDF text comparison
+
+Status: PDF editor support shipped in 2.194.0. Version 2.195.0 is now installed and adds document CLI/native-batch routing. Both Mac packages passed PDF, document-batch and existing batch acceptance; Windows package integrity is verified, with runtime testing deferred.
+
+PDF inputs open in Text Compare as editable text projections. Text is extracted in page/content order, with blank lines between pages. The interface identifies PDF projections and lists exclusions. Layout, fonts, colors, graphics, annotations, attachments, forms and scripts are excluded. Column reading order can differ from visual order. OCR is not included; image-only or empty PDFs and password-protected inputs fail explicitly without replacing the current draft.
+
+Save exports a separate text file. Native export protects the original source path and identity, including hard-link aliases, and rejects PDF/Word destinations. Projected remote inputs cannot save text to their server source. Projected archive entries cannot write text back into the original PDF, including after Save As. Saved sessions preserve edited projection text and metadata; Reload re-extracts the source.
+
+The pinned PDF.js6.2.108 engine and matching module worker, standard fonts and character maps are bundled locally. Native extraction uses an isolated sandboxed renderer with bounded queue and worker lifetime. Browser extraction owns a real module worker. Limits:32 MiB input,1,000 pages,1,000,000 text items,8 MiB UTF-8 extracted output and30-second active extraction deadline. Existing editor/browser text limits also apply. Missing auxiliary resources reject rather than silently returning degraded text. Cancellation and owner-window closure terminate work. These bounds do not provide a strict process memory ceiling.
+
+Verified source workflows: browser/native direct input, shell routing, local folder pairs, edited sessions, safe exports, reload, malformed/password-required rejection, PDF archive entries, selected-line copy/undo and unchanged source bytes. CLI/batch conversion was a follow-on requirement at that release; its 2.195.0 implementation is described below. Broader real-world reading-order coverage remains follow-on work. Windows runtime testing remains deferred.
+
+Release acceptance also covers selected-line copy/undo inside PDF archive entries. Explicit comparison consumes a pending auto-compare timer, preventing a second result from clearing an already selected line. The deterministic regression crosses the former220ms timer deadline before copying.
+
+## CLI and batch extension — 2.195.0
+
+Current source adds PDF/DOCX text-mode conversion to standalone Node comparison scripts and native desktop batches. This extension shipped in 2.195.0; the prior 2.194.0 installation was backed up. See [CLI behavior and report provenance](cli.md#document-text-comparisons--21950) and [Node engine evidence](pdf-node-engine-spike.md).
+
+The native batch adapter reuses the sandboxed renderer service and window cancellation. The Node CLI lazily uses a fixed child with genuine PDF.js and its optional canvas runtime; it does not launch Electron or install fake DOM globals. Both routes reuse the extraction core and strict projection metadata. The Node parent applies a 30-second startup-inclusive deadline and reaps the child on cancellation. Neither this boundary nor the native bounds promise a strict memory ceiling.
+
+Reports identify extracted-text equality and exclusions, retain captured source hashes/lengths and never authorize PDF writeback. Dry run shows conversion descriptors without parsing. Explicit document encoding overrides reject. Input changes, failed extraction and cancelled work cannot publish a successful report; exclusive publication also verifies directory identity, destination identity and exact output bytes. Successful prior batch reports survive later failures or cancellation.
+
+Actual Node CLI acceptance covers Unicode multi-page PDF/PDF, PDF/text and PDF/DOCX comparisons, image-only/malformed rejection, JSON/text/HTML reports and continued batch jobs. Missing Node backend tests retain ordinary text/DOCX operation. Windows runtime and broader document-format parity remain pending; repository Node verification covers this Mac only; native package acceptance is recorded below.
+
+Source verification update: the CLI symlink boundary was restored without changing desktop picker behavior. Both initial symlink endpoints and endpoints replaced by symlinks during conversion are rejected. The combined snapshot/CLI/batch run passed **43/43**, terminal 0, `/private/tmp/fc-cli-symlink-final.log`. Native source acceptance also passed terminal 0: `/private/tmp/fc-document-batch-final-source.log` (real PDF/DOCX adapters, preview without extraction, malformed-input continuation, Stop, retained reports and unchanged originals) and `/private/tmp/fc-batch-final-source.log` (existing batch workflow). These source checks are supplemented by the 2.195.0 package acceptance below.
+
+Release acceptance (2.195.0): full source suite passed 2,166 tests with one skip and no failures. All six Mac ARM64/Intel runs passed: document batch, existing batch and PDF workflows. The Intel harness initially used an insufficient five-second readiness timeout; its test-only timeout was raised to 60 seconds and the final run passed. Package source/dependency audits, signatures, ZIP contents and downloads passed. The release was installed with the prior 2.194.0 app backed up, and Finder/Services integration remained healthy. Standalone Node CLI verification is repository-based on this Mac; Windows runtime testing remains deferred. Installed startup smoke also passed terminal 0 (`/private/tmp/fc-2.195-installed-smoke.log`): desktop bridge available, Node isolation enabled and sample comparison produced two changes.
+
+## Page rows ordering — released 2.206.0
+
+Text options now provide per-side **Document order** (the unchanged default) and **Page rows**. The latter sorts supported horizontal left-to-right text by displayed row and position. Choose **Re-extract** to apply it to an available PDF source; edited text is protected by the existing unsaved-changes prompt, and failed extraction preserves the current draft. A saved text-only browser session requires reopening its PDF before re-extraction.
+
+Page rows records version-2 projection metadata; default extraction retains the exact version-1 metadata. Saved preferences and actual projection provenance remain separate. This does not infer logical column/table reading order or support OCR. Unsupported geometry fails explicitly. CLI and batch use the same policy; see [ordering options](PDF-ORDER-CLI.md) and [scope and acceptance](pdf-reading-order-plan.md).
+
+## Pending-order session reliability (shipped in 2.215.0)
+
+Changing a PDF reading-order selector does not immediately re-extract its current text. Version 2.215.0 saves the applied projection order until re-extraction succeeds, preventing a pending selector from relabeling an existing draft. Valid older two-way sessions with mismatched preference values restore the order recorded by validated extraction metadata while preserving edited text. Invalid settings still reject; ordinary text input preferences and strict three-way merge validation remain unchanged.
+
+Source acceptance on 2026-10-23: 2,521 tests passed, one skipped; independent v1/v2/v3 review, browser save/cancel/failure/restore and native save/cancel/legacy reload/source-hardlink checks passed. Release 2.215.0 is installed, with 2.214 retained as backup. Both Mac packages passed the PDF and shell workflows; all three package and download audits passed. Installed assets, startup isolation and Finder Services passed. Windows runtime remains deferred. Tagged PDF order is separately prototyped and is not yet enabled; see [the integration plan](pdf-tagged-order-plan.md).

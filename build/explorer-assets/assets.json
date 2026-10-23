@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "source": "build/icon.png",
+  "sourceSha256": "80ad66dd2515a7000a14be3c21e407315487bdcdd65070a5ad29cc4031b85e60",
+  "resourceId": 101,
+  "icoSizes": [
+    16,
+    20,
+    24,
+    32,
+    40,
+    48,
+    64,
+    256
+  ],
+  "files": [
+    {
+      "name": "Assets/StoreLogo.png",
+      "bytes": 651,
+      "sha256": "91c98273ceceaa5f53c0fd5adb16c232b40de83deee2310c7fdf945d16a47465"
+    },
+    {
+      "name": "Assets/StoreLogo.scale-100.png",
+      "bytes": 651,
+      "sha256": "91c98273ceceaa5f53c0fd5adb16c232b40de83deee2310c7fdf945d16a47465"
+    },
+    {
+      "name": "Assets/StoreLogo.scale-200.png",
+      "bytes": 1275,
+      "sha256": "fc0c410eafe4ebcd1cb20574a475cacd88fa7deaeb82e63ae522580c3020675d"
+    },
+    {
+      "name": "Assets/StoreLogo.scale-400.png",
+      "bytes": 2975,
+      "sha256": "20a16aa08b525dd2ca9179db015772ca505bb3b172670a2e204a65db4f5bfae9"
+    },
+    {
+      "name": "Assets/Square44x44Logo.png",
+      "bytes": 602,
+      "sha256": "8a18c75e38e3e802d617eb7eb571af69d9c7e9d24510d63d502acaee3932faef"
+    },
+    {
+      "name": "Assets/Square44x44Logo.scale-100.png",
+      "bytes": 602,
+      "sha256": "8a18c75e38e3e802d617eb7eb571af69d9c7e9d24510d63d502acaee3932faef"
+    },
+    {
+      "name": "Assets/Square44x44Logo.scale-200.png",
+      "bytes": 1075,
+      "sha256": "c6564f10d9c6db1d6bca7e2db375cce7c08a9a0273e8c00baf813e1027a75118"
+    },
+    {
+      "name": "Assets/Square44x44Logo.scale-400.png",
+      "bytes": 2698,
+      "sha256": "29ba2ecbbf37902f754b9d5ab3196ba153d11c687ee687351abf71180367e519"
+    },
+    {
+      "name": "Assets/Square150x150Logo.png",
+      "bytes": 2249,
+      "sha256": "90086b7aeb3543898bb7bd27aa79bf6f8111f3e286f9c07add406c2afbd1c220"
+    },
+    {
+      "name": "Assets/Square150x150Logo.scale-100.png",
+      "bytes": 2249,
+      "sha256": "90086b7aeb3543898bb7bd27aa79bf6f8111f3e286f9c07add406c2afbd1c220"
+    },
+    {
+      "name": "Assets/Square150x150Logo.scale-200.png",
+      "bytes": 5360,
+      "sha256": "2a4a6fd177936dffd15072193bea37116481f4fe78f1b191827ca16afd1f31fe"
+    },
+    {
+      "name": "Assets/Square150x150Logo.scale-400.png",
+      "bytes": 14840,
+      "sha256": "53fb752d5d9435fa3f2409c3dcd1101eea2cd73226884b14fc0303d7f53fda65"
+    },
+    {
+      "name": "FurtherCompareExplorer.ico",
+      "bytes": 6823,
+      "sha256": "bc832d0e850a7e0722d908538cdcb0e8c43a30d4e5530b423325386a5c8f913a"
+    },
+    {
+      "name": "ExplorerIcon.rc",
+      "bytes": 38,
+      "sha256": "cd4e297bee33ce9ceb3fc639adddf7ed4ce31f5b4c4bc7e398d64d1451dd4042"
+    }
+  ]
+}

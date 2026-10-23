@@ -1,0 +1,12 @@
+START
+  String greet() {
+    return "Hello, Café Ω";
+  }
+unchanged corridor 0: stable context for java
+unchanged corridor 1: stable context for java
+unchanged corridor 2: stable context for java
+unchanged corridor 3: stable context for java
+unchanged corridor 4: stable context for java
+unchanged corridor 5: stable context for java
+unchanged corridor 6: stable context for java
+END

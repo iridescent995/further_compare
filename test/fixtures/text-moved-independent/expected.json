@@ -1,0 +1,50 @@
+[
+  {
+    "name": "java",
+    "a": "java-left.txt",
+    "b": "java-right.txt",
+    "expected": [
+      {
+        "aStart": 1,
+        "bStart": 8,
+        "lineCount": 3
+      }
+    ]
+  },
+  {
+    "name": "xml",
+    "a": "xml-left.txt",
+    "b": "xml-right.txt",
+    "expected": [
+      {
+        "aStart": 1,
+        "bStart": 8,
+        "lineCount": 3
+      }
+    ]
+  },
+  {
+    "name": "sql",
+    "a": "sql-left.txt",
+    "b": "sql-right.txt",
+    "expected": [
+      {
+        "aStart": 1,
+        "bStart": 8,
+        "lineCount": 3
+      }
+    ]
+  },
+  {
+    "name": "plain",
+    "a": "plain-left.txt",
+    "b": "plain-right.txt",
+    "expected": [
+      {
+        "aStart": 1,
+        "bStart": 8,
+        "lineCount": 3
+      }
+    ]
+  }
+]

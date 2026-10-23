@@ -1,0 +1,39 @@
+{
+  "logicalParagraphs": [
+    "Tagged reading order",
+    "Left alpha Café",
+    "Left omega Ω",
+    "Right alpha",
+    "Right omega",
+    "Final paragraph."
+  ],
+  "validArtifactLogicalParagraphs": [
+    "Tagged reading order",
+    "Left alpha Café",
+    "Left omega Ω",
+    "Right alpha",
+    "Right omega"
+  ],
+  "tableList": {
+    "heading": "Structured table and list",
+    "rows": [
+      [
+        "Item",
+        "Count"
+      ],
+      [
+        "Café",
+        "2"
+      ]
+    ],
+    "listItems": [
+      "First item",
+      "Second Ω item"
+    ],
+    "listLabels": [
+      "•",
+      "•"
+    ],
+    "final": "After list."
+  }
+}

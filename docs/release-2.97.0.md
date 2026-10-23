@@ -1,0 +1,11 @@
+# Release 2.97.0 — keyboard shortcuts in settings transfer
+
+Application settings export now includes custom keyboard bindings. Import and reset previews show named commands and their current/incoming shortcuts, with an optional Include keyboard shortcuts checkbox. Missing sections in older settings files leave bindings unchanged; an explicit empty map restores built-in bindings. Disabled actions remain disabled after transfer and restart.
+
+Shortcut validation uses the application's trusted command catalog, never a catalog supplied by the file. The source map must be valid for its declared platform, and the target-platform check separately marks incompatible bindings unavailable while other preferences remain importable. Native apply validates the selected map again. The native menu is rebuilt from surviving stored state after successful application or rollback.
+
+Combined import applies shortcuts, defaults and editor preferences with guarded reverse-order rollback. If one restoration fails, remaining restorations are still attempted, and failures are reported without overwriting newer values. The renderer restores appearance persistence on native failure. This is guarded multi-store recovery, not a crash-atomic multi-file transaction.
+
+Source validation passed export/import/reset, unchecked and legacy preservation, combined missing-editor rollback, stale guards, native menu metadata/routing, disabled-binding restart persistence and unchanged current text buffers. Existing defaults-transfer and settings-transfer regressions passed. The preview was visually inspected. All 783 unit tests passed, including a new regression ensuring successful defaults-store replacement is not reported failed by redundant temporary cleanup. Both Mac packages passed the shortcut-transfer workflow, including combined rollback and disabled-binding restart persistence. All three package versions/assets and ZIP integrity checks passed; download links, sizes, SHA-256 and Windows ZIP browser download passed. No reference branding was found in shipped source.
+
+Physical-key activation on macOS remains unverified while the Mac is locked. Menu-routing evidence does not prove physical-key dispatch. Windows runtime and full product parity remain incomplete.

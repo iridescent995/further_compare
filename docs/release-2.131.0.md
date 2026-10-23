@@ -1,0 +1,7 @@
+# Release 2.131.0 — More room for folder comparisons
+
+Consolidated the folder filter and expansion controls into one wrapping command row. Frequent path/include/exclude filters and selection controls remain visible. Copy/Delete retain their original handlers and appear beside each side’s navigation, with explicit accessible side labels. Removed redundant pane header rows and adjusted sticky column headers. The color legend stays visible in the status bar; gesture guidance is available in options.
+
+At 1440×928 the first file row now starts at y208 instead of y268, recovering 60 pixels for the tree. Light and dark screenshots were inspected. Source tests pass responsive options, folder path/history navigation, tab isolation, single-click selection/double-click opening, and Page Up/Down with modifier/range selection in both panes and densities.
+
+Both Mac packages passed responsive native layout and interaction checks. Source busy-action checks confirm moved Copy controls retain queue guards and cancel stale selections. Browser text workflow passed after updating its old filter locator flow to use the existing options dialog. The busy-action test now also recognizes the current preview scope description. All three ZIPs passed integrity checks; package versions and final renderer assets match source. Download links, sizes, SHA-256 and browser Windows download passed; shipped branding checks are clear. Actual Windows runtime and broader product scope remain open.

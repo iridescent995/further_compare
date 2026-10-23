@@ -1,0 +1,336 @@
+POLICY named NEVER_EXECUTE / NO_UPDATE; separate close and reopen
+FILE	baseline.ods
+SHEET	0	Sheet1
+CELL	0	0	123.25	Liberation Sans	11.0	100.0	2109504	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	1		Liberation Sans	10.0	100.0	-1	16768426	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	0	123.25	Liberation Sans	10.0	100.0	-1	13434862	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	123.25	Liberation Sans	10.0	100.0	-1	-1	2245802:35:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	123.25	Liberation Sans	10.0	100.0	-1	-1	0:0:0:0	2	false	0	true:false:false:false	General
+CELL	4	0	123.25	Liberation Sans	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	0	123.25	Liberation Sans	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	0.00
+CELL	6	0		Liberation Sans	10.0	150.0	-1	11184895	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	123.25	Liberation Sans	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	0	123.25	Liberation Sans	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Liberation Sans	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Liberation Sans	10.0	100.0	-1	1122867	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Liberation Sans	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+FILE	baseline.xlsx
+SHEET	0	Sheet1
+CELL	0	0	123.25	Arial	11.0	100.0	2109504	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	1		Arial	10.0	100.0	-1	16768426	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	0	123.25	Arial	10.0	100.0	-1	13434862	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	123.25	Arial	10.0	100.0	-1	-1	2245802:26:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	2	false	0	true:false:false:false	General
+CELL	4	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	0.00
+CELL	6	0		Arial	10.0	150.0	-1	11184895	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Arial	10.0	100.0	-1	1122867	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+FILE	changed.ods
+SHEET	0	Sheet1
+CELL	0	0	123.25	Liberation Sans	16.0	150.0	9052224	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	1		Liberation Sans	10.0	100.0	-1	14548906	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	0	123.25	Liberation Sans	10.0	100.0	-1	16764057	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	123.25	Liberation Sans	10.0	100.0	-1	-1	11149841:71:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	123.25	Liberation Sans	10.0	100.0	-1	-1	0:0:0:0	3	true	4500	true:false:false:false	General
+CELL	4	0	123.25	Liberation Sans	10.0	100.0	-1	-1	0:0:0:0	0	false	0	false:true:false:false	General
+CELL	5	0	123.25	Liberation Sans	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	0.0000
+CELL	6	0		Liberation Sans	10.0	150.0	-1	16755370	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	123.25	Liberation Sans	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	0	123.25	Liberation Sans	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Liberation Sans	10.0	100.0	-1	11206621	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Liberation Sans	10.0	100.0	-1	1122867	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Liberation Sans	10.0	100.0	-1	11206621	0:0:0:0	0	false	0	true:false:false:false	General
+FILE	changed.xlsx
+SHEET	0	Sheet1
+CELL	0	0	123.25	Arial	16.0	150.0	9052224	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	1		Arial	10.0	100.0	-1	14548906	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	0	123.25	Arial	10.0	100.0	-1	16764057	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	123.25	Arial	10.0	100.0	-1	-1	11149841:62:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	3	true	4500	true:false:false:false	General
+CELL	4	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	false:true:false:false	General
+CELL	5	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	0.0000
+CELL	6	0		Arial	10.0	150.0	-1	16755370	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Arial	10.0	100.0	-1	11206621	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Arial	10.0	100.0	-1	1122867	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Arial	10.0	100.0	-1	11206621	0:0:0:0	0	false	0	true:false:false:false	General
+FILE	baseline.xls
+SHEET	0	Sheet1
+CELL	0	0	123.25	Arial	11.0	100.0	2109504	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	1		Arial	10.0	100.0	-1	16768426	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	0	123.25	Arial	10.0	100.0	-1	13434862	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	123.25	Arial	10.0	100.0	-1	-1	2245802:26:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	2	false	0	true:false:false:false	General
+CELL	4	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	0.00
+CELL	6	0		Arial	10.0	150.0	-1	11184895	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Arial	10.0	100.0	-1	1122867	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+FILE	baseline-from-xls.xlsx
+SHEET	0	Sheet1
+CELL	0	0	123.25	Arial	11.0	100.0	2109504	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	1		Arial	10.0	100.0	-1	16768426	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	0	123.25	Arial	10.0	100.0	-1	13434862	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	123.25	Arial	10.0	100.0	-1	-1	2245802:26:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	2	false	0	true:false:false:false	General
+CELL	4	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	0.00
+CELL	6	0		Arial	10.0	150.0	-1	11184895	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Arial	10.0	100.0	-1	1122867	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+FILE	pandas-test1.xlsb
+SHEET	0	Sheet1
+CELL	0	1	A	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	2	B	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	3	C	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	4	D	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	0	36528	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	1	1	0.980268513777	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	2	3.68573087906	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	3	-0.364216805298	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	4	-1.15973806169	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	36529	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	2	1	1.04791624281	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	2	-0.0412318367011	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	3	-0.16181208307	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	4	0.212549316967	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	36530	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	3	1	0.498580885705	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	2	0.731167677815	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	3	-0.537677223318	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	4	1.34627041952	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	0	36531	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	4	1	1.12020151869	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	2	1.56762092543	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	3	0.00364077397681	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	4	0.67525259227	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	0	36532	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	5	1	-0.487094399463	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	2	0.571454623474	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	3	-1.6116394093	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	4	0.103468562917	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	0	36535	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	6	1	0.836648671666	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	2	0.246461918642	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	3	0.588542635376	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	4	1.0627820613	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	36536	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	7	1	-0.157160753327	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	2	1.34030689438	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	3	1.19577795622	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	4	-1.09700699751	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+SHEET	1	Sheet2
+CELL	0	1	A	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	2	B	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	3	C	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	4	D	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	1	col	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	2	we	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	3	should	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	4	ignore	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	36528	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	2	1	0.980268513777	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	2	3.68573087906	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	3	-0.364216805298	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	4	-1.15973806169	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	36529	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	3	1	1.04791624281	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	2	-0.0412318367011	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	3	-0.16181208307	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	4	0.212549316967	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	0	36530	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	4	1	0.498580885705	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	2	0.731167677815	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	3	-0.537677223318	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	4	1.34627041952	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	0	36531	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	5	1	1.12020151869	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	2	1.56762092543	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	3	0.00364077397681	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	4	0.67525259227	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	0	36532	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	6	1	-0.487094399463	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	2	0.571454623474	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	3	-1.6116394093	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	4	0.103468562917	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	36535	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	7	1	0.836648671666	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	2	0.246461918642	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	3	0.588542635376	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	4	1.0627820613	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	0	36536	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	8	1	-0.157160753327	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	2	1.34030689438	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	3	1.19577795622	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	4	-1.09700699751	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+SHEET	2	Sheet3
+CELL	0	0	A	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	1	B	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	2	C	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	3	D	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	4	E	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	5	F	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+SHEET	3	Sheet4
+CELL	0	1	col1	Calibri	11.0	150.0	0	-1	0:26:0:0	2	false	0	true:false:false:false	General
+CELL	0	2	col2	Calibri	11.0	150.0	0	-1	0:26:0:0	2	false	0	true:false:false:false	General
+CELL	1	0	i1	Calibri	11.0	150.0	0	-1	0:26:0:0	2	false	0	true:false:false:false	General
+CELL	1	1	a	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	2	x	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	i2	Calibri	11.0	150.0	0	-1	0:26:0:0	2	false	0	true:false:false:false	General
+CELL	2	1	b	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	2	y	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+FILE	pandas-from-xlsb.xlsx
+SHEET	0	Sheet1
+CELL	0	1	A	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	2	B	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	3	C	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	4	D	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	0	36528	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	1	1	0.980268513777	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	2	3.68573087906	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	3	-0.364216805298	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	4	-1.15973806169	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	36529	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	2	1	1.04791624281	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	2	-0.0412318367011	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	3	-0.16181208307	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	4	0.212549316967	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	36530	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	3	1	0.498580885705	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	2	0.731167677815	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	3	-0.537677223318	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	4	1.34627041952	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	0	36531	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	4	1	1.12020151869	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	2	1.56762092543	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	3	0.00364077397681	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	4	0.67525259227	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	0	36532	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	5	1	-0.487094399463	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	2	0.571454623474	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	3	-1.6116394093	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	4	0.103468562917	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	0	36535	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	6	1	0.836648671666	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	2	0.246461918642	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	3	0.588542635376	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	4	1.0627820613	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	36536	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	7	1	-0.157160753327	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	2	1.34030689438	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	3	1.19577795622	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	4	-1.09700699751	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+SHEET	1	Sheet2
+CELL	0	1	A	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	2	B	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	3	C	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	4	D	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	1	col	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	2	we	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	3	should	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	4	ignore	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	36528	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	2	1	0.980268513777	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	2	3.68573087906	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	3	-0.364216805298	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	4	-1.15973806169	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	36529	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	3	1	1.04791624281	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	2	-0.0412318367011	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	3	-0.16181208307	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	3	4	0.212549316967	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	0	36530	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	4	1	0.498580885705	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	2	0.731167677815	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	3	-0.537677223318	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	4	4	1.34627041952	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	0	36531	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	5	1	1.12020151869	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	2	1.56762092543	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	3	0.00364077397681	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	4	0.67525259227	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	0	36532	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	6	1	-0.487094399463	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	2	0.571454623474	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	3	-1.6116394093	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	4	0.103468562917	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	36535	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	7	1	0.836648671666	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	2	0.246461918642	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	3	0.588542635376	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	4	1.0627820613	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	0	36536	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	DD/MM/YY HH:MM
+CELL	8	1	-0.157160753327	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	2	1.34030689438	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	3	1.19577795622	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	4	-1.09700699751	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+SHEET	2	Sheet3
+CELL	0	0	A	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	1	B	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	2	C	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	3	D	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	4	E	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	5	F	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+SHEET	3	Sheet4
+CELL	0	1	col1	Calibri	11.0	150.0	0	-1	0:26:0:0	2	false	0	true:false:false:false	General
+CELL	0	2	col2	Calibri	11.0	150.0	0	-1	0:26:0:0	2	false	0	true:false:false:false	General
+CELL	1	0	i1	Calibri	11.0	150.0	0	-1	0:26:0:0	2	false	0	true:false:false:false	General
+CELL	1	1	a	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	2	x	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	i2	Calibri	11.0	150.0	0	-1	0:26:0:0	2	false	0	true:false:false:false	General
+CELL	2	1	b	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	2	y	Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	6	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Calibri	12.0	100.0	0	-1	0:0:0:0	0	false	0	true:false:false:false	General
+FILE	derived-cell-flags-false.xlsx
+SHEET	0	Sheet1
+CELL	0	0	123.25	Arial	11.0	100.0	2109504	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	0	1		Arial	10.0	100.0	-1	16768426	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	1	0	123.25	Arial	10.0	100.0	-1	13434862	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	2	0	123.25	Arial	10.0	100.0	-1	-1	2245802:26:0:0	0	false	0	true:false:false:false	General
+CELL	3	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	2	false	0	true:false:false:false	General
+CELL	4	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	5	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	0.00
+CELL	6	0		Arial	10.0	150.0	-1	11184895	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	7	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	8	0	123.25	Arial	10.0	100.0	-1	-1	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	0		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	1		Arial	10.0	100.0	-1	1122867	0:0:0:0	0	false	0	true:false:false:false	General
+CELL	9	2		Arial	10.0	100.0	-1	14527231	0:0:0:0	0	false	0	true:false:false:false	General

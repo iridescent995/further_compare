@@ -1,0 +1,43 @@
+'use strict';
+const {_electron:electron,expect}=require('@playwright/test');
+const fs=require('node:fs/promises'),os=require('node:os'),path=require('node:path'),assert=require('node:assert/strict');
+const {selectFolderOption,clickFolderOption}=require('./folder-options-helper.cjs');
+// Independent fixtures generated with Python's cp125x codecs, never the implementation under test.
+const fixtures=require('./windows-codepages-fixtures.json').map(({encoding,text,bytes})=>[encoding,text.slice(0,-2),Buffer.from(bytes).subarray(0,-2).toString('hex')]);
+(async()=>{
+ const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'fc-windows-codepages-')));let app,page;
+ try{
+  for(const [codec,,hex]of fixtures)await fs.writeFile(path.join(root,codec+'.txt'),Buffer.from(hex+'0d0a','hex'));
+  const greek=fixtures[1],left=path.join(root,'left'),right=path.join(root,'right');
+  for(const dir of [left,right])await fs.mkdir(path.join(dir,'branch'),{recursive:true});
+  for(const rel of ['greek.txt','branch/child.txt']){await fs.writeFile(path.join(left,rel),Buffer.from(greek[2]+'0d0a','hex'));await fs.writeFile(path.join(right,rel),greek[1]+'\n');}
+  const protectedPath=path.join(root,'protected.txt');await fs.writeFile(protectedPath,'do not replace');
+  const env={...process.env,FC_USER_DATA_DIR:path.join(root,'profile')};delete env.ELECTRON_RUN_AS_NODE;delete env.FC_SMOKE;
+  app=await electron.launch({...(process.env.FC_TEST_EXECUTABLE?{executablePath:process.env.FC_TEST_EXECUTABLE,args:[]}:{args:[path.resolve(__dirname,'..')]}),env,timeout:30000});page=await app.firstWindow();page.setDefaultTimeout(20000);const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await app.evaluate(({dialog,BrowserWindow})=>{global.codepageFiles=[];global.codepageDestination='';dialog.showOpenDialog=async()=>({canceled:false,filePaths:[global.codepageFiles.shift()]});dialog.showSaveDialog=async()=>({canceled:false,filePath:global.codepageDestination});BrowserWindow.getAllWindows().forEach(w=>w.webContents.setBackgroundThrottling(false));});
+  const queue=files=>app.evaluate(({},files)=>global.codepageFiles=files,files),dest=file=>app.evaluate(({},file)=>global.codepageDestination=file,file),command=action=>app.evaluate(({BrowserWindow},action)=>BrowserWindow.getAllWindows()[0].webContents.send('menu-action',action),action);
+  const ready=()=>expect(page.locator('body')).toHaveAttribute('aria-busy','false');
+  const options=async fn=>{await page.locator('#textOptions').click();await fn();await page.locator('#textOptionsDialog [data-done]').click();};
+  const save=async(file,hex)=>{await dest(file);await page.locator('#saveA').click();await expect.poll(async()=>{try{return (await fs.readFile(file)).toString('hex');}catch{return '';}}).toBe(hex);await expect(page.locator('#saveA')).toBeEnabled();};
+  await ready();
+  for(const [codec,text,hex]of fixtures){
+   await command('new:text-compare');await ready();await options(()=>page.locator('#readEncodingA').selectOption(codec));await queue([path.join(root,codec+'.txt')]);await page.locator('#openA').click();await expect(page.locator('#textA')).toHaveValue(text+'\n');await expect(page.locator('#encodingA')).toHaveValue(codec);await expect(page.locator('#bomA')).toBeDisabled();
+   // Exercise the actual output selector too, then preserve CRLF exactly on disk.
+   await options(()=>page.locator('#encodingA').selectOption(codec));await save(path.join(root,codec+'-roundtrip.txt'),hex+'0d0a');
+   if(['windows1253','windows1256'].includes(codec)){
+    await page.locator('#textA').fill(text+'!\n');await save(path.join(root,codec+'-edited.txt'),hex+'210d0a');
+    const session=path.join(root,codec+'.fcompare');await dest(session);await command('save-session');await expect(page.locator('#dirtyIndicator')).toBeHidden();const snapshot=JSON.parse(await fs.readFile(session,'utf8'));assert.equal(snapshot.options.textFormats.a.encoding,codec);
+    await command('new:text-compare');await ready();await queue([session]);await command('open-session');await expect(page.locator('#textA')).toHaveValue(text+'!\n');await expect(page.locator('#encodingA')).toHaveValue(codec);await expect(page.locator('#readEncodingA')).toHaveValue(codec);await save(path.join(root,codec+'-restored.txt'),hex+'210d0a');await page.locator('#swap').click();await expect(page.locator('#readEncodingB')).toHaveValue(codec);await expect(page.locator('#encodingB')).toHaveValue(codec);await page.locator('#swap').click();await expect(page.locator('#readEncodingA')).toHaveValue(codec);
+    const encodedTab=await page.locator('#sessionTabs [role="tab"][aria-selected="true"]').evaluate(el=>el.parentElement.dataset.sessionId);await command('new:text-compare');await ready();await expect(page.locator('#readEncodingA')).toHaveValue('auto');await page.locator('#sessionTabs [data-session-id="'+encodedTab+'"] [role="tab"]').click();await ready();await expect(page.locator('#readEncodingA')).toHaveValue(codec);await page.locator('#textA').fill(text+' ☃');await dest(protectedPath);await page.locator('#saveA').click();await expect(page.locator('#notice')).toContainText(/represent|encode|Windows-125/i);await expect(page.locator('#saveA')).toBeEnabled();assert.equal(await fs.readFile(protectedPath,'utf8'),'do not replace');
+   }
+  }
+  await command('new:folder-compare');await ready();await queue([left,right]);await page.locator('#openA').click();await ready();await page.locator('#openB').click();await ready();await selectFolderOption(page,'folderCompareMode','text-content');
+  await clickFolderOption(page,'folderTextEncoding');const dialog=page.locator('#folderEncodingDialog');await dialog.getByLabel('Left text encoding',{exact:true}).selectOption('windows1253');await dialog.getByLabel('Right text encoding',{exact:true}).selectOption('utf8');await dialog.getByRole('button',{name:'Apply encoding',exact:true}).click();await ready();
+  const row=rel=>page.locator('#folderRowsA .folder-entry[data-path="'+rel+'"]');await expect(row('greek.txt')).toHaveClass(/equal/);await expect(row('greek.txt')).toHaveAttribute('data-comparison','text-normalized');await row('branch').getByRole('button',{name:'Expand branch',exact:true}).click();await expect(row('branch/child.txt')).toHaveClass(/equal/);
+  await row('branch/child.txt').dblclick();await expect(page.locator('#sessionKind')).toHaveText('Text Compare');await expect(page.locator('#textA')).toHaveValue(greek[1]+'\n');await expect(page.locator('#textB')).toHaveValue(greek[1]+'\n');await expect(page.locator('#encodingA')).toHaveValue('windows1253');await expect(page.locator('#readEncodingA')).toHaveValue('windows1253');await expect(page.locator('#encodingB')).toHaveValue('utf8');await expect(page.locator('#readEncodingB')).toHaveValue('utf8');await expect(page.locator('#changeCount')).toHaveText('0');await page.locator('#backToFolder').click();await ready();
+  const folderSession=path.join(root,'greek-folder.fcompare');await dest(folderSession);await command('save-session');await expect(page.locator('#dirtyIndicator')).toBeHidden();const folderSnapshot=JSON.parse(await fs.readFile(folderSession,'utf8'));assert.equal(folderSnapshot.options.folderRules.textEncodingA,'windows1253');assert.equal(folderSnapshot.options.folderRules.textEncodingB,'utf8');
+  await command('new:folder-compare');await ready();await queue([folderSession]);await command('open-session');await expect(row('greek.txt')).toHaveClass(/equal/);await clickFolderOption(page,'folderTextEncoding');await expect(dialog.getByLabel('Left text encoding',{exact:true})).toHaveValue('windows1253');await expect(dialog.getByLabel('Right text encoding',{exact:true})).toHaveValue('utf8');await page.keyboard.press('Escape');
+  for(const [codec,,hex]of fixtures)assert.equal((await fs.readFile(path.join(root,codec+'.txt'))).toString('hex'),hex+'0d0a');assert.deepEqual(errors,[]);
+  console.log('Windows codepages desktop passed: all seven independent native decode/roundtrip fixtures and actual selectors; Greek/Arabic edits, strict lossy-save protection and restored sessions; Greek/UTF8 folder equality, expanded-node comparison, inherited child codecs and folder session persistence.');
+ }catch(error){if(page&&!page.isClosed()){console.error('Codepage notice:',await page.locator('#notice').textContent());await page.screenshot({path:'/private/tmp/windows-codepages-failure.png',timeout:3000}).catch(()=>{});}throw error;}finally{if(page&&!page.isClosed())await page.evaluate(()=>window.__fcAllowClose=true).catch(()=>{});if(app)await app.close();await fs.rm(root,{recursive:true,force:true});}
+})().catch(error=>{console.error(error);process.exitCode=1;});

@@ -1,0 +1,47 @@
+'use strict';
+const {_electron:electron,expect:baseExpect}=require('@playwright/test'),expect=baseExpect.configure({timeout:20000});
+const fs=require('node:fs/promises'),path=require('node:path'),os=require('node:os'),assert=require('node:assert/strict');
+(async()=>{const temp=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'fc-shortcuts-')));let app,page;try{
+ const env={...process.env,FC_USER_DATA_DIR:path.join(temp,'profile')};delete env.ELECTRON_RUN_AS_NODE;const errors=[];
+ const launch=async()=>{app=await electron.launch({...(process.env.FC_TEST_EXECUTABLE?{executablePath:process.env.FC_TEST_EXECUTABLE,args:[]}:{args:[process.cwd()]}),env});page=await app.firstWindow();page.on('pageerror',e=>errors.push(e.message));await app.evaluate(({BrowserWindow})=>{const w=BrowserWindow.getAllWindows()[0];w.show();w.focus();global.shortcutCaptureActive=false;const original=w.webContents.setIgnoreMenuShortcuts.bind(w.webContents);w.webContents.setIgnoreMenuShortcuts=active=>{global.shortcutCaptureActive=active;return original(active);};});};
+ await launch();
+ const menu=async action=>{await app.evaluate(({BrowserWindow},action)=>BrowserWindow.getAllWindows()[0].webContents.send('menu-action',action),action);await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));};
+ const config=()=>page.evaluate(()=>window.desktop.keyboardShortcuts());
+ const accelerators=id=>app.evaluate(({Menu},id)=>{const matches=[];function visit(menu){for(const item of menu.items){if(item.id===id)matches.push(item.accelerator||'');if(item.submenu)visit(item.submenu);}}visit(Menu.getApplicationMenu());return matches;},id);
+ const menuRouting=process.env.FC_SHORTCUT_MENU_DISPATCH==='1';
+ const nativeKey=async(key,extra=[])=>{
+  if(menuRouting)await app.evaluate(({Menu},{key,extra})=>{if(global.shortcutCaptureActive)return;const primary=process.platform==='darwin'?'Command':'Ctrl',normalize=value=>value.split('+').map(part=>part==='CmdOrCtrl'?primary:part==='Control'?'Ctrl':part).map(part=>part.toLowerCase()).sort().join('+'),wanted=normalize([primary,...extra,key].join('+'));let match=null;function visit(menu){for(const item of menu.items){if(item.accelerator&&normalize(item.accelerator)===wanted&&!match)match=item;if(item.submenu)visit(item.submenu);}}visit(Menu.getApplicationMenu());if(match)match.click();},{key,extra});
+  else await app.evaluate(({BrowserWindow},{key,extra})=>{const w=BrowserWindow.getAllWindows()[0];w.focus();const modifiers=[process.platform==='darwin'?'meta':'control',...extra];w.webContents.sendInputEvent({type:'keyDown',keyCode:key,modifiers});w.webContents.sendInputEvent({type:'keyUp',keyCode:key,modifiers});},{key,extra});
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+ };
+ if(menuRouting)console.log('Keyboard shortcut test: menu-routing mode; physical key dispatch unverified.');
+ const modifier=process.platform==='darwin'?'Meta':'Control';
+ const dialog=()=>page.locator('#keyboardShortcutsDialog'),action=name=>dialog().locator('[data-'+name+']');
+ const open=async()=>{await menu('keyboard:settings');await expect(dialog()).toBeVisible();await expect(dialog()).toHaveAttribute('aria-busy','false');};
+ const close=async()=>{await action('cancel').click();await expect(dialog()).not.toBeVisible();await expect.poll(()=>app.evaluate(()=>global.shortcutCaptureActive)).toBe(false);};
+ const save=async()=>{await action('save').click();await expect(action('result')).toContainText('Keyboard shortcuts saved');await expect(dialog()).toHaveAttribute('aria-busy','false');};
+ await page.locator('#welcome [data-command="new:text-compare"]').click();const initial=await config();assert.equal(initial.platform,process.platform);assert.ok(initial.catalog.some(item=>item.id==='new:text-compare'));await page.evaluate(state=>window.desktop.saveKeyboardShortcuts({...state.overrides,'new:text-compare':'CmdOrCtrl+Alt+T'},state.overrides),initial);
+ await open();await dialog().locator('[data-action="new:text-compare"]').click();let tabs=await page.getByRole('tab').count();
+ // Capture receives an existing shortcut without invoking its native action.
+ await action('capture').press(modifier+'+Alt+t');assert.equal(await page.getByRole('tab').count(),tabs);await expect(dialog()).toBeVisible();assert.equal(await app.evaluate(()=>global.shortcutCaptureActive),true,'Native accelerators must be suspended while recording');await nativeKey('T',['alt']);assert.equal(await page.getByRole('tab').count(),tabs);
+ await action('capture').press(modifier+'+Alt+n');if(process.env.FC_SHORTCUT_SCREENSHOT==='1')await page.screenshot({path:path.join(os.tmpdir(),'further-keyboard-shortcuts.png')});await save();const customized=await config();assert.match(customized.overrides['new:text-compare'],/Alt\+N$/);await close();assert.ok((await accelerators('new:text-compare')).includes(customized.overrides['new:text-compare']));
+ // The physical accelerator dispatch must create exactly one tab, with no renderer duplicate.
+ await nativeKey('N',['alt']);await expect(page.getByRole('tab')).toHaveCount(tabs+1);await page.waitForTimeout(250);assert.equal(await page.getByRole('tab').count(),tabs+1);tabs++;
+ await nativeKey('T',['alt']);await page.waitForTimeout(250);assert.equal(await page.getByRole('tab').count(),tabs,'Old shortcut must stop dispatching');
+ // Conflicts and reserved combinations are rejected without replacing the saved map.
+ await open();await dialog().locator('[data-action="new:text-compare"]').click();await action('capture').press(modifier+'+f');await action('save').click();await expect(action('error')).toContainText(/conflict/i);assert.deepEqual((await config()).overrides,customized.overrides);
+ await action('capture').press(modifier+'+q');await action('save').click();await expect(action('error')).toContainText(/reserved/i);assert.deepEqual((await config()).overrides,customized.overrides);
+ await action('reload').click();await expect(dialog()).toHaveAttribute('aria-busy','false');await dialog().locator('[data-action="new:text-compare"]').click();await action('disable').click();await save();await action('cancel').click();await expect(dialog()).not.toBeVisible();await expect.poll(()=>app.evaluate(()=>global.shortcutCaptureActive)).toBe(false);await expect.poll(async()=> (await accelerators('new:text-compare')).every(value=>!value)).toBe(true);await nativeKey('N',['alt']);await page.waitForTimeout(250);assert.equal(await page.getByRole('tab').count(),tabs);
+ // A dialog opened before another write cannot overwrite that newer map.
+ await open();const before=await config();const updated=await page.evaluate(async state=>window.desktop.saveKeyboardShortcuts({...state.overrides,'new:text-compare':'CmdOrCtrl+Alt+N'},state.overrides),before);await action('save').click();await expect(action('error')).toContainText(/changed/i);assert.deepEqual((await config()).overrides,updated.overrides);
+ const rejected=await page.evaluate(async state=>{try{await window.desktop.saveKeyboardShortcuts({},state.overrides);return '';}catch(e){return e.message;}},before);assert.match(rejected,/changed/i);await action('cancel').click();await expect(dialog()).not.toBeVisible();await expect.poll(()=>app.evaluate(()=>global.shortcutCaptureActive)).toBe(false);
+ // Ordinary typing and text-editing accelerators remain owned by the editor.
+ await page.locator('#textA').fill('');await page.locator('#textA').pressSequentially('plain typing');await expect(page.locator('#textA')).toHaveValue('plain typing');
+ const editing=await page.locator('#textA').evaluate((el,mac)=>{const result={};for(const key of ['a','c','v','x','z']){const event=new KeyboardEvent('keydown',{key,bubbles:true,cancelable:true,...(mac?{metaKey:true}:{ctrlKey:true})});el.dispatchEvent(event);result[key]=event.defaultPrevented;}return result;},process.platform==='darwin');// Standard Undo is intercepted only to route through the focus-aware native
+ // history bridge; ordinary clipboard/select shortcuts remain editor-owned.
+ assert.deepEqual(editing,{a:false,c:false,v:false,x:false,z:true});
+ await nativeKey('F');await expect(page.getByLabel('Find text',{exact:true})).toBeVisible();await page.getByLabel('Find text',{exact:true}).fill('plain');await expect(page.locator('.text-tools-status')).toContainText('1 matches');
+ // Reload the application with its real user-data directory to prove persistence.
+ await page.evaluate(()=>window.__fcAllowClose=true);await app.close();app=null;await launch();await page.locator('#welcome [data-command="new:text-compare"]').click();assert.deepEqual((await config()).overrides,updated.overrides);assert.ok((await accelerators('new:text-compare')).includes('CmdOrCtrl+Alt+N'));tabs=await page.getByRole('tab').count();await nativeKey('N',['alt']);await expect(page.getByRole('tab')).toHaveCount(tabs+1);await page.waitForTimeout(250);assert.equal(await page.getByRole('tab').count(),tabs+1);assert.deepEqual(errors,[]);
+ console.log('Keyboard shortcuts passed: recording suppression, '+(menuRouting?'menu routing exactly once (physical key dispatch unverified)':'native dispatch exactly once')+', old/disabled bindings inactive, conflicts/reserved rejection, stale protection, persistence, typing/find and editor shortcut passthrough.');
+}finally{if(page)await page.evaluate(()=>window.__fcAllowClose=true).catch(()=>{});if(app)await app.close();await fs.rm(temp,{recursive:true,force:true});}})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,0 +1,11 @@
+# Release 2.96.0 — configurable keyboard shortcuts
+
+File → Keyboard Shortcuts and the folder context menu open a searchable list of actual application menu commands. Select a command and record a combination, disable its binding, restore its default, or stage a reset of all bindings. Save validates and persists the whole map before rebuilding the native menu. Cancel leaves saved bindings unchanged. The catalog includes comparison, folder/file actions, session commands and settings commands; repeated menu entries share one command and only one accelerator binding.
+
+Bindings detect conflicts against effective defaults, including Command-or-Control equivalence for the current platform. System editing, window-management, fullscreen and folder-context keys are reserved. Explicit Command is rejected outside macOS. Storage is bounded to 32 KiB with strict command validation, atomic writes, link checks and stale-review protection. A successful replacement is not reported as failed by redundant temporary cleanup.
+
+Native accelerators are suppressed while dialogs are open. Desktop text tools and the app no longer independently handle the same built-in shortcuts; browser-only text shortcuts remain. Existing native context tests now await asynchronous ready initialization before exercising handlers.
+
+Validation: all 773 unit tests passed. The focused dialog browser test and live editable-text/wrap browser regressions passed. Source desktop checks passed in explicit menu-routing mode: menu accelerator metadata, recorded overrides, disabled/old bindings, exactly one routed action, capture suppression state, conflicts/reserved combinations, stale changes, editor key passthrough, Find and restart persistence. Direct injected keys did not activate Cocoa menu shortcuts while the Mac was locked; real-key activation remains unverified and must not be inferred from menu-routing checks. Both Mac packages passed explicit menu-routing mode. The dialog was visually inspected, cramped input fields were widened, and source layout checks passed. Final packages include that width-only correction; all versions/assets, ZIP integrity and download link/size/SHA-256 checks passed, including a Windows ZIP browser download.
+
+Custom shortcuts are not yet included in settings export/import. Windows runtime and full product parity remain incomplete.

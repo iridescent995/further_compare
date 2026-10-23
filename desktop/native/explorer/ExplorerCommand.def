@@ -1,0 +1,4 @@
+LIBRARY FurtherCompareExplorer
+EXPORTS
+  DllGetClassObject PRIVATE
+  DllCanUnloadNow PRIVATE

@@ -1,0 +1,7 @@
+Further Compare includes SheetJS Community Edition 0.20.3.
+Copyright (C) 2013-present SheetJS.
+Licensed under the Apache License, Version 2.0; see LICENSE in this directory.
+Upstream: https://sheetjs.com/
+Official distribution: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz
+Archive SHA-256: 8dc73fc3b00203e72d176e85b50938627c7b086e607c682e8d3c22c02bb99fe8
+The archive is unmodified; Further Compare bundles the reader with its own bounded input validation and cached-value projection.

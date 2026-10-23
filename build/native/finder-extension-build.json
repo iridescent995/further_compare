@@ -1,0 +1,20 @@
+{
+  "developmentOnly": true,
+  "activationVerified": false,
+  "signing": "ad-hoc",
+  "version": "2.186.0",
+  "architectures": [
+    "arm64",
+    "x86_64"
+  ],
+  "appGroup": null,
+  "extensionSafeCompilation": true,
+  "imports": [
+    "/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit",
+    "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+    "/System/Library/Frameworks/FinderSync.framework/Versions/A/FinderSync",
+    "/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",
+    "/usr/lib/libSystem.B.dylib",
+    "/usr/lib/libobjc.A.dylib"
+  ]
+}

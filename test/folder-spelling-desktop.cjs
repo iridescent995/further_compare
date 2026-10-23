@@ -1,0 +1,44 @@
+'use strict';
+const {_electron:electron,expect}=require('@playwright/test');
+const fs=require('node:fs/promises'),os=require('node:os'),path=require('node:path'),assert=require('node:assert/strict');
+const {clickFolderAction}=require('./folder-context-helper.cjs');
+(async()=>{
+ const base=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'fc-spelling-')));let app,page;
+ try{
+  const left=path.join(base,'left'),right=path.join(base,'right');
+  for(const root of [left,right])await fs.mkdir(root);
+  await fs.writeFile(path.join(left,'Readme.txt'),'left contents\n');await fs.writeFile(path.join(right,'README.txt'),'right contents\n');
+  await fs.mkdir(path.join(left,'Source','closed'),{recursive:true});await fs.mkdir(path.join(right,'SOURCE','closed'),{recursive:true});
+  await fs.writeFile(path.join(left,'Source','child.txt'),'left child');await fs.writeFile(path.join(right,'SOURCE','child.txt'),'right child');
+  for(const [root,dir] of [[left,'Source'],[right,'SOURCE']])await fs.writeFile(path.join(root,dir,'closed','secret.txt'),'unopened');
+  await fs.writeFile(path.join(left,'caf\u00e9.txt'),'composed');await fs.writeFile(path.join(right,'cafe\u0301.txt'),'decomposed');
+  const unicodeA=(await fs.readdir(left)).find(name=>name.normalize('NFC')==='caf\u00e9.txt'),unicodeB=(await fs.readdir(right)).find(name=>name.normalize('NFC')==='caf\u00e9.txt');
+  const env={...process.env,FC_USER_DATA_DIR:path.join(base,'profile')};delete env.ELECTRON_RUN_AS_NODE;delete env.FC_SMOKE;
+  app=await electron.launch({...(process.env.FC_TEST_EXECUTABLE?{executablePath:process.env.FC_TEST_EXECUTABLE,args:[]}:{args:[path.resolve(__dirname,'..')]}),env});page=await app.firstWindow();page.setDefaultTimeout(15000);
+  const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await app.evaluate(({dialog,ipcMain},roots)=>{dialog.showOpenDialog=async()=>({canceled:false,filePaths:[roots.shift()]});dialog.showMessageBox=async()=>({response:1});global.spellingReads=[];const original=ipcMain._invokeHandlers.get('folders:tree-list');ipcMain.removeHandler('folders:tree-list');ipcMain.handle('folders:tree-list',(...args)=>{global.spellingReads.push(args[1]);return original(...args);});},[left,right]);
+  const ready=()=>expect(page.locator('body')).toHaveAttribute('aria-busy','false');
+  const row=(side,name)=>page.locator('#folderRows'+side+' .folder-entry').and(page.locator('[data-path='+JSON.stringify(name)+']'));
+  const modifier=process.platform==='darwin'?'Meta':'Control';
+  const align=async(a,b)=>{await ready();await row('A',a).click();await row('B',b).click({modifiers:[modifier]});await expect(row('A',a)).toHaveClass(/selected/);await expect(row('B',b)).toHaveClass(/selected/);await row('B',b).click({button:'right'});await clickFolderAction(page,'Align selected pair');await ready();await expect.poll(async()=>await row('A',a).getAttribute('data-id')===await row('B',b).getAttribute('data-id')).toBe(true);};
+  await ready();await page.locator('#welcome [data-command="new:folder-compare"]').click();await ready();await page.locator('#openA').click();await ready();await page.locator('#openB').click();await ready();
+  await expect(row('A','Readme.txt')).toHaveClass(/left/);await expect(row('B','README.txt')).toHaveClass(/right/);
+  await expect(row('B','Readme.txt')).toHaveCount(0);await expect(row('A','README.txt')).toHaveCount(0);
+  assert.notEqual(await row('A','Readme.txt').getAttribute('data-id'),await row('B','README.txt').getAttribute('data-id'));
+  await expect(row('A','Source')).toHaveClass(/left/);await expect(row('B','SOURCE')).toHaveClass(/right/);
+  await expect(row('B','Source')).toHaveCount(0);await expect(row('A','SOURCE')).toHaveCount(0);
+  if(unicodeA!==unicodeB){await expect(row('A',unicodeA)).toHaveClass(/left/);await expect(row('B',unicodeB)).toHaveClass(/right/);await expect(row('B',unicodeA)).toHaveCount(0);await expect(row('A',unicodeB)).toHaveCount(0);}else console.log('Filesystem normalizes Unicode spellings: separate NFC/NFD row check not applicable.');
+  const tabs=await page.getByRole('tab').count();await row('A','Readme.txt').click();await expect(row('A','Readme.txt')).toHaveClass(/selected/);assert.equal(await page.getByRole('tab').count(),tabs);await expect(page.locator('#sessionKind')).toHaveText('Folder Compare');
+  await align('Readme.txt','README.txt');await expect(row('A','Readme.txt')).toHaveClass(/changed/);await row('B','README.txt').dblclick();await expect(page.locator('#sessionKind')).toHaveText('Text Compare');await expect(page.locator('#textA')).toHaveValue('left contents\n');await expect(page.locator('#textB')).toHaveValue('right contents\n');await ready();await page.locator('#backToFolder').click();await ready();
+  const copy=async(side,name,label,source,target)=>{await row(side,name).click();await row(side,name).click({button:'right'});await clickFolderAction(page,label);await expect(page.locator('#planDialog')).toBeVisible();await expect(page.locator('#planOperations')).toContainText(source+' → '+target);await page.locator('#applyPlan').click();await expect(page.locator('#planDialog')).toBeHidden();await ready();};
+  await copy('A','Readme.txt','Copy to right','Readme.txt','README.txt');assert.equal(await fs.readFile(path.join(right,'README.txt'),'utf8'),'left contents\n');assert.ok(!(await fs.readdir(right)).includes('Readme.txt'),'Copy must retain right filename spelling');
+  await fs.writeFile(path.join(right,'README.txt'),'right revised\n');await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].webContents.send('menu-action','folder:refresh'));await expect(row('B','README.txt')).toHaveClass(/changed/);await ready();
+  await copy('B','README.txt','Copy to left','README.txt','Readme.txt');assert.equal(await fs.readFile(path.join(left,'Readme.txt'),'utf8'),'right revised\n');assert.ok(!(await fs.readdir(left)).includes('README.txt'),'Copy must retain left filename spelling');
+  await row('A','Source').locator('.tree-toggle').click();await ready();await expect(row('A','Source/child.txt')).toHaveClass(/left/);await expect(row('B','Source/child.txt')).toHaveCount(0);
+  await row('B','SOURCE').locator('.tree-toggle').click();await ready();await expect(row('B','SOURCE/child.txt')).toHaveClass(/right/);await expect(row('A','SOURCE/child.txt')).toHaveCount(0);
+  await expect(row('A','Source/closed/secret.txt')).toHaveCount(0);await expect(row('B','SOURCE/closed/secret.txt')).toHaveCount(0);
+  const reads=await app.evaluate(()=>global.spellingReads);assert.ok(!JSON.stringify(reads).includes('closed'),'Closed descendants must not be scanned');
+  await align('Source/child.txt','SOURCE/child.txt');await row('A','Source/child.txt').dblclick();await expect(page.locator('#textA')).toHaveValue('left child');await expect(page.locator('#textB')).toHaveValue('right child');assert.deepEqual(errors,[]);
+  console.log('Folder spelling passed: actual case/Unicode names, exact side-only rows, selection, context alignment, double-click actual endpoints, bidirectional copy spelling, and unopened descendants.');
+ }finally{if(page&&!page.isClosed())await page.evaluate(()=>window.__fcAllowClose=true).catch(()=>{});if(app)await app.close();await fs.rm(base,{recursive:true,force:true});}
+})().catch(error=>{console.error(error);process.exitCode=1;});

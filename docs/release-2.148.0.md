@@ -1,0 +1,9 @@
+# Release 2.148.0 — Large merge text insertion
+
+Merge source and result editors now handle cancelable bulk text insertions of at least 65,536 UTF-16 code units through a selected-range value replacement. This bypasses the Chromium insertion path that stalled with a 948,889-character, 24,000-line native input. The helper normalizes textarea newlines, preserves caret and scroll, emits one input event and creates a separate comparison-undo gesture. Ordinary typing, composition, smaller insertions, read-only/disabled fields and noncancelable or already-prevented events retain their existing behavior.
+
+The original native stress path now passes without diagnostic interception. Both full source replacement and selected-range result insertion verify exact text, caret, UTF-8 export, undo/redo and tab history. Browser checks cover Unicode, CRLF/CR normalization, simulated plain-text clipboard paste, one input event per accepted bulk action, selection/scroll preservation and all excluded event types. Existing merge history and live-editing browser regressions pass. The native worker test now uses actual large native insertion by default; FC_MERGE_NATIVE_PASTE=0 retains the DOM-only diagnostic path.
+
+These checks establish the fix for the reproduced native insertion path and event-level paste handling; they do not claim testing with every OS clipboard format or input method.
+
+Both ARM64 and Intel Mac packages pass the native bulk-insertion and ordinary live-editing tests (handle 24170, exit 0). All three release ZIPs pass archive integrity checks; packaged versions and final UI/worker assets match. Download links, sizes, SHA-256 checksums and the Windows ZIP browser download pass. Shipped branding checks pass. Actual Windows runtime and remaining full-product capabilities are outstanding.

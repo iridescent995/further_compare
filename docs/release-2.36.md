@@ -1,0 +1,9 @@
+# Further Compare 2.36.0
+
+**Compare layout** adds a separate XLSX difference panel for merged ranges, row heights, column widths, hidden rows and columns, outline levels, and default dimensions. The panel shows both sides, uses physical worksheet coordinates independently of keyed cell matching, and paginates every 100 differences. Layout-only changes remain visible with Differences only enabled.
+
+Layout comes from stored worksheet XML and is mapped through workbook relationships. This preserves empty hidden rows and omitted dimensions without accepting widths invented by the workbook reader. Equivalent explicit and inherited widths compare equally. The setting persists across tabs and saved sessions, and native Swap exchanges the displayed metadata.
+
+Exports remain values-only CSV or XLSX. Theme rendering, conditional formatting, and additional page/view/print properties are not compared. Workbook size and expansion limits remain enforced, including merged-range and column bounds checked before workbook loading.
+
+Source validation: 416 unit tests passed, with browser/native layout integration and existing formula/formatting regressions. Tests cover empty hidden rows, 105 paginated changes, keyed rows, sheets, tabs, save/reopen/swap, untouched originals, values-only exports, excessive layout rejection, and a worksheet stored as sheet42.xml with equivalent inherited/explicit widths. Both Mac packages passed layout and existing formatting workflows, including native save/reopen/swap, values-only export and unchanged originals. Intel ran under Rosetta with a 30-second test assertion timeout for workbook loading. All three archives passed ZIP integrity, bundled version and 51 source/asset checks, including external Windows helpers. Download links, sizes, SHA-256 checksums and the Windows ZIP browser download passed. Windows runtime verification remains pending.

@@ -1,0 +1,97 @@
+POLICY NEVER_EXECUTE=0 NO_UPDATE=0
+DOCUMENT	baseline.doc
+BODY	Body Café Ω 中 😀 alpha1 middlei omega.\nBody second section.\nBody final.	Tabbed\nLine break.\nCell A1 Café\nCell B1 Ω\nCell A2 中\n\nFixed field: 05/04/24.\nTextbox anchor  after.
+FOOTNOTE	1		Footnote 中 original
+ENDNOTE	1		Endnote original
+PAGE	Standard	inUse=true
+HeaderText	Header Café original
+FooterText	Footer Ω original
+PAGE	Convert 1	inUse=true
+HeaderText	Second header shared meaning
+FooterText	Second footer
+PARAGRAPH	InheritedStart	Standard
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+CELL	Table1	A1	Cell A1 Café
+CELL	Table1	B1	Cell B1 Ω
+CELL	Table1	A2	Cell A2 中
+CELL	Table1	B2	
+TEXTBOX	Frame2	Header textbox 中 original
+TEXTBOX	Frame1	Textbox Ω original
+FIELD	Date (fixed)	05/04/24
+FIELD	Note	
+ANNOTATION	Fixture Author	Annotation Ω original
+DOCUMENT	related-changed.doc
+BODY	Body Café Ω 中 😀 alpha1 middlei omega.\nBody second section.\nBody final.	Tabbed\nLine break.\nCell A1 Café\nCell B1 Ω\nCell A2 中\n\nFixed field: 05/04/24.\nTextbox anchor  after.
+FOOTNOTE	1		Footnote 中 changed
+ENDNOTE	1		Endnote changed
+PAGE	Standard	inUse=true
+HeaderText	Header Café changed
+FooterText	Footer Ω changed
+PAGE	Convert 1	inUse=true
+HeaderText	Second header shared meaning
+FooterText	Second footer
+PARAGRAPH	InheritedStart	Standard
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+CELL	Table1	A1	Cell A1 Café
+CELL	Table1	B1	Cell B1 Ω
+CELL	Table1	A2	Cell A2 中
+CELL	Table1	B2	
+TEXTBOX	Frame2	Header textbox 中 changed
+TEXTBOX	Frame1	Textbox Ω changed
+FIELD	Date (fixed)	05/04/24
+FIELD	Note	
+ANNOTATION	Fixture Author	Annotation Ω changed
+DOCUMENT	body-changed.doc
+BODY	Body Café Ω 中 😀 revised alpha1 middlei omega.\nBody second section.\nBody final.	Tabbed\nLine break.\nCell A1 Café\nCell B1 Ω\nCell A2 中\n\nFixed field: 05/04/24.\nTextbox anchor  after.
+FOOTNOTE	1		Footnote 中 original
+ENDNOTE	1		Endnote original
+PAGE	Standard	inUse=true
+HeaderText	Header Café original
+FooterText	Footer Ω original
+PAGE	Convert 1	inUse=true
+HeaderText	Second header shared meaning
+FooterText	Second footer
+PARAGRAPH	InheritedStart	Standard
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+CELL	Table1	A1	Cell A1 Café
+CELL	Table1	B1	Cell B1 Ω
+CELL	Table1	A2	Cell A2 中
+CELL	Table1	B2	
+TEXTBOX	Frame2	Header textbox 中 original
+TEXTBOX	Frame1	Textbox Ω original
+FIELD	Date (fixed)	05/04/24
+FIELD	Note	
+ANNOTATION	Fixture Author	Annotation Ω original
+DOCUMENT	anchors-moved.doc
+BODY	Body Café Ω 中 😀 alpha middle1i omega.\nBody second section.\nBody final.	Tabbed\nLine break.\nCell A1 Café\nCell B1 Ω\nCell A2 中\n\nFixed field: 05/04/24.\nTextbox anchor  after.
+FOOTNOTE	1		Footnote 中 original
+ENDNOTE	1		Endnote original
+PAGE	Standard	inUse=true
+HeaderText	Header Café original
+FooterText	Footer Ω original
+PAGE	Convert 1	inUse=true
+HeaderText	Second header shared meaning
+FooterText	Second footer
+PARAGRAPH	InheritedStart	Standard
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+PARAGRAPH	Standard	Convert 1
+CELL	Table1	A1	Cell A1 Café
+CELL	Table1	B1	Cell B1 Ω
+CELL	Table1	A2	Cell A2 中
+CELL	Table1	B2	
+TEXTBOX	Frame2	Header textbox 中 original
+TEXTBOX	Frame1	Textbox Ω original
+FIELD	Date (fixed)	05/04/24
+FIELD	Note	
+ANNOTATION	Fixture Author	Annotation Ω original

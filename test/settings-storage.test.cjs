@@ -1,0 +1,6 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict'),{persistAppearance}=require('../src/settings-storage.cjs');
+const key='further-compare.display.v1',columns='further-compare.folder-columns.v1';
+function storage(values={},fail=()=>false){const data=new Map(Object.entries(values));return {data,getItem:key=>data.get(key)??null,setItem(key,value){if(fail(key,value))throw Error('quota');data.set(key,value);},removeItem:key=>data.delete(key)};}
+test('preference transaction persists only two named keys and can restore exact original data',()=>{const store=storage({[key]:'old',session:'untouched'});const undo=persistAppearance(store,{display:{theme:'dark'},folderColumns:{size:80}});assert.equal(JSON.parse(store.getItem(key)).theme,'dark');assert.equal(store.getItem('session'),'untouched');undo();assert.equal(store.getItem(key),'old');assert.equal(store.getItem(columns),null);});
+test('second-key failure restores first key without losing unrelated storage',()=>{const store=storage({[key]:'original',session:'keep'},key=>key===columns);assert.throws(()=>persistAppearance(store,{display:{theme:'dark'},folderColumns:{}}),/quota/);assert.equal(store.getItem(key),'original');assert.equal(store.getItem('session'),'keep');assert.equal(store.getItem(columns),null);});

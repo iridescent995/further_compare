@@ -1,0 +1,13 @@
+# Further Compare 2.91.0
+
+Folder view now offers Match filenames across folders in the view selector, right-click View menu and native View > Folder Layout. It displays a compact flat list retaining actual paths, sizes, modified times and live comparison colors. Manual file and directory alignments take precedence. Matching first pairs identical relative paths among duplicate names, then pairs remaining same-name files in stable path order. Unmatched files remain one-sided. The status line identifies duplicate-name groups; reports explicitly identify filename matching.
+
+Matching stages a streaming metadata inventory and indexed resolver before replacing the native row registry. Stop cancels native traversal and preserves the previous committed comparison. Traversal is bounded to 5,000 folders and 50,000 inspected entries, counts skipped entries, yields even through ignored entries, and rejects root/entry changes. No file content is read during inventory. Content comparison uses the registered pairs afterward.
+
+The selected view persists per tab and in sessions/workspaces; only manual alignment descriptors are saved. Refresh rebuilds automatic matches. Root changes, swap, rename and file operations invalidate old native authority; subsequent scans rebuild matching. Existing file open, copy, move, delete, update, sync, filtering and reports use actual endpoint paths. Paired writes target the existing counterpart location. Orphan copies retain their original relative paths. Whole filename-mode operations preserve unrelated directories and create only required destination parents.
+
+Validation: 148 combined filename/tree/alignment/projection/session/workspace tests passed before the final report metadata additions; 50 report/session tests then passed. An additional operation regression group passed 98 tests, including 15 filename operation cases. Source desktop workflow verifies flat matching, duplicates, colors, single/double-click behavior, actual-path copying, manual-only persistence, cancellation, tree return, native/context routes and saved reopen. Existing inline-tree and sync-direction desktop regressions passed. Independent review found no remaining actionable integration defects. Final package checks follow below.
+
+Full product parity and Windows runtime remain outstanding.
+
+Final verification: 167 combined tests passed after final report/count additions. Tree-only expansion controls are disabled in filename mode. Both Mac packages passed the full workflow including report metadata and saved reopen. All three package versions and changed assets matched source; ZIP integrity, download links, sizes, SHA-256 and Windows ZIP browser download passed. Shipped-source branding scan found no reference names.

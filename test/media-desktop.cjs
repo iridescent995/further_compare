@@ -1,0 +1,26 @@
+'use strict';
+const {_electron:electron,expect}=require('@playwright/test');
+const assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path'),os=require('node:os');
+function wav(samples,rate=8000){const b=Buffer.alloc(44+samples.length*2);b.write('RIFF');b.writeUInt32LE(b.length-8,4);b.write('WAVEfmt ',8);b.writeUInt32LE(16,16);b.writeUInt16LE(1,20);b.writeUInt16LE(1,22);b.writeUInt32LE(rate,24);b.writeUInt32LE(rate*2,28);b.writeUInt16LE(2,32);b.writeUInt16LE(16,34);b.write('data',36);b.writeUInt32LE(samples.length*2,40);samples.forEach((v,i)=>b.writeInt16LE(v,44+i*2));return b;}
+(async()=>{
+ const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'fc-media-')));let app,page;
+ try{
+  const left=path.join(root,'left'),right=path.join(root,'right'),profile=path.join(root,'profile');await Promise.all([left,right,profile].map(p=>fs.mkdir(p)));
+  const a=path.join(left,'sound.wav'),b=path.join(right,'sound.wav'),mismatch=path.join(root,'mismatch.wav'),invalid=path.join(root,'invalid.wav'),session=path.join(root,'audio.fcompare'),report=path.join(root,'audio.json');
+  await Promise.all([fs.writeFile(a,wav([0,100,200])),fs.writeFile(b,wav([100,200])),fs.writeFile(mismatch,wav([100,200],16000)),fs.writeFile(invalid,'not wav')]);
+  const env={...process.env,FC_USER_DATA_DIR:profile};delete env.ELECTRON_RUN_AS_NODE;delete env.FC_SMOKE;
+  app=await electron.launch({args:[path.resolve(__dirname,'..')],...(process.env.FC_EXECUTABLE?{executablePath:process.env.FC_EXECUTABLE}:{}),env,timeout:30000});page=await app.firstWindow();page.setDefaultTimeout(15000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await app.evaluate(({dialog},c)=>{const queue=[c.a,c.b,c.mismatch,c.invalid];let index=0;dialog.showOpenDialog=async(_w,o)=>({canceled:false,filePaths:[o.title==='Open session'?c.session:o.properties.includes('openDirectory')?[c.left,c.right][index++]:queue.shift()]});dialog.showSaveDialog=async(_w,o)=>({canceled:false,filePath:o.defaultPath==='audio-comparison.json'?c.report:c.session});dialog.showMessageBox=async()=>({response:1});},{a,b,mismatch,invalid,session,report,left,right});
+  const menu=command=>app.evaluate(({BrowserWindow},command)=>BrowserWindow.getAllWindows()[0].webContents.send('menu-action',command),command);
+  await page.locator('#welcome [data-command="new:audio-compare"]').click();const media=page.locator('#mediaWorkspace');await expect(media).toBeVisible();
+  await media.getByRole('button',{name:'Open left audio'}).click();await media.getByRole('button',{name:'Open right audio'}).click();await expect(media.locator('.media-status')).toContainText('3 different samples');
+  await expect.poll(()=>media.locator('audio').evaluateAll(elements=>elements.every(el=>el.readyState>=1&&Number.isFinite(el.duration)))).toBe(true);
+  await media.getByLabel('Right offset (seconds)').fill('0.000125');await media.getByLabel('Right offset (seconds)').dispatchEvent('change');await expect(media.locator('.media-status')).toContainText('1 different samples');await expect(media.locator('.media-status')).toContainText('peak difference 0.000000');
+  await media.getByRole('button',{name:'Save audio report'}).click();await expect.poll(()=>fs.readFile(report,'utf8').then(s=>JSON.parse(s).missingSamples).catch(()=>null)).toBe(1);
+  await menu('save-session');await expect(page.locator('#dirtyIndicator')).toBeHidden();const saved=JSON.parse(await fs.readFile(session,'utf8'));assert.equal(saved.type,'audio-compare');assert.equal(saved.advanced.options.offset,1/8000);
+  await page.locator('#newTab').click();await page.locator('#welcome [data-command="new:audio-compare"]').click();await menu('open-session');await expect(media.locator('.media-status')).toContainText('1 different samples');await expect(media.getByLabel('Right offset (seconds)')).toHaveValue('0.000125');
+  await media.getByRole('button',{name:'Open right audio'}).click();await expect(media.locator('.media-status')).toContainText('Sample rates and channel counts must match');await media.getByRole('button',{name:'Open right audio'}).click();await expect(page.locator('#notice')).toContainText('valid WAV');
+  await page.locator('#newTab').click();await page.locator('#welcome [data-command="new:folder-compare"]').click();await page.locator('#openA').click();await page.locator('#openB').click();const row=page.locator('#folderRowsA .folder-entry[data-path="sound.wav"]');await expect(row).toBeVisible();const before=await page.locator('#sessionTabs [role="tab"]').count();await row.click();await expect(row).toHaveAttribute('aria-selected','true');assert.equal(await page.locator('#sessionTabs [role="tab"]').count(),before);await row.dblclick();await expect(media).toBeVisible();await expect(page.locator('#sessionKind')).toHaveText('Audio Compare');await expect(media.locator('.media-status')).toContainText('3 different samples');await expect(page.locator('#sessionTabs [role="tab"]')).toHaveCount(before+1);
+  await page.screenshot({path:'/private/tmp/further-audio.png',fullPage:true});assert.deepEqual(errors,[]);console.log('Media desktop workflow passed');
+ }finally{if(page)await page.evaluate(()=>window.__fcAllowClose=true).catch(()=>{});if(app)await app.close();await fs.rm(root,{recursive:true,force:true});}
+})().catch(e=>{console.error(e);process.exitCode=1;});

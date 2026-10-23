@@ -1,0 +1,9 @@
+# Release 2.116.0 — TAR and TAR.GZ export
+
+Archive Compare now exports ZIP, TAR or TAR.GZ from the shared Save archive toolbar and right-click actions. The review names the selected output, shows ZIP compression controls only for ZIP, and explains each format’s timestamp and metadata behavior. Cancel/Escape clear the export controls before a subsequent edit review.
+
+TAR output preserves regular-file bytes, paths and empty directories, with PAX headers for Unicode/long paths and timestamps outside octal-header range. Times use whole UTC seconds; timezone-free dates are treated as UTC, invalid/missing dates become the Unix epoch. Files/directories receive 0644/0755 and UID/GID 0. Original comments, ownership, permissions, signatures and compression are not preserved. Editing still uses the existing in-memory ZIP representation, so this does not restore metadata already lost during an edit.
+
+Portable-path and conflict checks apply to every output. Exports enforce 50,000 entries, 64 MB content and 32 MB output; TAR.GZ also limits its expanded TAR container (including headers) to 64 MB. A directory-name boundary now rejects a trailing slash that would exceed the reader’s maximum, rather than producing an unreadable archive.
+
+Source validation passes desktop exports from both sides/menu routes, exact roundtrips, rename exports, empty directories, cancellation, source/history preservation, stale gzip suppression and failure recovery. Existing ZIP edit/compression/race regressions pass. The full unit suite reports 929 passed and one Windows-only skip. System tar independently listed and extracted exact output bytes. Light/dark dialog screenshots were inspected without clipping. Both Mac packages pass the complete TAR export workflow; final light/dark package screenshots are readable without clipping. All three ZIPs, packaged renderer/version identity and download sizes/SHA-256 pass. Windows runtime remains pending.

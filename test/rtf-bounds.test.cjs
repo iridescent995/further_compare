@@ -1,0 +1,8 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict');
+const {extractRtfText,MAX_RTF_BYTES}=require('../src/rtf-text.cjs');
+const parse=value=>extractRtfText(Buffer.isBuffer(value)?value:Buffer.from(value,'latin1')).content;
+test('RTF ignored destinations and arbitrary binary bytes cannot escape into projected text',()=>{const binary=Buffer.from([0,123,125,92,117,54,53,63,255,13,10]);const input=Buffer.concat([Buffer.from('{\\rtf1 left{\\*\\privatePayload \\bin'+binary.length+' '),binary,Buffer.from('}right}')]);const copy=Buffer.from(input);assert.equal(parse(input),'leftright');assert.deepEqual(input,copy);assert.equal(parse(Buffer.concat([Buffer.from('{\\rtf1\\uc1\\u65\\bin'+binary.length+' '),binary,Buffer.from('B}')])), 'AB');});
+test('RTF structural bounds reject excessive input, nesting and token work',()=>{assert.throws(()=>extractRtfText(new Uint8Array(MAX_RTF_BYTES+1)),/32 MiB/);assert.throws(()=>parse('{\\rtf1 '+ '{'.repeat(128)+'x'+'}'.repeat(129)),/nesting/);assert.throws(()=>parse('{\\rtf1 '+ '\\b0 '.repeat(1000001)+'}'),/token limit/);});
+test('RTF text projection is invariant under nested formatting and ignored payload groups',()=>{let seed=713,text='',body='';const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed;};for(let i=0;i<2000;i++){const word='word'+(random()%1000);text+=word+' ';body+='{\\b {\\i '+word+'}} {\\*\\unknown'+i+' secret{\\b hidden}}';}assert.equal(parse('{\\rtf1\\ansi '+body+'}'),text);});
+test('RTF malformed binary or trailing documents never publish partial projection',()=>{for(const input of ['{\\rtf1 visible{\\pict\\bin999 x}}','{\\rtf1 visible}hidden','{\\rtf1 visible}{\\rtf1 second}','{\\rtf1\\uc0\\u-10179}'])assert.throws(()=>parse(input));});

@@ -1,0 +1,5 @@
+# Release 2.114.1 — fewer folder selection updates
+
+Selection synchronization now updates row selection classes, accessibility state and keyboard tab stops only when the value changes. It keeps the existing selection, range, focus and two-pane behavior. Initial rendering still initializes every row, and selecting or clearing many entries updates the rows that actually change.
+
+On a real fixture with 1,500 paired files and two one-sided files (3,004 displayed rows), a single click fell from 12,021 row-attribute mutations to 2. Modifier add fell to 4, focus-only navigation to 2, and a small Shift range to 14. Select/clear-all changes remain proportional to the entries affected. Counts are asserted; timings are diagnostic only. Source selection, page-navigation and pane-focus regressions passed. The scale test passed in both Apple Silicon and Intel Mac packages with identical mutation counts. All three platform ZIPs passed integrity checks; packaged renderer assets, download sizes and SHA-256 hashes were verified. Windows runtime testing remains pending. This change reduces redundant DOM writes; it does not virtualize the folder tree or change comparison scope.

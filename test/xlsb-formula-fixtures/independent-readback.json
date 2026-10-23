@@ -1,0 +1,68 @@
+{
+  "issues": {
+    "sha256": "06c648de5529e022ef399a2b6ebc227040e9fdf71a0780e19e614f556bdb53d7",
+    "formulas": [
+      {
+        "sheet": "datatypes",
+        "row": 2,
+        "column": 0,
+        "expression": "=CONCATENATE(\"a\",\"b\")",
+        "cache": "ab"
+      },
+      {
+        "sheet": "datatypes",
+        "row": 3,
+        "column": 0,
+        "expression": "=A1>A2",
+        "cache": 0
+      },
+      {
+        "sheet": "Sheet1",
+        "row": 1,
+        "column": 0,
+        "expression": "=B1+OneRange",
+        "cache": 0
+      },
+      {
+        "sheet": "issue6",
+        "row": 2,
+        "column": 0,
+        "expression": "=CONCATENATE(\"a\",\"b\")",
+        "cache": "ab"
+      },
+      {
+        "sheet": "issue6",
+        "row": 3,
+        "column": 0,
+        "expression": "=A1>A2",
+        "cache": 0
+      }
+    ]
+  },
+  "issue_182": {
+    "sha256": "c34351496e7e2874504e272a696f3919da54c33939e78cafc877f1976a25a562",
+    "formulas": [
+      {
+        "sheet": "formula_vals",
+        "row": 0,
+        "column": 0,
+        "expression": "=1+2",
+        "cache": 3
+      },
+      {
+        "sheet": "formula_vals",
+        "row": 1,
+        "column": 0,
+        "expression": "=_xlfn.CONCAT(\"A\", \"b\")",
+        "cache": "Ab"
+      },
+      {
+        "sheet": "formula_vals",
+        "row": 2,
+        "column": 0,
+        "expression": "=ISERROR(1)",
+        "cache": false
+      }
+    ]
+  }
+}

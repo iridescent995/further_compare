@@ -1,133 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Further Compare | File & Text Diff, AI-powered Online Comparator, Merge Tool</title>
-  <meta name="description" content="Further Compare is an enterprise-grade, AI-friendly online tool for comparing, merging, and reviewing files or text side-by-side. See differences, copy merge lines, and enjoy robust privacy.">
-  <meta name="keywords" content="file diff, text compare, merge, AI, review, enterprise, document comparison, code diff, text difference, online compare, side by side, SEO friendly, AI friendly, privacy, developer tools">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://further-compare.com/">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Further Compare | File & Text Diff — AI & SEO Friendly">
-  <meta property="og:description" content="Professional, SEO-optimized file and text comparison/merge tool designed for enterprise, AI, and developer workflows. Compare, copy, and merge with privacy and premium UX.">
-  <meta property="og:image" content="https://further-compare.com/opengraph-image.png">
-  <meta property="og:url" content="https://further-compare.com/">
-  <meta name="twitter:card" content="summary_large_image">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Further Compare",
-    "alternateName": "FurtherCompare",
-    "url": "https://further-compare.com/",
-    "applicationCategory": "DeveloperApplication",
-    "applicationSubCategory": "File Comparison/AI Merge Tool",
-    "operatingSystem": "All",
-    "featureList": [
-      "Side-by-side file/text comparison",
-      "Inline and per-line copy/merge",
-      "AI review and automation friendly",
-      "Privacy-focused and zero data tracking",
-      "SEO ready and schema-optimized"
-    ],
-    "description": "Further Compare offers professional file, text, and code comparison with AI and SEO readiness for enterprise and developer use.",
-    "softwareVersion": "1.0.0",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "5",
-      "bestRating": "5",
-      "reviewCount": "100"
-    }
-  }
-  </script>
-  <link rel="stylesheet" href="style.css">
-  <!-- Bootstrap CSS for professional styling -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'">
+<title>Further Compare — Clarity in every change</title>
+<meta name="description" content="A calmer way to compare text, merge changes, and keep folders in sync. Use the private online text comparator or download Further Compare for Mac and Windows.">
+<link rel="stylesheet" href="landing.css"><script src="landing.js" defer></script>
 </head>
 <body>
-  <!-- Professional top bar/menu -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Further Compare</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link active" href="#">Compare</a></li>
-          <li class="nav-item"><a class="nav-link" href="privacy-policy.html">Privacy Policy</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <div class="file-diff-enterprise">
-    <h1>Further Compare | File & Text Diff</h1>
-    <div style="display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
-      <label style="cursor:pointer;font-weight:500;font-size:1.06rem;">
-        <input type="checkbox" id="ignoreMinor" style="margin-right:6px;vertical-align:-1px;">
-        Ignore minor (whitespace/tab) changes
-      </label>
-    </div>
-    <div class="diff-body-row" style="display:flex;align-items:stretch;width:100%;">
-      <div class="diff-inputs" style="flex:1 1 0;display:flex;">
-        <!-- Source Version (left) -->
-        <div class="input-section fullsize">
-        <div class="edit-menu-bar" id="menuBarA">
-          <span class="menu-bar-group">
-            <input type="file" id="fileA" accept=".txt,.md,.json,.js,.css,.html,.java,.prop,.properties,.sql,.xml,.py,.sh,.ts,.yaml,.yml,*" class="menu-file-input form-control form-control-sm" />
-            <span class="menu-filename" id="fileAName"></span>
-          </span>
-          <button id="clearA" class="btn btn-outline-danger btn-sm" title="Clear Source">Clear</button>
-          <button id="copyFileA" class="btn btn-outline-primary btn-sm" title="Copy entire Source text">
-            <span aria-label="Copy full Source" style="font-size:1.1em;">📄</span>
-          </button>
-          <button id="downloadFileA" class="btn btn-outline-secondary btn-sm" title="Download Source as file" style="margin-left:3px;">
-            <span aria-label="Download full Source" style="font-size:1.12em;">💾</span>
-          </button>
-          <button class="copy-btn copy-icon-btn" data-side="b" id="copyFromB" title="Copy all lines from Target"><span aria-label="Copy from Target" style="font-size:1.3em;">&#8592;</span></button>
-        </div>
-        <div class="input-stack">
-          <div id="inputA" class="diff-edit" contenteditable="true" spellcheck="false" aria-label="Source Version" data-placeholder="Source Version"></div>
-        </div>
-      </div>
-      <!-- Target Version (right) -->
-      <div class="input-section fullsize">
-        <div class="edit-menu-bar" id="menuBarB">
-          <span class="menu-bar-group">
-            <input type="file" id="fileB" accept=".txt,.md,.json,.js,.css,.html,.java,.prop,.properties,.sql,.xml,.py,.sh,.ts,.yaml,.yml,*" class="menu-file-input form-control form-control-sm" />
-            <span class="menu-filename" id="fileBName"></span>
-          </span>
-          <button id="clearB" class="btn btn-outline-danger btn-sm" title="Clear Target">Clear</button>
-          <button id="copyFileB" class="btn btn-outline-primary btn-sm" title="Copy entire Target text">
-            <span aria-label="Copy full Target" style="font-size:1.1em;">📄</span>
-          </button>
-          <button id="downloadFileB" class="btn btn-outline-secondary btn-sm" title="Download Target as file" style="margin-left:3px;">
-            <span aria-label="Download full Target" style="font-size:1.12em;">💾</span>
-          </button>
-          <button class="copy-btn copy-icon-btn" data-side="a" id="copyFromA" title="Copy all lines from Source"><span aria-label="Copy from Source" style="font-size:1.3em;">&#8594;</span></button>
-        </div>
-        <div class="input-stack">
-          <div id="inputB" class="diff-edit" contenteditable="true" spellcheck="false" aria-label="Target Version" data-placeholder="Target Version"></div>
-        </div>
-      </div>
-      <!-- Preview gutter -->
-      <div id="diffPreview" class="diff-preview" aria-label="Difference Preview" style="width:24px;min-width:24px;max-width:24px;border-left:1.5px solid #e0e6f3;margin-left:6px;display:flex;align-items:center;">
-        <!-- generated preview will go here -->
-      </div>
-    </div>
-  </div>
-  <!-- Bootstrap JS for responsive nav (optional) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="app.js"></script>
-
-  <!-- Professional Footer -->
-  <footer class="bg-light text-center text-muted py-1" style="border-top:1px solid #e2e8f0;">
-    <div class="">
-      <small>&copy; 2026 Further Compare &middot; All Rights Reserved &middot; <a href="privacy-policy.html">Privacy Policy</a></small>
-    </div>
-  </footer>
-</body>
-</html>
+<a class="skip" href="#main">Skip to content</a>
+<header class="header wrap"><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">≋</span> Further Compare<span class="preview">PREVIEW</span></a><nav aria-label="Main navigation"><a href="#features">Features</a><a href="#download">Desktop app</a><a class="nav-cta" href="compare.html">Open online <span aria-hidden="true">↗</span></a></nav></header>
+<main id="main">
+<section class="hero wrap">
+<div class="hero-copy"><p class="eyebrow"><span class="dot"></span> LESS GUESSWORK. MORE CLARITY.</p><h1>Every change.<br>A clearer <em>picture.</em></h1><p class="lead">Find the difference. Keep what matters.<br>A simple workspace for comparing text, merging files, and bringing folders together.</p><div class="hero-actions"><a class="button primary" href="#download">Get the desktop app <span aria-hidden="true">↓</span></a><a class="button secondary" href="compare.html">Compare online <span aria-hidden="true">↗</span></a></div><p class="micro">Mac &amp; Windows · No account needed · Your files stay yours</p></div>
+<div class="preview-window" aria-label="Illustration of a side-by-side text comparison"><div class="window-title"><span class="traffic" aria-hidden="true"><i></i><i></i><i></i></span><span>Further Compare</span><span class="window-private">◈ LOCAL</span></div><div class="mock-toolbar"><span class="mock-tab">▤ Text compare</span><span>2 changes <b class="mock-chevron">↑ ↓</b></span></div><div class="mock-files"><span><b class="file-dot"></b> settings.json <small>ORIGINAL</small></span><span><b class="file-dot green"></b> settings.json <small>UPDATED</small></span></div><div class="mock-code"><div class="code-pane"><div><i>1</i>{</div><div><i>2</i>  <span>"name"</span>: "your-next-idea",</div><div class="removed"><i>3</i>− <span>"version"</span>: "1.0.0",</div><div><i>4</i>  <span>"theme"</span>: "light",</div><div class="removed"><i>5</i>− <span>"sync"</span>: false</div><div><i>6</i>}</div><div class="blank-code"><i>7</i></div></div><div class="code-pane"><div><i>1</i>{</div><div><i>2</i>  <span>"name"</span>: "your-next-idea",</div><div class="added"><i>3</i>+ <span>"version"</span>: "2.0.0",</div><div><i>4</i>  <span>"theme"</span>: "light",</div><div class="added"><i>5</i>+ <span>"sync"</span>: true</div><div><i>6</i>}</div><div class="blank-code"><i>7</i></div></div></div><div class="mock-status"><span><span class="dot"></span> Ready when you are</span><span>UTF-8 <span aria-hidden="true">·</span> JSON</span></div><div class="floating-note"><span class="note-icon" aria-hidden="true">✓</span><div><strong>The details, without the noise.</strong><small>See exactly what changed.</small></div></div></div>
+</section>
+<div class="principles wrap"><span><b aria-hidden="true">⌘</b> Built for everyday work</span><span><b aria-hidden="true">◈</b> Files processed on your device</span><span><b aria-hidden="true">↔</b> From one line to a whole folder</span></div>
+<section class="section wrap" id="features"><div class="section-heading"><div><p class="eyebrow">A PLACE FOR EVERY CHANGE</p><h2>Small edits.<br>Big folders. <em>All clear.</em></h2></div><p>One focused toolkit, whether you’re checking a configuration, reviewing a revision, or keeping two folders aligned.</p></div><div class="feature-grid"><article class="feature feature-text"><span class="feature-number">01 / TEXT</span><div class="feature-symbol" aria-hidden="true">− <span>+</span></div><h3>Spot the smallest difference.</h3><p>Compare text side by side with clear added and removed lines. Skip whitespace noise and move straight to the changes.</p><span class="tag">ONLINE + DESKTOP</span></article><article class="feature"><span class="feature-number">02 / MERGE</span><div class="feature-symbol" aria-hidden="true">⇄</div><h3>Make the next version yours.</h3><p>Bring the changes you want into your text, review the result, and save a merged version.</p><span class="tag">DESKTOP</span></article><article class="feature"><span class="feature-number">03 / FOLDERS</span><div class="feature-symbol folder-symbol" aria-hidden="true">▱ <span>▱</span></div><h3>A whole folder. In focus.</h3><p>Compare directory contents, merge missing files, or synchronize one folder to another with a reviewable plan.</p><span class="tag">DESKTOP</span></article></div></section>
+<section class="online-section"><div class="wrap online-inner"><div><p class="eyebrow">JUST NEED A QUICK CHECK?</p><h2>Open a tab.<br><em>Find the difference.</em></h2><p>The online workspace keeps things light: text comparison, clear results, and no setup. Your text is processed in your browser.</p><a class="button primary" href="compare.html">Use online for free <span aria-hidden="true">↗</span></a></div><div class="online-card"><span class="online-icon" aria-hidden="true">↔</span><h3>Less waiting. More comparing.</h3><ul><li>Paste text or open a text file</li><li>See changes side by side</li><li>No account or file uploads to a server</li><li>Up to 2 MB and 30,000 lines per side</li></ul><p>For merging and folder workflows, use the desktop app.</p></div></div></section>
+<section class="section wrap download-section" id="download"><p class="eyebrow">MAKE ROOM FOR BETTER WORK</p><h2>Your files. Your device.<br><em>Your next version.</em></h2><p class="download-intro">Take the full workspace with you. Text compare and merge,<br>folder compare, merge, and sync — together on your desktop.</p><div class="download-grid"><article class="download-card"><div class="platform-icon" aria-hidden="true">⌘</div><h3>Further Compare for Mac</h3><p>Choose the build for your Mac’s processor.</p><div class="download-links"><a class="button primary download-link" data-build="mac-arm64" aria-disabled="true">Apple silicon <span>Preparing build</span></a><a class="button secondary download-link" data-build="mac-x64" aria-disabled="true">Intel Mac <span>Preparing build</span></a></div></article><article class="download-card"><div class="platform-icon windows-icon" aria-hidden="true">⊞</div><h3>Further Compare for Windows</h3><p>For Windows PCs with an Intel or AMD 64-bit processor.</p><div class="download-links"><a class="button primary download-link" data-build="windows-x64" aria-disabled="true">Windows 64-bit <span>Preparing build</span></a></div></article></div><p class="download-note" id="download-status" role="status">Preview releases are portable ZIP downloads. These builds are unsigned; your operating system may show a security prompt.</p><noscript><p>JavaScript is needed to check available downloads. You can still <a href="compare.html">open the online workspace</a>.</p></noscript></section>
+<section class="wrap closing"><span class="brand-mark" aria-hidden="true">≋</span><p>Good work starts with<br><strong>seeing what changed.</strong></p><a href="compare.html">Start comparing <span aria-hidden="true">↗</span></a></section>
+</main><footer class="wrap footer"><a class="brand" href="index.html">Further Compare</a><span>Made for a little more clarity.</span><div><a href="about.html">About</a><a href="privacy-policy.html">Privacy</a><span>© 2026</span></div></footer>
+</body></html>

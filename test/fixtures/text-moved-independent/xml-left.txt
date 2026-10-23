@@ -1,0 +1,12 @@
+START
+  <service id="payments">
+    <endpoint>/api/payments</endpoint>
+  </service>
+unchanged corridor 0: stable context for xml
+unchanged corridor 1: stable context for xml
+unchanged corridor 2: stable context for xml
+unchanged corridor 3: stable context for xml
+unchanged corridor 4: stable context for xml
+unchanged corridor 5: stable context for xml
+unchanged corridor 6: stable context for xml
+END

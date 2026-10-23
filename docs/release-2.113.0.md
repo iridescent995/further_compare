@@ -1,0 +1,7 @@
+# Release 2.113.0 — compressed ZIP export
+
+Save ZIP reviews offer uncompressed (the existing default) or compressed output. Both toolbar and right-click save routes use the same choice. Compression applies raw deflate per file only when it reduces size; directories, empty files and incompressible data stay stored. Export preserves paths, file bytes, CRCs and the existing ZIP timestamp conversion.
+
+Export uses immutable data and retains the existing 32 MiB output, 64 MiB expanded-content and 50,000-entry limits. Stale exports are discarded before saving if the source changes. In-memory editing and undo history remain unchanged. Original metadata, signatures, encryption, ZIP64 and non-ZIP output preservation remain outside this change.
+
+All 909 unit tests pass (one Windows-native test skipped). Source desktop checks pass both save routes/sides, stored defaults, exact compressed bytes/directories, incompressible fallback, edited/renamed contents, original-source preservation and unchanged undo/redo. Isolated races pass reset/session replacement during compression and error recovery. Existing archive editing and import-readiness regressions pass. Light/dark save reviews were inspected. Both actual Mac packages passed the complete compression workflow, including edited archive export and undo/redo preservation. Package version/UI checks, all three ZIP integrity checks, download links, sizes, SHA-256 and Windows ZIP browser download passed. Shipped source contains no reference branding. Full-product scope and Windows runtime validation remain open.

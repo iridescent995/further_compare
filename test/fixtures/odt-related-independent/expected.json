@@ -1,0 +1,9 @@
+{
+  "main": "Body alpha middle omega.\nBody second section.\nBody final.",
+  "footnote": "Footnote 中 original",
+  "endnote": "Endnote original",
+  "headers": ["Header Café original", "Second header shared meaning"],
+  "footers": ["Footer Ω original", "Second footer"],
+  "unused": ["UNUSED HEADER MUST NOT APPEAR", "UNUSED FOOTER MUST NOT APPEAR"],
+  "paragraphPageStyles": ["First", "Second", "Second"]
+}

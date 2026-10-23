@@ -1,0 +1,9 @@
+# Release 2.108.0 — binary edits back into archives
+
+Binary comparisons opened from archive entries now provide Apply left/right to archive in their existing toolbar. Review the destination entry and byte count, then stage the raw bytes into the parent archive without leaving the binary editor. Byte changes, copied differences and range edits can be applied repeatedly. Parent archive undo/redo reverses these updates; Save ZIP remains explicit. Standalone Save result retains its disk-save behavior.
+
+The shared entry review rechecks the exact binary input before and after staging. Opening a replacement input invalidates that side’s link; swapping clears links. Missing original sides and closed parents cannot be updated. Links survive tab switching but are not serialized into saved sessions.
+
+Source tests passed exact exported ZIP bytes, cancellation, archive undo/redo, repeated applies after binary undo and copied ranges, standalone saving, stale parents, same-name replacements, missing sides, tab restoration and saved-session isolation. Both review themes were inspected. Text-entry and binary-range regressions passed. The older advanced workflow test initially sent Open while Close was still running; it now waits for closure and passed binary/table/merge/image/session workflows. No production change was made for that test synchronization issue.
+
+Final validation: 893 unit tests passed, one Windows-native attribute test skipped. Both Apple Silicon and Intel Mac packages passed the complete binary archive-apply workflow. All three package versions/UI, ZIP integrity, download links, sizes, SHA-256 and browser download checks passed. Shipped source contained no reference-product branding. Table/media entry output, binary native-menu undo routing and per-tab edit history, remote providers, Windows runtime validation and remaining full-product scope stay open.

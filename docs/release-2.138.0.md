@@ -1,0 +1,9 @@
+# Release 2.138.0 — MP3 audio comparison
+
+MP3 files now open in Audio Compare from the picker, folder double-click and shell requests. MPEG-1/2/2.5 Layer III mono/stereo streams support constant and variable bitrate. Framing, bounded metadata and decoded sample counts are checked before decoding; original sample rates are retained without resampling. The original compressed bytes remain in saved sessions.
+
+Comparison uses decoded floating-point samples. Compact labels and reports identify MP3 as lossy; equality does not establish original-recording or compressed-file equality. Decoder delay, padding and implementation may affect alignment and values. Reports include the source MPEG version, bitrate mode and trimmed frame count, without claiming a source PCM bit depth. Invalid replacements retain the existing input. A fifteen-second decoder watchdog rejects late results; it does not claim to cancel work inside the browser's native decoder.
+
+Input limits remain 32 MiB and eight million interleaved decoded samples. Free-format and mixed-layout streams are unsupported. Waveform colors were lightened for readability across both themes.
+
+Validation: 1,160 unit tests pass with one platform-specific skip. Tests cover 252 standard frame-header combinations, malformed metadata/frames, limits, original-rate validation, finite overshoot, timeout and byte-buffer isolation. Original tone fixtures generated with a test-only LAME encoder exercise 32 kHz mono, 44.1 kHz stereo VBR, 22.05 kHz MPEG-2 and 11.025 kHz MPEG-2.5 in real Chromium. Source desktop tests cover opening, equality/differences, playback, reports, saved sessions, swap, malformed retention and folder routing. Existing FLAC and asynchronous media tests pass. Both final Mac packages passed the MP3 workflow. All three ZIPs, packaged versions and final assets, download links/checksums and shipped branding checks passed. Actual Windows runtime and remaining full-product scope stay open.

@@ -1,0 +1,11 @@
+# Further Compare 2.29.0
+
+Two-way text comparisons now offer **Ignore case** beside Ignore whitespace. The setting affects line matching while preserving both original texts and line coordinates. It combines with whitespace ignoring and manual alignment, is remembered per tab and saved session, and resets for new sessions. Old sessions remain case-sensitive.
+
+The summary counts lines that match only under the selected rules. These lines appear under Same, with their original case and spacing visible; Diff and navigation show the remaining changes. Copying a remaining change copies original source text and leaves ignored differences elsewhere in the target intact. Output encoding, byte order mark and line endings continue to follow the destination's existing settings. Reports include both rule flags and the ignored-line count.
+
+Case matching uses locale-independent JavaScript lowercase conversion. It is not full Unicode case folding or language-specific matching: for example, sharp-s and `SS` do not become equivalent. Blank lines and final newlines remain significant. Folder and three-way comparisons retain their separate rules.
+
+The command-line tool accepts `--ignore-case` and `--ignore-whitespace` for text comparisons. Flags combine, retain original report rows and return success for rule-equivalent inputs. Reports identify the selected rules; non-text comparisons reject these flags.
+
+Validation: all 219 unit tests passed, including rule combinations, Unicode limits, manual anchors, original-text merges, 30,000-line inputs, session validation and CLI routing. Browser and native development tests passed for filters, report metadata, per-tab rules, saved/legacy sessions, remaining-hunk merges, undo and exact UTF-16LE/BOM/CRLF output. Existing browser, alignment and appearance regressions passed, including mobile layout. The case-rule workflow passed in both final Mac packages. Packaged versions, worker, renderer and session files match the verified build, and all three ZIP archives passed integrity checks. Download links, sizes, SHA-256 checksums and the Windows ZIP browser download passed verification. Windows runtime verification remains pending on a Windows host.

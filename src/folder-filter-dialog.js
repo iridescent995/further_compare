@@ -1,0 +1,13 @@
+/** Edit the same filename masks and path search used by the folder toolbar. */
+export function createFolderFilterDialog(){
+ const dialog=document.createElement('dialog');dialog.id='folderFilterDialog';dialog.className='alignment-dialog';dialog.setAttribute('aria-label','Folder filename filters');
+ dialog.innerHTML=`<h2>Folder filename filters</h2><p>Separate patterns with semicolons. Use * for any characters, ? for one character, and ** across folders. Examples: *.js;*.json or src/**. Excluding a folder also hides its descendants. Double-quoted paths identify exact entries from the root; Exclude selected adds these automatically.</p><form style="display:block"><label class="editor-settings-field">Include patterns<input name="include" maxlength="4096" placeholder="*" autocomplete="off"></label><label class="editor-settings-field">Exclude patterns<input name="exclude" maxlength="4096" placeholder="node_modules;*.log" autocomplete="off"></label><label class="editor-settings-field">Path contains<input name="query" maxlength="4096" type="search" autocomplete="off"></label><p>Filters affect the visible tree and selection. They do not change any files. Filters are saved with this session.</p><div class="dialog-actions"><button class="button" type="button" data-reset>Reset fields</button><span class="spacer"></span><button class="button" type="button" data-cancel>Cancel</button><button class="button primary" type="submit">Apply filters</button></div></form>`;
+ document.body.append(dialog);const form=dialog.querySelector('form');let finish=null,previousFocus=null;
+ const read=()=>Object.fromEntries(['include','exclude','query'].map(key=>[key,form.elements.namedItem(key).value]));
+ function close(value){dialog.close();const resolve=finish;finish=null;if(previousFocus?.isConnected)previousFocus.focus({preventScroll:true});resolve?.(value);}
+ form.onsubmit=event=>{event.preventDefault();close(read());};
+ dialog.querySelector('[data-cancel]').onclick=()=>close(null);
+ dialog.querySelector('[data-reset]').onclick=()=>{form.elements.namedItem('include').value='*';form.elements.namedItem('exclude').value='';form.elements.namedItem('query').value='';form.elements.namedItem('include').focus();};
+ dialog.addEventListener('cancel',event=>{event.preventDefault();close(null);});
+ return {open(value){if(dialog.open)throw Error('Finish editing the current filters first.');previousFocus=document.activeElement;for(const key of ['include','exclude','query'])form.elements.namedItem(key).value=value[key]||'';return new Promise(resolve=>{finish=resolve;dialog.showModal();form.elements.namedItem('include').focus();});}};
+}

@@ -1,0 +1,18 @@
+'use strict';
+const {chromium,expect:baseExpect}=require('@playwright/test'),expect=baseExpect.configure({timeout:30000}),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path'),{build}=require('esbuild');
+const {authentic,expected}=require('./odt-fixture.cjs');
+(async()=>{
+ const names=['app','worker','merge-worker','text-patch-worker','text-patch-apply-worker','search-worker','filename-search-worker','file-content-report-worker'];const built=await build({entryPoints:names.map(name=>'src/'+name+'.js'),outdir:'/tmp/fc-odt-memory',write:false,bundle:true,format:'iife',target:'es2022'}),scripts=new Map(built.outputFiles.map(file=>[path.basename(file.path),file.text]));
+ const browser=await chromium.launch({channel:'chrome',headless:true});
+ try{
+  const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.route('http://localhost:4197/**',async route=>{const name=new URL(route.request().url()).pathname.slice(1);if(scripts.has(name))return route.fulfill({contentType:'application/javascript',body:scripts.get(name)});if(['compare.html','style.css'].includes(name))return route.fulfill({contentType:name.endsWith('.css')?'text/css':'text/html',body:await fs.readFile(name)});if(/^[a-z0-9-]+\.(css|js)$/.test(name)){try{return route.fulfill({contentType:name.endsWith('.css')?'text/css':'application/javascript',body:await fs.readFile(path.join('public',name))});}catch{}}return route.fulfill({status:404,body:''});});
+  await page.goto('http://localhost:4197/compare.html');await expect(page.locator('body')).toHaveAttribute('aria-busy','false');const input=await authentic();
+  const load=buffer=>page.locator('#fileA').setInputFiles({name:'source.odt',mimeType:'application/vnd.oasis.opendocument.text',buffer});await load(input);await expect(page.locator('#textA')).toHaveValue(expected);await expect(page.locator('#sizeA')).toContainText('ODT');await expect(page.locator('#readEncodingA')).toBeDisabled();await expect(page.locator('#applyArchiveEntryA')).toBeHidden();
+  await page.locator('#fileB').setInputFiles({name:'plain.txt',mimeType:'text/plain',buffer:Buffer.from(expected)});await expect(page.locator('#diffSummary')).toHaveText('Texts are identical');
+  await page.locator('#textA').fill('Edited projected text');
+  for(const bytes of [Buffer.from('invalid ODT'),input.subarray(0,input.length-10)]){await load(bytes);await expect(page.locator('#notice')).toBeVisible();await expect(page.locator('#textA')).toHaveValue('Edited projected text');}
+  let pending=page.waitForEvent('download');await page.locator('#saveA').click();let download=await pending;assert.equal(download.suggestedFilename(),'source.txt');assert.equal(await fs.readFile(await download.path(),'utf8'),'Edited projected text');await download.delete();
+  pending=page.waitForEvent('download');await page.locator('.session-bar [data-command="save-session"]').click();download=await pending;const session=JSON.parse(await fs.readFile(await download.path(),'utf8'));assert.equal(session.files.a.documentProjection.kind,'odt');await download.delete();await page.locator('#clearA').click();await page.locator('#sessionFile').setInputFiles({name:'saved.fcompare',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(session))});await expect(page.locator('#textA')).toHaveValue('Edited projected text');await expect(page.locator('#sizeA')).toContainText('ODT');
+  assert.deepEqual(errors,[]);console.log('ODT browser passed: independent LibreOffice input, Unicode/list/table projection, invalid-input preservation, plain-text export and edited session restoration.');
+ }finally{await browser.close();}
+})().catch(error=>{console.error(error);process.exitCode=1;});
